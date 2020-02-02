@@ -1,10 +1,12 @@
-package ru.sergeykozhukhov.habits.base.domain;
+package ru.sergeykozhukhov.habits.base.domain.usecase;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
+import ru.sergeykozhukhov.habits.base.domain.IHabitsRepository;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.ILoadHabitsInteractor;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 
 public class LoadHabitsInteractor implements ILoadHabitsInteractor {
@@ -24,4 +26,5 @@ public class LoadHabitsInteractor implements ILoadHabitsInteractor {
             return null;
         }
     }
+
 }

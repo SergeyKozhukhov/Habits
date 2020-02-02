@@ -4,5 +4,8 @@ import androidx.annotation.NonNull;
 
 public interface IConverter<From, To> {
     @NonNull
-    To convert(@NonNull From from);
+    To convertTo(@NonNull From from);
+
+    @NonNull
+    From convertFrom(@NonNull To to);
 }

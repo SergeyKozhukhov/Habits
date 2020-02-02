@@ -5,12 +5,12 @@ import java.util.List;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 
 
-public interface LoadHabitsView {
+public interface ILoadHabitsPresenter {
 
     void onHabitsLoaded(List<Habit> habitList);
     void onError();
 
-    class Empty implements LoadHabitsView{
+    class Empty implements ILoadHabitsPresenter {
 
         @Override
         public void onHabitsLoaded(List<Habit> habitList) {

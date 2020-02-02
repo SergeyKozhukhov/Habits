@@ -12,6 +12,14 @@ public class Habit {
     private Date startDate;
     private int duration;
 
+    public Habit(long idHabitServer, String title, String description, Date startDate, int duration) {
+        this.idHabitServer = idHabitServer;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.duration = duration;
+    }
+
     public Habit(long idHabit, long idHabitServer, String title, String description, Date startDate, int duration) {
         this.idHabit = idHabit;
         this.idHabitServer = idHabitServer;
@@ -19,6 +27,17 @@ public class Habit {
         this.description = description;
         this.startDate = startDate;
         this.duration = duration;
+    }
+
+    public Habit copy(){
+        return new Habit(
+                this.idHabit,
+                this.idHabitServer,
+                this.title,
+                this.description,
+                this.startDate,
+                this.duration
+        );
     }
 
     public long getIdHabit() {
@@ -85,5 +104,17 @@ public class Habit {
     @Override
     public int hashCode() {
         return Objects.hash(idHabit, idHabitServer, title, description, startDate, duration);
+    }
+
+    @Override
+    public String toString() {
+        return "Habit{" +
+                "idHabit=" + idHabit +
+                ", idHabitServer=" + idHabitServer +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", duration=" + duration +
+                '}';
     }
 }

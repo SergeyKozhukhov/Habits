@@ -8,6 +8,7 @@ import androidx.room.TypeConverters;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.Objects;
 
 import ru.sergeykozhukhov.habits.base.data.DateConverter;
 
@@ -35,6 +36,15 @@ public class HabitData {
 
     @SerializedName("duration")
     private int duration;
+
+    public HabitData(long idHabit, long idHabitServer, String title, String description, Date startDate, int duration) {
+        this.idHabit = idHabit;
+        this.idHabitServer = idHabitServer;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.duration = duration;
+    }
 
     public long getIdHabit() {
         return idHabit;
@@ -82,5 +92,36 @@ public class HabitData {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HabitData habitData = (HabitData) o;
+        return idHabit == habitData.idHabit &&
+                idHabitServer == habitData.idHabitServer &&
+                duration == habitData.duration &&
+                title.equals(habitData.title) &&
+                description.equals(habitData.description) &&
+                startDate.equals(habitData.startDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idHabit, idHabitServer, title, description, startDate, duration);
+    }
+
+    @Override
+    public String toString() {
+        return "HabitData{" +
+                "idHabit=" + idHabit +
+                ", idHabitServer=" + idHabitServer +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", duration=" + duration +
+                '}';
     }
 }

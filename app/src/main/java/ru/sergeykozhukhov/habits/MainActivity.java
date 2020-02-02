@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 
 import ru.sergeykozhukhov.habitData.R;
@@ -15,7 +14,6 @@ import ru.sergeykozhukhov.habits.notes.database.HabitsDatabase;
 import ru.sergeykozhukhov.habits.notes.database.habit.Habit;
 import ru.sergeykozhukhov.habits.notes.fragments.AddHabitFragment;
 import ru.sergeykozhukhov.habits.notes.fragments.AuthFragment;
-import ru.sergeykozhukhov.habits.notes.fragments.DetailsHabitFragment;
 import ru.sergeykozhukhov.habits.notes.fragments.HabitsFragment;
 
 public class MainActivity extends AppCompatActivity implements HabitsFragment.DetailsHabitHolder{

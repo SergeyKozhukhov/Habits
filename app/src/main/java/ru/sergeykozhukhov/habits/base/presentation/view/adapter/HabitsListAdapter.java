@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
@@ -19,7 +20,7 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
 
     public HabitsListAdapter() {
-        this.habitList = habitList;
+        habitList = new ArrayList<>();
     }
 
     public HabitsListAdapter(List<Habit> habits) {

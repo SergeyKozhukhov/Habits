@@ -4,20 +4,18 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import org.reactivestreams.Publisher;
-
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.base.data.HabitConverter;
+import ru.sergeykozhukhov.habits.base.data.HabitsConverter;
 import ru.sergeykozhukhov.habits.base.data.database.HabitDao;
 import ru.sergeykozhukhov.habits.base.data.database.HabitsDatabase;
 import ru.sergeykozhukhov.habits.base.data.model.HabitData;
@@ -32,13 +30,18 @@ public class HabitsRepository implements IHabitsRepository {
     private HabitDao habitDao;
 
     private HabitConverter habitConverter;
+    private HabitsConverter habitsConverter;
 
     private ExecutorService executorService;
 
-    public HabitsRepository(@NonNull Context context, @NonNull ExecutorService executorService, @NonNull HabitConverter habitConverter) {
+    public HabitsRepository(@NonNull Context context,
+                            @NonNull ExecutorService executorService,
+                            @NonNull HabitConverter habitConverter,
+                            @NonNull HabitsConverter habitsConverter) {
 
         this.context = context;
         this.habitConverter = habitConverter;
+        this.habitsConverter = habitsConverter;
 
         habitsDatabase = HabitsDatabase.getInstance(context);
         habitDao = habitsDatabase.getHabitDao();
@@ -60,7 +63,7 @@ public class HabitsRepository implements IHabitsRepository {
 
         List<Habit> habitList = null;
         try {
-            habitList = habitConverter.convert(future.get());
+            habitList = habitsConverter.convertTo(future.get());
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -77,9 +80,31 @@ public class HabitsRepository implements IHabitsRepository {
                 .map(new Function<List<HabitData>, List<Habit>>() {
                     @Override
                     public List<Habit> apply(List<HabitData> habitDataList) throws Exception {
-                        return habitConverter.convert(habitDataList);
+                        return habitsConverter.convertTo(habitDataList);
                     }
                 });
     }
+
+    @Override
+    public Single<Long> insertHabit(final Habit habit) {
+
+         return Single.fromCallable(new Callable<Long>() {
+            @Override
+            public Long call() throws Exception {
+                return habitDao.insertHabit(habitConverter.convertFrom(habit));
+            }
+        }).subscribeOn(Schedulers.io());
+
+        /*
+        return habitDao.insertHabit(habitConverter.convertFrom(habit))
+                ;*/
+    }
+
+    @Override
+    public Habit update(Habit habit) {
+        habitDao.update(habitConverter.convertFrom(habit));
+        return habit.copy();
+    }
+
 
 }

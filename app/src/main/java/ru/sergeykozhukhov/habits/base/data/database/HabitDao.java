@@ -10,6 +10,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.base.data.model.HabitData;
 
 @Dao
@@ -23,6 +24,9 @@ public interface HabitDao {
 
     @Insert
     void insert(HabitData habitData);
+
+    @Insert
+    long insertHabit(HabitData habitData);
 
     @Insert
     void insert(List<HabitData> habitData);
