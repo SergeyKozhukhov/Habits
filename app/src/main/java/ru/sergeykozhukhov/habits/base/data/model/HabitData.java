@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.Objects;
 
-import ru.sergeykozhukhov.habits.base.data.DateConverter;
+import ru.sergeykozhukhov.habits.base.data.converter.DateConverter;
 
 
 @Entity (tableName = "habits")

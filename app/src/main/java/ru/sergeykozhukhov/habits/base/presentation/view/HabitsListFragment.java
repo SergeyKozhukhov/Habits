@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,15 +22,13 @@ import java.util.concurrent.Executors;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.data.HabitConverter;
-import ru.sergeykozhukhov.habits.base.data.HabitsConverter;
+import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
+import ru.sergeykozhukhov.habits.base.data.converter.HabitsConverter;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
 import ru.sergeykozhukhov.habits.base.presentation.view.adapter.HabitsListAdapter;
-import ru.sergeykozhukhov.habits.notes.fragments.adapter.HabitsAdapter;
 
 public class HabitsListFragment extends Fragment{
 
@@ -110,10 +107,10 @@ public class HabitsListFragment extends Fragment{
                 new Date(),
                 100);
 
-
+        //habitsViewModel.insertHabit(habitInsert);
 
         disposableLoadHabits = habitsViewModel.loadHabits()
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<List<Habit>>() {
                     @Override
                     public void accept(List<Habit> habitList) throws Exception {
@@ -133,8 +130,8 @@ public class HabitsListFragment extends Fragment{
 
 
 
-        // habitsViewModel.insertHabit(habitInsert);
-        Disposable disposableUpdateHabit = habitsViewModel.updateHabit(habitUpdate)
+
+        /*Disposable disposableUpdateHabit = habitsViewModel.updateHabit(habitUpdate)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Habit>() {
                     @Override
@@ -148,7 +145,7 @@ public class HabitsListFragment extends Fragment{
 
                     }
                 });
-
+*/
 
 
         /*for (Habit habitTest : habitList){

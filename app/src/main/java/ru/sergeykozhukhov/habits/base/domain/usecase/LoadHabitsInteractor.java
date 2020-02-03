@@ -5,15 +5,15 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import ru.sergeykozhukhov.habits.base.domain.IHabitsRepository;
+import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.ILoadHabitsInteractor;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 
 public class LoadHabitsInteractor implements ILoadHabitsInteractor {
 
-    private final IHabitsRepository habitsRepository;
+    private final IHabitsDatabaseRepository habitsRepository;
 
-    public LoadHabitsInteractor(@NonNull IHabitsRepository habitsRepository) {
+    public LoadHabitsInteractor(@NonNull IHabitsDatabaseRepository habitsRepository) {
         this.habitsRepository = habitsRepository;
     }
 

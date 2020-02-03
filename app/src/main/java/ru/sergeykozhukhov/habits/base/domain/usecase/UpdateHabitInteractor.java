@@ -4,15 +4,15 @@ import java.util.concurrent.Callable;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import ru.sergeykozhukhov.habits.base.domain.IHabitsRepository;
+import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IUpdateHabitInreractor;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 
 public class UpdateHabitInteractor implements IUpdateHabitInreractor {
 
-    private final IHabitsRepository habitsRepository;
+    private final IHabitsDatabaseRepository habitsRepository;
 
-    public UpdateHabitInteractor(IHabitsRepository habitsRepository) {
+    public UpdateHabitInteractor(IHabitsDatabaseRepository habitsRepository) {
         this.habitsRepository = habitsRepository;
     }
 

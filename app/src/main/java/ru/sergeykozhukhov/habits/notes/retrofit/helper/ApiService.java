@@ -16,6 +16,9 @@ public interface ApiService {
     @POST("/authentication-jwt/api/login.php")
     Call<AuthResult> authClient(@Body AuthUser authUser);
 
+    @POST("/authentication-jwt/api/login.php")
+    Single<AuthResult> authClientRx(@Body AuthUser authUser);
+
     @POST("/authentication-jwt/api/get_habits.php")
     Call<HabitsList> getHabits(@Body JwtData jwt);
         //Call<HabitsList> getHabitList(@Header("Authorization")  String jwt);

@@ -51,8 +51,11 @@ dependencies {
     /*RecyclerView*/
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
+    /*LifeCirce*/
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
+    /*Preferences*/
+    implementation 'androidx.preference:preference:1.1.0'
     /* Календарь */
     // https://github.com/prolificinteractive/material-calendarview
 

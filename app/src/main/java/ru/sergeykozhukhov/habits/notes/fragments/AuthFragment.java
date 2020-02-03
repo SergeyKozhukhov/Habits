@@ -15,6 +15,10 @@ import androidx.fragment.app.Fragment;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -97,7 +101,7 @@ public class AuthFragment extends Fragment {
 
                 AuthUser authUser = new AuthUser(login, password);
 
-                sendRequestAuth(authUser);
+                sendRequestAuthRx(authUser);
 
             }
         });
@@ -132,6 +136,18 @@ public class AuthFragment extends Fragment {
 
             }
         });
+    }
+
+    private void sendRequestAuthRx(AuthUser authUser){
+        Disposable disposable = apiService.authClientRx(authUser)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<AuthResult>() {
+                    @Override
+                    public void accept(AuthResult authResult) throws Exception {
+                        Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void insertUser(final User user){

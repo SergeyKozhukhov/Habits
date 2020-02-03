@@ -9,6 +9,7 @@ import android.widget.Button;
 
 
 import ru.sergeykozhukhov.habitData.R;
+import ru.sergeykozhukhov.habits.base.presentation.view.AuthenticationFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.HabitsListFragment;
 import ru.sergeykozhukhov.habits.notes.database.HabitsDatabase;
 import ru.sergeykozhukhov.habits.notes.database.habit.Habit;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements HabitsFragment.De
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.host_fragment_frame_layout, AuthFragment.newInstance())
+                        .replace(R.id.host_fragment_frame_layout, AuthenticationFragment.newInstance())
                         .commit();
             }
         });

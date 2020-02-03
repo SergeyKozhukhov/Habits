@@ -14,15 +14,17 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import ru.sergeykozhukhov.habits.base.data.HabitConverter;
-import ru.sergeykozhukhov.habits.base.data.HabitsConverter;
+import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
+import ru.sergeykozhukhov.habits.base.data.converter.HabitsConverter;
 import ru.sergeykozhukhov.habits.base.data.database.HabitDao;
 import ru.sergeykozhukhov.habits.base.data.database.HabitsDatabase;
 import ru.sergeykozhukhov.habits.base.data.model.HabitData;
-import ru.sergeykozhukhov.habits.base.domain.IHabitsRepository;
+import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
+import ru.sergeykozhukhov.habits.base.domain.model.Authentication;
+import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 
-public class HabitsRepository implements IHabitsRepository {
+public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
 
     private Context context;
 
@@ -34,10 +36,10 @@ public class HabitsRepository implements IHabitsRepository {
 
     private ExecutorService executorService;
 
-    public HabitsRepository(@NonNull Context context,
-                            @NonNull ExecutorService executorService,
-                            @NonNull HabitConverter habitConverter,
-                            @NonNull HabitsConverter habitsConverter) {
+    public HabitsDatabaseRepository(@NonNull Context context,
+                                    @NonNull ExecutorService executorService,
+                                    @NonNull HabitConverter habitConverter,
+                                    @NonNull HabitsConverter habitsConverter) {
 
         this.context = context;
         this.habitConverter = habitConverter;
@@ -105,6 +107,5 @@ public class HabitsRepository implements IHabitsRepository {
         habitDao.update(habitConverter.convertFrom(habit));
         return habit.copy();
     }
-
 
 }
