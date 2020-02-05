@@ -1,5 +1,7 @@
 package ru.sergeykozhukhov.habits.base.data.retrofit;
 
+import android.icu.text.TimeZoneFormat;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -40,6 +42,7 @@ public class HabitsRetrofitClient {
 
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();
+        builder.setDateFormat("yyyy-MM-dd");
         Gson gson = builder.create();
 
         return new Retrofit.Builder()

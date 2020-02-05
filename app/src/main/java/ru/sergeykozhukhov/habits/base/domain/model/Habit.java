@@ -12,6 +12,9 @@ public class Habit {
     private Date startDate;
     private int duration;
 
+    public Habit() {
+    }
+
     public Habit(long idHabitServer, String title, String description, Date startDate, int duration) {
         this.idHabitServer = idHabitServer;
         this.title = title;

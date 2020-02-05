@@ -9,11 +9,11 @@ import android.widget.Button;
 
 
 import ru.sergeykozhukhov.habitData.R;
+import ru.sergeykozhukhov.habits.base.presentation.view.AddHabitFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.AuthenticationFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.HabitsListFragment;
 import ru.sergeykozhukhov.habits.notes.database.HabitsDatabase;
 import ru.sergeykozhukhov.habits.notes.database.habit.Habit;
-import ru.sergeykozhukhov.habits.notes.fragments.AddHabitFragment;
 import ru.sergeykozhukhov.habits.notes.fragments.AuthFragment;
 import ru.sergeykozhukhov.habits.notes.fragments.HabitsFragment;
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements HabitsFragment.De
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.host_fragment_frame_layout, HabitsFragment.newInstance())
+                        .replace(R.id.host_fragment_frame_layout, HabitsListFragment.newInstance())
                         .commit();
             }
         });
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements HabitsFragment.De
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.host_fragment_frame_layout, AddHabitFragment.newInstance())
+                        .replace(R.id.host_fragment_frame_layout, AddHabitFragment.newInstance())
                         .commit();
             }
         });

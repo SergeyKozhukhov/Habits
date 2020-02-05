@@ -2,6 +2,8 @@ package ru.sergeykozhukhov.habits.base.data.converter;
 
 import androidx.annotation.NonNull;
 
+import java.util.Date;
+
 import ru.sergeykozhukhov.habits.base.data.model.HabitData;
 import ru.sergeykozhukhov.habits.base.domain.IConverter;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
@@ -28,7 +30,7 @@ public class HabitConverter implements IConverter<HabitData, Habit> {
                 habit.getIdHabitServer(),
                 habit.getTitle(),
                 habit.getDescription(),
-                habit.getStartDate(),
+                habit.getStartDate() == null? new Date() : habit.getStartDate(),
                 habit.getDuration()
         );
     }

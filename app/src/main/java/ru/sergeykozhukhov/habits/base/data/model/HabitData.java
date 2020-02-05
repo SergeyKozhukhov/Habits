@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -20,21 +21,28 @@ public class HabitData {
     @PrimaryKey(autoGenerate = true)
     private long idHabit;
 
-    @SerializedName("id_habit")
     @ColumnInfo(name = "id_habit_server")
     private long idHabitServer;
 
     @ColumnInfo(name = "title")
+    @SerializedName("title")
+    @Expose
     private String title;
 
     @ColumnInfo(name = "description")
+    @SerializedName("description")
+    @Expose
     private String description;
 
     @ColumnInfo(name = "start_date")
     @TypeConverters({DateConverter.class})
+    @SerializedName("start_date")
+    @Expose
     private Date startDate;
 
+    @ColumnInfo(name = "duration")
     @SerializedName("duration")
+    @Expose
     private int duration;
 
     public HabitData(long idHabit, long idHabitServer, String title, String description, Date startDate, int duration) {
@@ -45,6 +53,8 @@ public class HabitData {
         this.startDate = startDate;
         this.duration = duration;
     }
+
+
 
     public long getIdHabit() {
         return idHabit;

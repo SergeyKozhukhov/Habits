@@ -13,7 +13,7 @@ public class LoadJwtInteractor implements ILoadJwtInteractor {
     }
 
     @Override
-    public Jwt loadJwt() {
-        return habitsPreferencesRepository.getJwt();
+    public void loadJwt() {
+        habitsPreferencesRepository.loadJwt();
     }
 }

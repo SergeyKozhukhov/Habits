@@ -1,9 +1,11 @@
 package ru.sergeykozhukhov.habits.base.data.repository;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -25,6 +27,8 @@ import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 
 public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
+
+    private static final String TAG = "DatabaseRepository";
 
     private Context context;
 
@@ -98,8 +102,24 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         }).subscribeOn(Schedulers.io());
 
         /*
-        return habitDao.insertHabit(habitConverter.convertFrom(habit))
+        return habitDao.insertHabits(habitConverter.convertFrom(habit))
                 ;*/
+    }
+
+    @Override
+    public Single<Long> insertListHabits(List<Habit> habitList) {
+        final List<HabitData> habitDataList = new ArrayList<>(habitList.size());
+        for (Habit habit : habitList){
+            habitDataList.add(habitConverter.convertFrom(habit));
+        }
+        return Single.fromCallable(new Callable<Long>() {
+            @Override
+            public Long call() throws Exception {
+                habitDao.insert(habitDataList);
+                Log.d(TAG, "inserted list");
+                return 1L;
+            }
+        }).subscribeOn(Schedulers.io());
     }
 
     @Override

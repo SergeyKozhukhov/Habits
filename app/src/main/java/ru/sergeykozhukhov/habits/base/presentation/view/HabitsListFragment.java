@@ -5,15 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -37,7 +40,8 @@ public class HabitsListFragment extends Fragment{
     private HabitsListAdapter habitsListAdapter;
     private RecyclerView habitsListRecyclerView;
 
-    Disposable disposableLoadHabits;
+    private Button testInsertListHabitsButton;
+    private Button testLoadListHabitsButton;
 
     public static Fragment newInstance() {
         return new HabitsListFragment();
@@ -55,6 +59,9 @@ public class HabitsListFragment extends Fragment{
 
         habitsListRecyclerView = view.findViewById(R.id.habits_recycler_view);
         habitsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        testInsertListHabitsButton = view.findViewById(R.id.synchronize_web_button);
+        testLoadListHabitsButton = view.findViewById(R.id.synchronize_button);
     }
 
     @Override
@@ -65,20 +72,46 @@ public class HabitsListFragment extends Fragment{
         initListeners();
         initViews();
 
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-        HabitConverter habitConverter = new HabitConverter();
-        HabitsConverter habitsConverter = new HabitsConverter();
-
         setupMvvm();
 
 
     }
 
-    private void initViews(){
+    private void initViews() {
         habitsListAdapter = new HabitsListAdapter();
+
     }
 
     private void initListeners(){
+        testInsertListHabitsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Habit habit = new Habit();
+                habit.setIdHabit(1);
+                habit.setTitle("222");
+                habit.setDescription("333");
+                habit.setStartDate(new Date());
+                habit.setDuration(10);
+
+                List<Habit> habitList = new ArrayList<>();
+                habitList.add(habit);
+                habitList.add(habit);
+                habitList.add(habit);
+
+
+                habitsViewModel.insertWebHabits(habitsViewModel.getHabitListLiveData().getValue());
+            }
+        });
+
+        testLoadListHabitsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                habitsViewModel.loadListHabitsWeb();
+            }
+        });
+
+
 
     }
 
@@ -94,63 +127,42 @@ public class HabitsListFragment extends Fragment{
 
         Habit habitInsert = new Habit(
                 5,
-                "title",
-                "descr",
+                "try",
+                "one",
                 new Date(),
                 30);
 
+        Habit habitInsert1 = new Habit(
+                4,
+                "try1",
+                "one1",
+                new Date(),
+                31);
+
         Habit habitUpdate = new Habit(
                 2,
-                10,
-                "new title",
-                "new descr",
+                12,
+                "little",
+                "big",
                 new Date(),
                 100);
 
         //habitsViewModel.insertHabit(habitInsert);
+        //habitsViewModel.insertHabit(habitInsert1);
 
-        disposableLoadHabits = habitsViewModel.loadHabits()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Habit>>() {
-                    @Override
-                    public void accept(List<Habit> habitList) throws Exception {
-                        //habitsListAdapter.setHabitList(new ArrayList<>(habitList));
-                        ((HabitsListAdapter)habitsListRecyclerView.getAdapter()).setHabitList(habitList);
-                        //habitsListRecyclerView.setAdapter(habitsListAdapter);
-                        Log.d("fragment", "succes. size: "+habitList.size());
+        habitsViewModel.getHabitListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Habit>>() {
+            @Override
+            public void onChanged(List<Habit> habitList) {
+                ((HabitsListAdapter)habitsListRecyclerView.getAdapter()).setHabitList(habitList);
 
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show();
-                        Log.d("fragment", "error");
-                    }
-                });
+            }
+        });
 
 
 
+        habitsViewModel.loadHabits();
+        habitsViewModel.loadJwt();
 
-        /*Disposable disposableUpdateHabit = habitsViewModel.updateHabit(habitUpdate)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Habit>() {
-                    @Override
-                    public void accept(Habit habit) throws Exception {
-                        Log.d("fragment", "update");
-                        //Toast.makeText(requireContext(), "update", Toast.LENGTH_SHORT).show();
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-
-                    }
-                });
-*/
-
-
-        /*for (Habit habitTest : habitList){
-            Log.d("fragment", habitTest.toString() + "\n");
-        }*/
     }
 
 }

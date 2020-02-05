@@ -14,6 +14,7 @@ public interface IHabitsDatabaseRepository {
     Flowable<List<Habit>> loadHabits();
 
     Single<Long> insertHabit(Habit habit);
+    Single<Long> insertListHabits(List<Habit> habitList);
 
     Habit update(Habit habit);
 }

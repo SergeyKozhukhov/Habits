@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -21,11 +22,17 @@ import ru.sergeykozhukhov.habits.base.domain.model.Authentication;
 import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
 import ru.sergeykozhukhov.habits.base.domain.model.Jwt;
 import ru.sergeykozhukhov.habits.base.domain.usecase.AuthenticateClientInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.GetJwtInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertHabitInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.InsertListHabitsDBInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.InsertWebHabitInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.InsertWebHabitsInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.LoadHabitsInteractor;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 import ru.sergeykozhukhov.habits.base.domain.usecase.LoadJwtInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.LoadListHabitsWebInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.SaveJwtInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.SetJwtInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.UpdateHabitInteractor;
 
 public class HabitsViewModel extends ViewModel {
@@ -34,64 +41,75 @@ public class HabitsViewModel extends ViewModel {
 
     private final LoadHabitsInteractor loadHabitsInteractor;
     private final InsertHabitInteractor insertHabitInteractor;
+    private final InsertListHabitsDBInteractor insertListHabitsDBInteractor;
     private final UpdateHabitInteractor updateHabitInteractor;
 
     private final AuthenticateClientInteractor authenticateClientInteractor;
+    private final InsertWebHabitInteractor insertWebHabitInteractor;
+    private final InsertWebHabitsInteractor insertWebHabitsInteractor;
+    private final LoadListHabitsWebInteractor loadListHabitsWebInteractor;
 
     private final SaveJwtInteractor saveJwtInteractor;
     private final LoadJwtInteractor loadJwtInteractor;
+    private final SetJwtInteractor setJwtInteractor;
+    private final GetJwtInteractor getJwtInteractor;
 
-
-    private Disposable habitsListDisposable;
+    private Disposable disposableLoadHabits;
     private Disposable habitInsertedDisposable;
+    private Disposable disposableHabitsListInserted;
+    private Disposable disposableUpdatedHabit;
+    private Disposable disposableAuthenticated;
+    private Disposable disposableInsertedWeb;
+    private Disposable disposableListInsertedWeb;
+    private Disposable disposableListHabitsLoadedWeb;
 
-    private List<Habit> habitList;
+    private MutableLiveData<List<Habit>> habitListLiveData = new MutableLiveData<>();
 
     public HabitsViewModel(
             @NonNull LoadHabitsInteractor loadHabitsInteractor,
             @NonNull InsertHabitInteractor insertHabitInteractor,
+            @NonNull InsertListHabitsDBInteractor insertListHabitsDBInteractor,
             @NonNull UpdateHabitInteractor updateHabitInteractor,
             @NonNull AuthenticateClientInteractor authenticateClientInteractor,
+            @NonNull InsertWebHabitInteractor insertWebHabitInteractor,
+            @NonNull InsertWebHabitsInteractor insertWebHabitsInteractor,
+            @NonNull LoadListHabitsWebInteractor loadListHabitsWebInteractor,
             @NonNull SaveJwtInteractor saveJwtInteractor,
-            @NonNull LoadJwtInteractor loadJwtInteractor) {
+            @NonNull LoadJwtInteractor loadJwtInteractor,
+            @NonNull SetJwtInteractor setJwtInteractor,
+            @NonNull GetJwtInteractor getJwtInteractor) {
         this.loadHabitsInteractor = loadHabitsInteractor;
         this.insertHabitInteractor = insertHabitInteractor;
+        this.insertListHabitsDBInteractor = insertListHabitsDBInteractor;
         this.updateHabitInteractor = updateHabitInteractor;
         this.authenticateClientInteractor = authenticateClientInteractor;
+        this.insertWebHabitInteractor = insertWebHabitInteractor;
+        this.insertWebHabitsInteractor = insertWebHabitsInteractor;
+        this.loadListHabitsWebInteractor = loadListHabitsWebInteractor;
         this.saveJwtInteractor = saveJwtInteractor;
         this.loadJwtInteractor = loadJwtInteractor;
+        this.setJwtInteractor = setJwtInteractor;
+        this.getJwtInteractor = getJwtInteractor;
     }
 
-    public Flowable<List<Habit>> loadHabits(){
-        return loadHabitsInteractor.loadHabits();
-    }
-/*
-    public void loadHabits() {
-        List<Habit> list = null;
-        habitsListDisposable = loadHabitsInteractor.loadHabits()
-                .observeOn(AndroidSchedulers.mainThread())
+    public void loadHabits(){
+
+        disposableLoadHabits = loadHabitsInteractor.loadHabits()
                 .subscribe(new Consumer<List<Habit>>() {
                     @Override
-                    public void accept(List<Habit> habits) throws Exception {
-                        habitList = new ArrayList<>(habits);
-
-                        list = habitList;
-                        Log.d(TAG, "load success" + habits.get(0).getTitle());
-                        Log.d(TAG, "size habitlist: " + habitList.size());
-                        Log.d(TAG, "size habits: " + habits.size());
+                    public void accept(List<Habit> habitList) throws Exception {
+                        habitListLiveData.postValue(habitList);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
 
-                        Log.d(TAG, "load error");
                     }
                 });
-    }*/
+    }
 
     public void insertHabit(Habit habit){
         habitInsertedDisposable = insertHabitInteractor.insertHabit(habit)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long id) throws Exception {
@@ -107,20 +125,35 @@ public class HabitsViewModel extends ViewModel {
                 });
     }
 
-    public Single<Habit> updateHabit(Habit habit){
-        return updateHabitInteractor.updateHabit(habit);
+    public void insertListHabitsDbInteractor(List<Habit> habitList){
+
+        disposableHabitsListInserted = insertListHabitsDBInteractor.insertListHabitsDb(habitList)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        Log.d(TAG, "insert list success");
+                    }
+                });
+    }
+
+    public void updateHabit(Habit habit){
+
+         disposableUpdatedHabit = updateHabitInteractor.updateHabit(habit)
+                 .subscribe(new Consumer<Habit>() {
+                     @Override
+                     public void accept(Habit habit) throws Exception {
+                         Log.d(TAG, "updete success. id = "+habit.getIdHabit());
+                     }
+                 }, new Consumer<Throwable>() {
+                     @Override
+                     public void accept(Throwable throwable) throws Exception {
+                         Log.d(TAG, "update error");
+                     }
+                 });
+
     }
 
     public void authenticateClient(final Confidentiality confidentiality){
-
-        /*Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                Authentication authentication = authenticateClientInteractor.authenticateClient(confidentiality);
-                Log.d("auth", "result: " + authentication.getMessage());
-            }
-        });*/
 
         Single<Authentication> authenticationSingle = Single.fromCallable(new Callable<Authentication>() {
             @Override
@@ -141,30 +174,113 @@ public class HabitsViewModel extends ViewModel {
 
     }
 
+    public void authenticateClientRx(Confidentiality confidentiality) {
 
-    public Single<Authentication> authenticateClientRx(Confidentiality confidentiality) {
-        Log.d("view_model", "requset");
-        return authenticateClientInteractor.authenticateClientRx(confidentiality)
-                .subscribeOn(Schedulers.newThread());
+        disposableAuthenticated = authenticateClientInteractor.authenticateClientRx(confidentiality)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Authentication>() {
+                    @Override
+                    public void accept(Authentication authentication) throws Exception {
+                        setJwtInteractor.setJwt(new Jwt(authentication.getJwt()));
+                        saveJwt(new Jwt(authentication.getJwt()));
+                        Log.d(TAG, "authenticateClientRx: "+authentication.getMessage());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
     }
 
-    public void saveJwt(Jwt jwt){
+    public void insertWebHabit(Habit habit){
+        String jwt = getJwtInteractor.getJwt().getJwt();
+        if (jwt == null || jwt.equals("")){
+            Log.d(TAG, "insertWebHabit - fail jwt: "+jwt);
+            return;
+        }
+        disposableInsertedWeb = insertWebHabitInteractor.insertHabit(habit, jwt)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Habit>() {
+                    @Override
+                    public void accept(Habit habit) throws Exception {
+                        Log.d(TAG, "insertWebHabit: "+habit.getIdHabitServer());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+    }
+
+    public void insertWebHabits(List<Habit> habitList){
+        String jwt = getJwtInteractor.getJwt().getJwt();
+        if (jwt == null || jwt.equals("")){
+            Log.d(TAG, "insertWebHabits - fail jwt: "+jwt);
+            return;
+        }
+
+        disposableListInsertedWeb = insertWebHabitsInteractor.insertHabits(habitList, jwt)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        //Log.d(TAG, "insertWebHabits: "+aLong);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+    }
+
+    public void loadListHabitsWeb(){
+        Log.d(TAG, "loadListHabitsWeb start");
+        String jwt = getJwtInteractor.getJwt().getJwt();
+        if (jwt == null || jwt.equals("")){
+            Log.d(TAG, "loadListHabitsWeb - fail jwt: "+jwt);
+            return;
+        }
+
+        disposableListHabitsLoadedWeb = loadListHabitsWebInteractor.loadListHabits(jwt)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<List<Habit>>() {
+                    @Override
+                    public void accept(List<Habit> habitList) throws Exception {
+                        insertListHabitsDbInteractor(habitList);
+                        Log.d(TAG, "loadListHabitsWeb"+habitList.get(0).getIdHabitServer());
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+
+    }
+
+    private void saveJwt(Jwt jwt){
         saveJwtInteractor.saveJwt(jwt);
     }
 
-    public Jwt loadJwt(){
-        return loadJwtInteractor.loadJwt();
+    public void loadJwt(){
+        loadJwtInteractor.loadJwt();
     }
 
-    public Disposable getHabitsListDisposable() {
-        return habitsListDisposable;
+    private void setJwt(Jwt jwt){
+        setJwtInteractor.setJwt(jwt);
     }
 
-    public Disposable getHabitInsertedDisposable() {
-        return habitInsertedDisposable;
+    private Jwt getJwt(){
+        return getJwtInteractor.getJwt();
     }
 
-    public List<Habit> getHabitList() {
-        return habitList;
+
+    @NonNull
+    public MutableLiveData<List<Habit>> getHabitListLiveData(){
+        return habitListLiveData;
     }
 }

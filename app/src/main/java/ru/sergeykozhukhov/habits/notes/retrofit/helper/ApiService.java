@@ -23,8 +23,13 @@ public interface ApiService {
     Call<HabitsList> getHabits(@Body JwtData jwt);
         //Call<HabitsList> getHabitList(@Header("Authorization")  String jwt);
 
+
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("/authentication-jwt/api/get_habits.php")
     Single<HabitsList> getHabitsRx(@Header("Authorization")  JwtData jwt);
     // Single<HabitsList> getHabitsRx(@Body JwtData jwt);
+
+
+    @POST("/authentication-jwt/api/insert_habit.php")
+    Call<HabitsList> insertHabits(@Body AuthUser authUser, @Header("Authorization")  String jwt);
 }

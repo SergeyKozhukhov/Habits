@@ -6,46 +6,50 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.Date;
+
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
+import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
 
-public class AuthenticationFragment extends Fragment {
+public class AddHabitFragment extends Fragment {
 
     private HabitsViewModel habitsViewModel;
 
-    private EditText loginAuthEditText;
-    private EditText passwordAuthEditText;
+    private EditText title_habit_edit_text;
+    private EditText description_habit_edit_text;
+    private EditText date_start_edit_text;
+    private EditText duration_description_edit_text;
 
-    private Button requestAuthButton;
+    private Button add_habit_button;
 
     public static Fragment newInstance() {
-        return new AuthenticationFragment();
+        return new AddHabitFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.auth_fragment, container, false);
+        return inflater.inflate(R.layout.add_habit_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loginAuthEditText = view.findViewById(R.id.login_auth_edit_text);
-        passwordAuthEditText = view.findViewById(R.id.password_auth_edit_text);
+        title_habit_edit_text = view.findViewById(R.id.title_habit_edit_text);
+        description_habit_edit_text = view.findViewById(R.id.description_habit_edit_text);
+        date_start_edit_text = view.findViewById(R.id.date_start_habit_edit_text);
+        duration_description_edit_text = view.findViewById(R.id.duration_habit_edit_text);
 
-        requestAuthButton = view.findViewById(R.id.request_auth_button);
-
+        add_habit_button = view.findViewById(R.id.add_habit_button);
 
     }
 
@@ -58,24 +62,23 @@ public class AuthenticationFragment extends Fragment {
         setupMvvm();
     }
 
-    private void initData() {
+    private void initData(){
 
     }
 
-    private void initViewListeners() {
-
-        requestAuthButton.setOnClickListener(new View.OnClickListener() {
+    private void initViewListeners(){
+        add_habit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String login = loginAuthEditText.getText().toString();
-                String password = passwordAuthEditText.getText().toString();
+                Habit habit = new Habit();
+                habit.setIdHabit(1);
+                habit.setTitle(title_habit_edit_text.getText().toString());
+                habit.setDescription(description_habit_edit_text.getText().toString());
+                habit.setStartDate(new Date());
+                habit.setDuration(Integer.valueOf(duration_description_edit_text.getText().toString()));
 
-                Confidentiality confidentiality = new Confidentiality(login, password);
-
-                // sendRequestAuth(confidentiality);
-                sendRequestAuthRx(confidentiality);
-
+                habitsViewModel.insertWebHabit(habit);
 
             }
         });
@@ -84,18 +87,7 @@ public class AuthenticationFragment extends Fragment {
     private void setupMvvm(){
         habitsViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
                 .get(HabitsViewModel.class);
-        habitsViewModel.loadJwt();
+
     }
-
-
-    private void sendRequestAuth(Confidentiality confidentiality) {
-        habitsViewModel.authenticateClient(confidentiality);
-    }
-
-    private void sendRequestAuthRx(Confidentiality confidentiality){
-        habitsViewModel.authenticateClientRx(confidentiality);
-    }
-
-
 
 }

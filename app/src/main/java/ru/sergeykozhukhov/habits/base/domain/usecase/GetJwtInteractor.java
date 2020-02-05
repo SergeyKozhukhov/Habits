@@ -1,19 +1,20 @@
 package ru.sergeykozhukhov.habits.base.domain.usecase;
 
 import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.ISaveJwtInteractor;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.IGetJwtInteractor;
 import ru.sergeykozhukhov.habits.base.domain.model.Jwt;
 
-public class SaveJwtInteractor implements ISaveJwtInteractor {
+public class GetJwtInteractor implements IGetJwtInteractor {
 
     private IHabitsPreferencesRepository habitsPreferencesRepository;
 
-    public SaveJwtInteractor(IHabitsPreferencesRepository habitsPreferencesRepository) {
+    public GetJwtInteractor(IHabitsPreferencesRepository habitsPreferencesRepository) {
         this.habitsPreferencesRepository = habitsPreferencesRepository;
     }
 
+
     @Override
-    public void saveJwt(Jwt jwt) {
-        habitsPreferencesRepository.saveJwt(jwt);
+    public Jwt getJwt() {
+        return habitsPreferencesRepository.getJwt();
     }
 }

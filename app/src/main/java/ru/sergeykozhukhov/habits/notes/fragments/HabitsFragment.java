@@ -27,6 +27,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.notes.database.HabitsDatabase;
 import ru.sergeykozhukhov.habits.notes.database.habit.Habit;
@@ -34,6 +37,7 @@ import ru.sergeykozhukhov.habits.notes.database.habit.HabitDao;
 import ru.sergeykozhukhov.habits.notes.database.user.Jwt;
 import ru.sergeykozhukhov.habits.notes.database.user.UserDao;
 import ru.sergeykozhukhov.habits.notes.fragments.adapter.HabitsAdapter;
+import ru.sergeykozhukhov.habits.notes.retrofit.data.authentication.AuthUser;
 import ru.sergeykozhukhov.habits.notes.retrofit.data.authentication.JwtData;
 import ru.sergeykozhukhov.habits.notes.retrofit.data.habits.HabitsList;
 import ru.sergeykozhukhov.habits.notes.retrofit.helper.ApiService;
@@ -93,7 +97,7 @@ public class HabitsFragment extends Fragment {
         initListeners();
         initViews();
         //updateHabitsAdapter();
-        updateHabitsAdapterRxJava();
+        //updateHabitsAdapterRxJava();
 
 
     }
@@ -109,9 +113,12 @@ public class HabitsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String jwtString = getClientToken();
+                // Log.d("insertWeb", jwtString);
                 JwtData jwt = new JwtData(jwtString);
-                Toast.makeText(requireContext(), jwtString, Toast.LENGTH_SHORT).show();
-                jwtData = new JwtData(jwtString);
+                String rrr = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hbnktc2l0ZS5vcmciLCJhdWQiOiJodHRwOlwvXC9hbnktc2l0ZS5jb20iLCJpYXQiOjEzNTY5OTk1MjQsIm5iZiI6MTM1NzAwMDAwMCwiZGF0YSI6eyJpZCI6IjciLCJmaXJzdG5hbWUiOiIxMjMiLCJsYXN0bmFtZSI6IjEyMyIsImVtYWlsIjoiMTIzIn19.pUc8VsdD5eXuW0xFLeP9lbPFlYBdY3ssPWaJ3MH_qD0";
+                Toast.makeText(requireContext(), jwtString + " uuu", Toast.LENGTH_SHORT).show();
+                jwtData = new JwtData(rrr);
+                insertHabitWeb(jwtData);
                 //updateHabitsAdapterFromWeb(jwt);
                 //updateHabitsAdapterFromWeb(jwt);
             }
@@ -120,7 +127,8 @@ public class HabitsFragment extends Fragment {
         synchronizeWebButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateHabitsAdapterFromWeb(jwtData);
+                //updateHabitsAdapterFromWeb(jwtData);
+
 
             }
         });
@@ -136,6 +144,25 @@ public class HabitsFragment extends Fragment {
         };
 
         // habitsRecyclerView.setAdapter(new HabitsAdapter(Arrays.asList(HabitData.values()), onItemClickListener));
+    }
+
+    private void insertHabitWeb(JwtData jwtData){
+        AuthUser authUser = new AuthUser(
+                "email", "password"
+        );
+
+        //Log.d("insertWeb", jwtData.getJwt());
+        apiService.insertHabits(authUser, jwtData.getJwt()).enqueue(new Callback<HabitsList>() {
+            @Override
+            public void onResponse(Call<HabitsList> call, Response<HabitsList> response) {
+                Log.d("insertWeb", "333");
+            }
+
+            @Override
+            public void onFailure(Call<HabitsList> call, Throwable t) {
+                Log.d("insertWeb", "000");
+            }
+        });
     }
 
     private void initData(){
