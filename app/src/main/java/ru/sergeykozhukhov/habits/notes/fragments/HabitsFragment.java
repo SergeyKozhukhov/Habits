@@ -85,8 +85,8 @@ public class HabitsFragment extends Fragment {
         habitsRecyclerView = view.findViewById(R.id.habits_recycler_view);
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        synchronizeButton = view.findViewById(R.id.synchronize_button);
-        synchronizeWebButton = view.findViewById(R.id.synchronize_web_button);
+        synchronizeButton = view.findViewById(R.id.replication_button);
+        synchronizeWebButton = view.findViewById(R.id.backup_button);
     }
 
     @Override

@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.base.data.model.HabitData;
@@ -36,5 +37,8 @@ public interface HabitDao {
 
     @Delete
     void delete(HabitData habitData);
+
+    @Query("DELETE from habits")
+    void deleteAllHabits();
 
 }

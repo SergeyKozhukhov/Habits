@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -22,6 +23,7 @@ import ru.sergeykozhukhov.habits.base.domain.model.Authentication;
 import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
 import ru.sergeykozhukhov.habits.base.domain.model.Jwt;
 import ru.sergeykozhukhov.habits.base.domain.usecase.AuthenticateClientInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.DeleteAllHabitsInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.GetJwtInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertHabitInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertListHabitsDBInteractor;
@@ -43,6 +45,7 @@ public class HabitsViewModel extends ViewModel {
     private final InsertHabitInteractor insertHabitInteractor;
     private final InsertListHabitsDBInteractor insertListHabitsDBInteractor;
     private final UpdateHabitInteractor updateHabitInteractor;
+    private final DeleteAllHabitsInteractor deleteAllHabitsInteractor;
 
     private final AuthenticateClientInteractor authenticateClientInteractor;
     private final InsertWebHabitInteractor insertWebHabitInteractor;
@@ -70,6 +73,7 @@ public class HabitsViewModel extends ViewModel {
             @NonNull InsertHabitInteractor insertHabitInteractor,
             @NonNull InsertListHabitsDBInteractor insertListHabitsDBInteractor,
             @NonNull UpdateHabitInteractor updateHabitInteractor,
+            @NonNull DeleteAllHabitsInteractor deleteAllHabitsInteractor,
             @NonNull AuthenticateClientInteractor authenticateClientInteractor,
             @NonNull InsertWebHabitInteractor insertWebHabitInteractor,
             @NonNull InsertWebHabitsInteractor insertWebHabitsInteractor,
@@ -82,6 +86,7 @@ public class HabitsViewModel extends ViewModel {
         this.insertHabitInteractor = insertHabitInteractor;
         this.insertListHabitsDBInteractor = insertListHabitsDBInteractor;
         this.updateHabitInteractor = updateHabitInteractor;
+        this.deleteAllHabitsInteractor = deleteAllHabitsInteractor;
         this.authenticateClientInteractor = authenticateClientInteractor;
         this.insertWebHabitInteractor = insertWebHabitInteractor;
         this.insertWebHabitsInteractor = insertWebHabitsInteractor;
@@ -152,6 +157,28 @@ public class HabitsViewModel extends ViewModel {
                  });
 
     }
+
+    public void deleteAllHabits(){
+        deleteAllHabitsInteractor.deleteAllHabits()
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
 
     public void authenticateClient(final Confidentiality confidentiality){
 
@@ -250,7 +277,9 @@ public class HabitsViewModel extends ViewModel {
                     @Override
                     public void accept(List<Habit> habitList) throws Exception {
                         insertListHabitsDbInteractor(habitList);
-                        Log.d(TAG, "loadListHabitsWeb"+habitList.get(0).getIdHabitServer());
+                        for(Habit habit : habitList){
+                            Log.d(TAG, "loadListHabitsWeb"+habit.toString());
+                        }
 
                     }
                 }, new Consumer<Throwable>() {

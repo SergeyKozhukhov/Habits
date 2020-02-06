@@ -1,12 +1,10 @@
 package ru.sergeykozhukhov.habits.base.presentation.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,15 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
-import ru.sergeykozhukhov.habits.base.data.converter.HabitsConverter;
 import ru.sergeykozhukhov.habits.base.domain.model.Habit;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
@@ -40,8 +31,11 @@ public class HabitsListFragment extends Fragment{
     private HabitsListAdapter habitsListAdapter;
     private RecyclerView habitsListRecyclerView;
 
-    private Button testInsertListHabitsButton;
-    private Button testLoadListHabitsButton;
+    private Button testBackupButton;
+    private Button testReplicationButton;
+
+    private Button deleteAllHabitsButton;
+
 
     public static Fragment newInstance() {
         return new HabitsListFragment();
@@ -60,8 +54,9 @@ public class HabitsListFragment extends Fragment{
         habitsListRecyclerView = view.findViewById(R.id.habits_recycler_view);
         habitsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        testInsertListHabitsButton = view.findViewById(R.id.synchronize_web_button);
-        testLoadListHabitsButton = view.findViewById(R.id.synchronize_button);
+        testBackupButton = view.findViewById(R.id.backup_button);
+        testReplicationButton = view.findViewById(R.id.replication_button);
+        deleteAllHabitsButton = view.findViewById(R.id.delete_all_habits_button);
     }
 
     @Override
@@ -83,7 +78,7 @@ public class HabitsListFragment extends Fragment{
     }
 
     private void initListeners(){
-        testInsertListHabitsButton.setOnClickListener(new View.OnClickListener() {
+        testBackupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -99,15 +94,21 @@ public class HabitsListFragment extends Fragment{
                 habitList.add(habit);
                 habitList.add(habit);
 
-
                 habitsViewModel.insertWebHabits(habitsViewModel.getHabitListLiveData().getValue());
             }
         });
 
-        testLoadListHabitsButton.setOnClickListener(new View.OnClickListener() {
+        testReplicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 habitsViewModel.loadListHabitsWeb();
+            }
+        });
+
+        deleteAllHabitsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                habitsViewModel.deleteAllHabits();
             }
         });
 

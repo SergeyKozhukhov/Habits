@@ -12,8 +12,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
@@ -127,5 +129,17 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         habitDao.update(habitConverter.convertFrom(habit));
         return habit.copy();
     }
+
+    @Override
+    public Completable deleteAllHabits() {
+
+        return Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                habitDao.deleteAllHabits();
+            }
+        });
+    }
+
 
 }

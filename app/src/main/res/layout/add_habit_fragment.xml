@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/title_habit_edit_text"
@@ -17,25 +16,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
+        android:layout_below="@id/title_habit_edit_text"
         android:text="description"/>
 
     <EditText
         android:id="@+id/date_start_habit_edit_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date" />
+        android:inputType="date"
+        android:layout_below="@id/description_habit_edit_text"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/date_start_habit_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/date_start_habit_edit_text"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_date_range"/>
+
 
     <EditText
         android:id="@+id/duration_habit_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/date_start_habit_edit_text"
         android:inputType="numberDecimal" />
 
     <Button
         android:id="@+id/add_habit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/duration_habit_edit_text"
         android:text="add" />
 
 
-</LinearLayout>
+</RelativeLayout>

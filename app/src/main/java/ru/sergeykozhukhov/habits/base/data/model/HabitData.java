@@ -22,6 +22,8 @@ public class HabitData {
     private long idHabit;
 
     @ColumnInfo(name = "id_habit_server")
+    @SerializedName("id_habit")
+    @Expose
     private long idHabitServer;
 
     @ColumnInfo(name = "title")
@@ -36,7 +38,7 @@ public class HabitData {
 
     @ColumnInfo(name = "start_date")
     @TypeConverters({DateConverter.class})
-    @SerializedName("start_date")
+    @SerializedName("date_start")
     @Expose
     private Date startDate;
 

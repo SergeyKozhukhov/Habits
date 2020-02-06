@@ -23,6 +23,7 @@ import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.usecase.AuthenticateClientInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.DeleteAllHabitsInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.GetJwtInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertHabitInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertListHabitsDBInteractor;
@@ -73,6 +74,7 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
             InsertHabitInteractor insertHabitInteractor = new InsertHabitInteractor(habitsDatabaseRepository);
             InsertListHabitsDBInteractor insertListHabitsDBInteractor = new InsertListHabitsDBInteractor(habitsDatabaseRepository);
             UpdateHabitInteractor updateHabitInteractor = new UpdateHabitInteractor(habitsDatabaseRepository);
+            DeleteAllHabitsInteractor deleteAllHabitsInteractor = new DeleteAllHabitsInteractor(habitsDatabaseRepository);
 
             AuthenticateClientInteractor authenticateClientInteractor = new AuthenticateClientInteractor(habitsWebRepository);
             InsertWebHabitInteractor insertWebHabitInteractor = new InsertWebHabitInteractor(habitsWebRepository);
@@ -90,6 +92,7 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
                     insertHabitInteractor,
                     insertListHabitsDBInteractor,
                     updateHabitInteractor,
+                    deleteAllHabitsInteractor,
                     authenticateClientInteractor,
                     insertWebHabitInteractor,
                     insertWebHabitsInteractor,

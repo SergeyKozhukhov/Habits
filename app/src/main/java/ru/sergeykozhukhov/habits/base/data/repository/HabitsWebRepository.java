@@ -114,6 +114,7 @@ public class HabitsWebRepository implements IHabitsWebRepository {
                     public List<Habit> apply(List<HabitData> habitDataList) throws Exception {
                         List<Habit> convertHabitList = new ArrayList<>(habitDataList.size());
                         for (HabitData habitData : habitDataList) {
+                            Log.d(TAG, "loadListHabitsWeb"+habitData.toString());
                             convertHabitList.add(habitConverter.convertTo(habitData));
                         }
                         return convertHabitList;
