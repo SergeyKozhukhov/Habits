@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.domain.model.Habit;
+import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.ViewHolder> {
 

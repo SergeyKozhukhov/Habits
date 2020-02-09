@@ -9,10 +9,9 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import ru.sergeykozhukhov.habits.base.data.model.HabitData;
+import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 
 @Dao
 public interface HabitDao {

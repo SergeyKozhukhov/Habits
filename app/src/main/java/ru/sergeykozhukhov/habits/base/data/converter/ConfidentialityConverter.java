@@ -2,9 +2,9 @@ package ru.sergeykozhukhov.habits.base.data.converter;
 
 import androidx.annotation.NonNull;
 
-import ru.sergeykozhukhov.habits.base.data.model.ConfidentialityData;
+import ru.sergeykozhukhov.habits.base.model.data.ConfidentialityData;
 import ru.sergeykozhukhov.habits.base.domain.IConverter;
-import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
+import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 
 public class ConfidentialityConverter implements IConverter<ConfidentialityData, Confidentiality> {
     @NonNull

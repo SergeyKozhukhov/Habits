@@ -2,9 +2,9 @@ package ru.sergeykozhukhov.habits.base.data.converter;
 
 import androidx.annotation.NonNull;
 
-import ru.sergeykozhukhov.habits.base.data.model.JwtData;
+import ru.sergeykozhukhov.habits.base.model.data.JwtData;
 import ru.sergeykozhukhov.habits.base.domain.IConverter;
-import ru.sergeykozhukhov.habits.base.domain.model.Jwt;
+import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 
 public class JwtConverter implements IConverter<JwtData, Jwt> {
     @NonNull

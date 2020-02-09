@@ -11,16 +11,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModel;
+import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
+import ru.sergeykozhukhov.habits.base.presentation.AuthenticationViewModel;
+import ru.sergeykozhukhov.habits.base.presentation.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
 
 public class AuthenticationFragment extends Fragment {
 
-    private HabitsViewModel habitsViewModel;
+    private HabitsListViewModel habitsListViewModel;
+    private AuthenticationViewModel authenticationViewModel;
 
     private EditText loginAuthEditText;
     private EditText passwordAuthEditText;
@@ -76,24 +79,27 @@ public class AuthenticationFragment extends Fragment {
                 // sendRequestAuth(confidentiality);
                 sendRequestAuthRx(confidentiality);
 
-
             }
         });
     }
 
     private void setupMvvm(){
-        habitsViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
-                .get(HabitsViewModel.class);
-        habitsViewModel.loadJwt();
+        authenticationViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+                .get(AuthenticationViewModel.class);
+        authenticationViewModel.getIsAuthenticatedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isAuth) {
+                if (isAuth)
+                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
-
-    private void sendRequestAuth(Confidentiality confidentiality) {
-        habitsViewModel.authenticateClient(confidentiality);
-    }
+    
 
     private void sendRequestAuthRx(Confidentiality confidentiality){
-        habitsViewModel.authenticateClientRx(confidentiality);
+        authenticationViewModel.authenticateClientRx(confidentiality);
     }
 
 

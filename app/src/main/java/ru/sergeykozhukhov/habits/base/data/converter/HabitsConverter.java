@@ -5,9 +5,9 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.sergeykozhukhov.habits.base.data.model.HabitData;
+import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 import ru.sergeykozhukhov.habits.base.domain.IConverter;
-import ru.sergeykozhukhov.habits.base.domain.model.Habit;
+import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public class HabitsConverter implements IConverter <List<HabitData>, List<Habit>> {
 

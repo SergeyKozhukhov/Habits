@@ -4,24 +4,24 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
-import retrofit2.Response;
-import ru.sergeykozhukhov.habits.base.data.converter.AuthenticationConverter;
+import ru.sergeykozhukhov.habits.notes.backup.AuthenticationConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ConfidentialityConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
-import ru.sergeykozhukhov.habits.base.data.model.AuthenticationData;
-import ru.sergeykozhukhov.habits.base.data.model.HabitData;
+import ru.sergeykozhukhov.habits.base.data.converter.JwtConverter;
+import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 import ru.sergeykozhukhov.habits.base.data.retrofit.HabitsRetrofitClient;
 import ru.sergeykozhukhov.habits.base.data.retrofit.IHabitsService;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.base.domain.model.Authentication;
-import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
-import ru.sergeykozhukhov.habits.base.domain.model.Habit;
+import ru.sergeykozhukhov.habits.base.model.data.JwtData;
+import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
+import ru.sergeykozhukhov.habits.base.model.domain.Habit;
+import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 
 public class HabitsWebRepository implements IHabitsWebRepository {
 
@@ -35,51 +35,32 @@ public class HabitsWebRepository implements IHabitsWebRepository {
 
     private HabitConverter habitConverter;
 
+    private JwtConverter jwtConverter;
+
     public HabitsWebRepository(
             @NonNull HabitsRetrofitClient habitsRetrofitClient,
             @NonNull AuthenticationConverter authenticationConverter,
             @NonNull ConfidentialityConverter confidentialityConverter,
-            @NonNull HabitConverter habitConverter) {
+            @NonNull HabitConverter habitConverter,
+            @NonNull JwtConverter jwtConverter) {
         this.habitsRetrofitClient = habitsRetrofitClient;
         this.authenticationConverter = authenticationConverter;
         this.confidentialityConverter = confidentialityConverter;
         this.habitConverter = habitConverter;
-        habitsService = HabitsRetrofitClient.getApiService();
+        this.jwtConverter = jwtConverter;
+        habitsService = habitsRetrofitClient.getApiService();
     }
 
-    @Override
-    public Authentication authClient(Confidentiality confidentiality) {
 
-
-        Response<AuthenticationData> response = null;
-        try {
-            response = habitsService.authClient(confidentialityConverter.convertFrom(confidentiality))
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (response == null)
-            return null;
-        else {
-
-            if (response.body() == null || response.errorBody() != null) {
-                return null;
-            }
-        }
-
-        return authenticationConverter.convertTo(response.body());
-
-
-    }
 
     @Override
-    public Single<Authentication> authClientRx(Confidentiality confidentiality) {
+    public Single<Jwt> authClientRx(Confidentiality confidentiality) {
         return habitsService.authClientRx(confidentialityConverter.convertFrom(confidentiality))
-                .map(new Function<AuthenticationData, Authentication>() {
+                .map(new Function<JwtData, Jwt>() {
                     @Override
-                    public Authentication apply(AuthenticationData authenticationData) throws Exception {
-                        Log.d(TAG, "authClientRx: " + authenticationData.getMessage());
-                        return authenticationConverter.convertTo(authenticationData);
+                    public Jwt apply(JwtData jwtData) throws Exception {
+                        Log.d(TAG, "authClientRx: " + jwtData.getJwt());
+                        return jwtConverter.convertTo(jwtData);
                     }
                 });
     }
@@ -98,7 +79,7 @@ public class HabitsWebRepository implements IHabitsWebRepository {
     }
 
     @Override
-    public Single<Long> insertHabits(List<Habit> habitList, String jwt) {
+    public Completable insertHabits(List<Habit> habitList, String jwt) {
         List<HabitData> habitDataList = new ArrayList<>(habitList.size());
         for (Habit habit : habitList){
             habitDataList.add(habitConverter.convertFrom(habit));
@@ -122,6 +103,15 @@ public class HabitsWebRepository implements IHabitsWebRepository {
                 });
     }
 
+    @Override
+    public void setJwt(@NonNull Jwt jwt) {
+        habitsRetrofitClient.setJwtData(jwtConverter.convertFrom(jwt));
+    }
+
+    @Override
+    public Jwt getJwt() {
+        return jwtConverter.convertTo(habitsRetrofitClient.getJwtData());
+    }
 
 
 }

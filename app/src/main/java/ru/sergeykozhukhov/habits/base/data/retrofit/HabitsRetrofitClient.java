@@ -12,23 +12,34 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.sergeykozhukhov.habits.base.model.data.JwtData;
 
 public class HabitsRetrofitClient {
 
+    private static HabitsRetrofitClient habitsRetrofitClient;
+
     private static final String ROOT_URL = "https://testx0123test.000webhostapp.com/";
 
-    private static Retrofit retrofit;
-    private static IHabitsService habitsService;
+    private Retrofit retrofit;
+    private IHabitsService habitsService;
 
-    private static Retrofit getInstance() {
+    private JwtData jwtData;
 
-        if (retrofit == null){
-            retrofit = buildInstance();
-        }
-        return retrofit;
+
+    private HabitsRetrofitClient() {
+        retrofit = buildRetrofit();
+        habitsService = retrofit.create(IHabitsService.class);
     }
 
-    private static Retrofit buildInstance(){
+    public static HabitsRetrofitClient getInstance() {
+
+        if (habitsRetrofitClient == null){
+            habitsRetrofitClient = new HabitsRetrofitClient();
+        }
+        return habitsRetrofitClient;
+    }
+
+    private Retrofit buildRetrofit(){
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -53,13 +64,16 @@ public class HabitsRetrofitClient {
                 .build();
     }
 
-    public static IHabitsService getApiService() {
-        if (habitsService == null){
-            habitsService = getInstance().create(IHabitsService.class);
-        }
+    public IHabitsService getApiService() {
         return habitsService;
     }
 
+    public void setJwtData(JwtData jwt){
+        jwtData = jwt;
+    }
+    public JwtData getJwtData(){
+        return jwtData;
+    }
 
     public void cleanUp(){
         retrofit = null;

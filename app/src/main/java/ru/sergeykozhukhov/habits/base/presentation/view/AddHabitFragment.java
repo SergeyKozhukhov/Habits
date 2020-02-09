@@ -9,10 +9,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.text.ParseException;
@@ -23,13 +25,13 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.domain.model.Habit;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModel;
+import ru.sergeykozhukhov.habits.base.model.domain.Habit;
+import ru.sergeykozhukhov.habits.base.presentation.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
 
 public class AddHabitFragment extends Fragment {
 
-    private HabitsViewModel habitsViewModel;
+    private AddHabitViewModel addHabitViewModel;
 
     private DatePickerDialog.OnDateSetListener setStartDateCallBack;
 
@@ -102,7 +104,8 @@ public class AddHabitFragment extends Fragment {
                 habit.setStartDate(date);
                 habit.setDuration(Integer.valueOf(duration_description_edit_text.getText().toString()));
 
-                habitsViewModel.insertHabit(habit);
+                addHabitViewModel.insertHabit(habit);
+
 
             }
         });
@@ -139,9 +142,18 @@ public class AddHabitFragment extends Fragment {
     }
 
     private void setupMvvm(){
-        habitsViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
-                .get(HabitsViewModel.class);
+        addHabitViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+                .get(AddHabitViewModel.class);
 
+        addHabitViewModel.getIsInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isInserted) {
+                if (isInserted)
+                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

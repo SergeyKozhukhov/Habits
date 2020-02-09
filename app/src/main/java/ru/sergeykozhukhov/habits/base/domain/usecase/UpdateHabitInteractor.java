@@ -6,7 +6,7 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IUpdateHabitInreractor;
-import ru.sergeykozhukhov.habits.base.domain.model.Habit;
+import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public class UpdateHabitInteractor implements IUpdateHabitInreractor {
 

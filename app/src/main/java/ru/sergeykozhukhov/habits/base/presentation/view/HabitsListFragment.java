@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,14 +20,16 @@ import java.util.Date;
 import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.domain.model.Habit;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModel;
+import ru.sergeykozhukhov.habits.base.model.domain.Habit;
+import ru.sergeykozhukhov.habits.base.presentation.BackupViewModel;
+import ru.sergeykozhukhov.habits.base.presentation.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
 import ru.sergeykozhukhov.habits.base.presentation.view.adapter.HabitsListAdapter;
 
 public class HabitsListFragment extends Fragment{
 
-    private HabitsViewModel habitsViewModel;
+    private HabitsListViewModel habitsListViewModel;
+    private BackupViewModel backupViewModel;
 
     private HabitsListAdapter habitsListAdapter;
     private RecyclerView habitsListRecyclerView;
@@ -94,21 +97,25 @@ public class HabitsListFragment extends Fragment{
                 habitList.add(habit);
                 habitList.add(habit);
 
-                habitsViewModel.insertWebHabits(habitsViewModel.getHabitListLiveData().getValue());
+                backupViewModel.insertWebHabits();
+
+                //backupViewModel.insertWebHabits();
+                //habitsListViewModel .insertWebHabits(habitsListViewModel.getHabitListLiveData().getValue());
             }
         });
 
         testReplicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                habitsViewModel.loadListHabitsWeb();
+                //habitsListViewModel.loadListHabitsWeb();
+                backupViewModel.loadListHabitsWeb();
             }
         });
 
         deleteAllHabitsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                habitsViewModel.deleteAllHabits();
+                habitsListViewModel.deleteAllHabits();
             }
         });
 
@@ -123,35 +130,12 @@ public class HabitsListFragment extends Fragment{
     }
 
     private void setupMvvm(){
-        habitsViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
-                .get(HabitsViewModel.class);
+        habitsListViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+                .get(HabitsListViewModel.class);
 
-        Habit habitInsert = new Habit(
-                5,
-                "try",
-                "one",
-                new Date(),
-                30);
 
-        Habit habitInsert1 = new Habit(
-                4,
-                "try1",
-                "one1",
-                new Date(),
-                31);
 
-        Habit habitUpdate = new Habit(
-                2,
-                12,
-                "little",
-                "big",
-                new Date(),
-                100);
-
-        //habitsViewModel.insertHabit(habitInsert);
-        //habitsViewModel.insertHabit(habitInsert1);
-
-        habitsViewModel.getHabitListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Habit>>() {
+        habitsListViewModel.getHabitListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Habit>>() {
             @Override
             public void onChanged(List<Habit> habitList) {
                 ((HabitsListAdapter)habitsListRecyclerView.getAdapter()).setHabitList(habitList);
@@ -159,10 +143,31 @@ public class HabitsListFragment extends Fragment{
             }
         });
 
+        habitsListViewModel.loadHabits();
 
+        backupViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+                .get(BackupViewModel.class);
 
-        habitsViewModel.loadHabits();
-        habitsViewModel.loadJwt();
+        backupViewModel.getIsLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isLoaded) {
+                if(isLoaded)
+                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        backupViewModel.getIsInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isInserted) {
+                if (isInserted)
+                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 

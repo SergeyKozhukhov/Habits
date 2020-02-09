@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import ru.sergeykozhukhov.habits.base.data.model.HabitData;
+import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 
 @Database(entities = {HabitData.class}, version = 1)
 public abstract class HabitsDatabase extends RoomDatabase {

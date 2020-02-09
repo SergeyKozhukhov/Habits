@@ -22,17 +22,13 @@ import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitsConverter;
 import ru.sergeykozhukhov.habits.base.data.database.HabitDao;
 import ru.sergeykozhukhov.habits.base.data.database.HabitsDatabase;
-import ru.sergeykozhukhov.habits.base.data.model.HabitData;
+import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.base.domain.model.Authentication;
-import ru.sergeykozhukhov.habits.base.domain.model.Confidentiality;
-import ru.sergeykozhukhov.habits.base.domain.model.Habit;
+import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
 
     private static final String TAG = "DatabaseRepository";
-
-    private Context context;
 
     private HabitsDatabase habitsDatabase;
     private HabitDao habitDao;
@@ -40,46 +36,18 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     private HabitConverter habitConverter;
     private HabitsConverter habitsConverter;
 
-    private ExecutorService executorService;
-
-    public HabitsDatabaseRepository(@NonNull Context context,
-                                    @NonNull ExecutorService executorService,
+    public HabitsDatabaseRepository(@NonNull HabitsDatabase habitsDatabase,
                                     @NonNull HabitConverter habitConverter,
                                     @NonNull HabitsConverter habitsConverter) {
 
-        this.context = context;
+        this.habitsDatabase = habitsDatabase;
+
         this.habitConverter = habitConverter;
         this.habitsConverter = habitsConverter;
 
-        habitsDatabase = HabitsDatabase.getInstance(context);
         habitDao = habitsDatabase.getHabitDao();
-
-        this.executorService = executorService;
     }
 
-
-    @Override
-    public List<Habit> loadAll() {
-
-        Future<List<HabitData>> future = executorService.submit(new Callable<List<HabitData>>() {
-
-            @Override
-            public List<HabitData> call() throws Exception {
-                return habitDao.getAll();
-            }
-        });
-
-        List<Habit> habitList = null;
-        try {
-            habitList = habitsConverter.convertTo(future.get());
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        executorService.shutdown();
-
-        return habitList;
-    }
 
     @Override
     public Flowable<List<Habit>> loadHabits() {
