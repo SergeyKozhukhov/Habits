@@ -36,21 +36,21 @@ public class AuthenticationViewModel extends ViewModel {
     }
 
 
-    public void authenticateClientRx(Confidentiality confidentiality) {
+    public void authenticateClient(Confidentiality confidentiality) {
 
-        disposableAuthenticated = authenticateClientInteractor.authenticateClientRx(confidentiality)
+        disposableAuthenticated = authenticateClientInteractor.authenticateClient(confidentiality)
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Consumer<Jwt>() {
                     @Override
                     public void accept(Jwt jwt) throws Exception {
                         isAuthenticatedSingleLiveEvent.postValue(true);
-                        Log.d(TAG, "authenticateClientRx: success");
+                        Log.d(TAG, "authenticateClient: success");
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         isAuthenticatedSingleLiveEvent.postValue(false);
-                        Log.d(TAG, "authenticateClientRx: error");
+                        Log.d(TAG, "authenticateClient: error");
                     }
                 });
     }

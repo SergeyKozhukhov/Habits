@@ -64,7 +64,15 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0'
 
     /* Календарь */
+    // https://androidexample365.com/tag/calendars/ - список
     // https://github.com/prolificinteractive/material-calendarview
+    // https://github.com/Applandeo/Material-Calendar-View
     implementation 'com.applandeo:material-calendar-view:1.7.0'
+    // https://github.com/kizitonwose/CalendarView
+    // https://github.com/savvisingh/DateRangePicker
+    implementation 'com.savvi.datepicker:rangepicker:1.3.0'
 
+    // recyvler view
+    // https://github.com/leochuan/ViewPagerLayoutManager
+    implementation 'rouchuan.viewpagerlayoutmanager:viewpagerlayoutmanager:2.0.22'
 }

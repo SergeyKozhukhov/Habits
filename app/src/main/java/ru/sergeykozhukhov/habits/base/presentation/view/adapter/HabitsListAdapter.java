@@ -16,11 +16,15 @@ import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.ViewHolder> {
 
+    private IHabitClickListener habitClickListener;
+
     private List<Habit> habitList;
 
 
     public HabitsListAdapter() {
+
         habitList = new ArrayList<>();
+        habitClickListener = null;
     }
 
     public HabitsListAdapter(List<Habit> habits) {
@@ -37,12 +41,17 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void setHabitClickListener(IHabitClickListener habitClickListener)
+    {
+        this.habitClickListener = habitClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         final View view = layoutInflater.inflate(R.layout.item_habits, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, habitClickListener);
     }
 
     @Override
@@ -56,19 +65,33 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
         return habitList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
 
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        private IHabitClickListener habitClickListener;
         private TextView descriptionHabitTextView;
 
-        public ViewHolder(@NonNull final View itemView) {
+        public ViewHolder(@NonNull final View itemView, IHabitClickListener habitClickListener) {
             super(itemView);
             descriptionHabitTextView = itemView.findViewById(R.id.description_habit_text_view);
+            this.habitClickListener = habitClickListener;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    habitClickListener.onItemClick(habitList.get(getAdapterPosition()));
+                }
+            });
 
         }
 
         void bindView(final Habit habit) {
             descriptionHabitTextView.setText(habit.toString());
         }
+    }
+
+    public interface IHabitClickListener {
+        void onItemClick(Habit habit);
     }
 }
 

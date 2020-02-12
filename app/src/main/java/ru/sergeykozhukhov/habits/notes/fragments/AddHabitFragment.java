@@ -89,7 +89,7 @@ public class AddHabitFragment extends Fragment {
                         Integer.valueOf(duration_description_edit_text.getText().toString())
                 );
                 insertHabit(habit);
-                Toast.makeText(requireContext(), "insert success", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), "insertHabitList success", Toast.LENGTH_LONG).show();
 
 
             }

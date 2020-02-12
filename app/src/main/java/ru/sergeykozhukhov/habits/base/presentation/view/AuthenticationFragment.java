@@ -76,8 +76,7 @@ public class AuthenticationFragment extends Fragment {
 
                 Confidentiality confidentiality = new Confidentiality(login, password);
 
-                // sendRequestAuth(confidentiality);
-                sendRequestAuthRx(confidentiality);
+                authenticate(confidentiality);
 
             }
         });
@@ -98,8 +97,8 @@ public class AuthenticationFragment extends Fragment {
     }
     
 
-    private void sendRequestAuthRx(Confidentiality confidentiality){
-        authenticationViewModel.authenticateClientRx(confidentiality);
+    private void authenticate(Confidentiality confidentiality){
+        authenticationViewModel.authenticateClient(confidentiality);
     }
 
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -21,7 +22,7 @@ public class HabitsListViewModel extends ViewModel {
     private final LoadHabitsDbInteractor loadHabitsInteractor;
     private final DeleteAllHabitsDbInteractor deleteAllHabitsInteractor;
 
-    private Disposable disposableLoadHabits;
+    private CompositeDisposable compositeDisposable;
 
     private MutableLiveData<List<Habit>> habitListLiveData = new MutableLiveData<>();
 
@@ -30,11 +31,13 @@ public class HabitsListViewModel extends ViewModel {
             @NonNull DeleteAllHabitsDbInteractor deleteAllHabitsInteractor) {
         this.loadHabitsInteractor = loadHabitsInteractor;
         this.deleteAllHabitsInteractor = deleteAllHabitsInteractor;
+
+        compositeDisposable = new CompositeDisposable();
     }
 
-    public void loadHabits(){
+    public void loadHabitList(){
 
-        disposableLoadHabits = loadHabitsInteractor.loadHabits()
+        Disposable disposable = loadHabitsInteractor.loadHabitList()
                 .subscribe(new Consumer<List<Habit>>() {
                     @Override
                     public void accept(List<Habit> habitList) throws Exception {
@@ -46,6 +49,7 @@ public class HabitsListViewModel extends ViewModel {
 
                     }
                 });
+        compositeDisposable.add(disposable);
     }
 
     public void deleteAllHabits(){

@@ -1,9 +1,12 @@
 package ru.sergeykozhukhov.habits.base.model.domain;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.Objects;
 
-public class Habit {
+public class Habit implements Parcelable {
 
     private long idHabit;
     private long idHabitServer;
@@ -119,5 +122,43 @@ public class Habit {
                 ", startDate=" + startDate +
                 ", duration=" + duration +
                 '}';
+    }
+
+
+    protected Habit(Parcel in) {
+        idHabit = in.readLong();
+        idHabitServer = in.readLong();
+        title = in.readString();
+        description = in.readString();
+        startDate.setTime(in.readLong());
+        duration = in.readInt();
+    }
+
+    public static final Creator<Habit> CREATOR = new Creator<Habit>() {
+        @Override
+        public Habit createFromParcel(Parcel in) {
+            return new Habit(in);
+        }
+
+        @Override
+        public Habit[] newArray(int size) {
+            return new Habit[size];
+        }
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(idHabit);
+        dest.writeLong(idHabitServer);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeLong(startDate.getTime());
+        dest.writeInt(duration);
     }
 }

@@ -7,17 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.presentation.view.AddHabitFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.AuthenticationFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.HabitsListFragment;
+import ru.sergeykozhukhov.habits.base.presentation.view.ProgressFragment;
 import ru.sergeykozhukhov.habits.notes.database.HabitsDatabase;
-import ru.sergeykozhukhov.habits.notes.database.habit.Habit;
-import ru.sergeykozhukhov.habits.notes.fragments.AuthFragment;
-import ru.sergeykozhukhov.habits.notes.fragments.HabitsFragment;
 
-public class MainActivity extends AppCompatActivity implements HabitsFragment.DetailsHabitHolder{
+public class MainActivity extends AppCompatActivity implements HabitsListFragment.ProgressHolder {
 
     private HabitsDatabase habitsDB;
 
@@ -37,12 +34,6 @@ public class MainActivity extends AppCompatActivity implements HabitsFragment.De
                     .add(R.id.host_fragment_frame_layout, HabitsListFragment.newInstance())
                     .commit();
         }
-
-        /*if (savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.host_fragment_frame_layout, HabitsFragment.newInstance())
-                    .commit();
-        }*/
 
         initViews();
     }
@@ -82,11 +73,10 @@ public class MainActivity extends AppCompatActivity implements HabitsFragment.De
     }
 
     @Override
-    public void showDetailsHabit(@NonNull Habit habit) {
-        /*Toast.makeText(this, "details habit", Toast.LENGTH_SHORT).show();
+    public void showProgress(@NonNull ru.sergeykozhukhov.habits.base.model.domain.Habit habit) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.host_fragment_frame_layout, DetailsHabitFragment.newInstance(habit))
+                .replace(R.id.host_fragment_frame_layout, ProgressFragment.newInstance(habit))
                 .addToBackStack(null)
-                .commit();*/
+                .commit();
     }
 }

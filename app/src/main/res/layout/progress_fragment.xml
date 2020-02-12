@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/progress_list_calendar_view"
+        app:headerColor="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:type="many_days_picker"/>
+
+    <com.savvi.rangedatepicker.CalendarPickerView
+        android:id="@+id/calendar_piker_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:clipToPadding="false"
+        app:tsquare_orientation_horizontal="false"
+        />
+
+
+
+    <TextView
+        android:id="@+id/progress_list_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/new_progress_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/add_progress_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add"/>
+
+
+
+</LinearLayout>

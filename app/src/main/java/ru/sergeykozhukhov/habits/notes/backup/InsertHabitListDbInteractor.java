@@ -16,6 +16,6 @@ public class InsertHabitListDbInteractor implements IInsertHabitListDbInteractor
 
     @Override
     public Single<Long> insertListHabitsDb(List<Habit> habitList) {
-        return habitsRepository.insertListHabits(habitList);
+        return habitsRepository.insertHabitList(habitList);
     }
 }

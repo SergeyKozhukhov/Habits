@@ -7,11 +7,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import ru.sergeykozhukhov.habits.base.model.data.HabitData;
+import ru.sergeykozhukhov.habits.base.model.data.ProgressData;
 
-@Database(entities = {HabitData.class}, version = 1)
+@Database(entities = {HabitData.class, ProgressData.class}, version = 1)
 public abstract class HabitsDatabase extends RoomDatabase {
 
     public abstract HabitDao getHabitDao();
+    public abstract ProgressDao getProgressDao();
 
     private static HabitsDatabase habitsDatabase;
     private static final String DATABASE_NAME = "database.db";

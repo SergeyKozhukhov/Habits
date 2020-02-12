@@ -192,7 +192,7 @@ public class DetailsHabitFragment extends Fragment {
 
                 habit.setId_habit(getHabitFromArgs().getId_habit());
                 updateHabit(habit);
-                Toast.makeText(requireContext(), "update success", Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), "updateHabit success", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -238,7 +238,7 @@ public class DetailsHabitFragment extends Fragment {
             public void run() {
                 List<Progress> progresses = null;
                 try {
-                    progresses = progressDao.getByHabit(idHabit);
+                    progresses = progressDao.getProgressByHabit(idHabit);
                     StringBuilder stringBuilder = new StringBuilder();
                     for (Progress progress : progresses){
                         stringBuilder.append("date: ");

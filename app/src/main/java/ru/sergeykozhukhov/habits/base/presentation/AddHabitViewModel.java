@@ -9,6 +9,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.disposables.DisposableContainer;
+import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.base.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
@@ -39,17 +40,18 @@ public class AddHabitViewModel  extends ViewModel {
     public void insertHabit(Habit habit){
 
         Disposable habitInsertedDisposable = insertHabitInteractor.insertHabit(habit)
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long id) throws Exception {
                         isInsertedSingleLiveEvent.postValue(true);
-                        Log.d(TAG, "insert success. id = "+id);
+                        Log.d(TAG, "insertHabitList success. id = "+id);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         isInsertedSingleLiveEvent.postValue(false);
-                        Log.d(TAG, "insert error");
+                        Log.d(TAG, "insertHabitList error");
                     }
                 });
         compositeDisposable.add(habitInsertedDisposable);

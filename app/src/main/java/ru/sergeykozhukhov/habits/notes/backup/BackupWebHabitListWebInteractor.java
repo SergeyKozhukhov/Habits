@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.base.domain.usecase;
+package ru.sergeykozhukhov.habits.notes.backup;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IBackupWebInteractor;
 import ru.sergeykozhukhov.habits.base.model.data.HabitWithProgressesData;
-import ru.sergeykozhukhov.habits.base.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 
 public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
@@ -26,6 +25,13 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
 
     @Override
     public Completable insertHabitWithProgressesList() {
+        return null;
+    }
+
+   /* @Override
+    public Completable insertHabit() {
+
+
         String jwt;
         try{
             jwt = habitsWebRepository.getJwt().getJwt();
@@ -37,12 +43,47 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
             e.printStackTrace();
         }
 
-        List<HabitWithProgresses> habitWithProgressesList = habitsDatabaseRepository.loadHabitWithProgressesList()
-                .subscribeOn(Schedulers.newThread())
+        List<Habit> habits = habitsDatabaseRepository.loadHabitList().firstOrError().blockingGet();
+
+        return habitsWebRepository.insertHabit(habits, jwt);
+    }
+
+    @Override
+    public Completable insertProgressList() {
+        String jwt;
+        try{
+            jwt = habitsWebRepository.getJwt().getJwt();
+        } catch (Exception e) {
+            jwt = habitsPreferencesRepository.loadJwt().getJwt();
+            habitsWebRepository.setJwt(new Jwt(jwt));
+            if (jwt == null)
+                return null;
+            e.printStackTrace();
+        }
+
+        List<Progress> progressList = habitsDatabaseRepository.loadProgressList()
+                .blockingGet();
+        return habitsWebRepository.insertProgressList(progressList, jwt);
+    }*/
+
+    /*@Override
+    public Completable insertHabitWithProgressesList() {
+        String jwt;
+        try{
+            jwt = habitsWebRepository.getJwt().getJwt();
+        } catch (Exception e) {
+            jwt = habitsPreferencesRepository.loadJwt().getJwt();
+            habitsWebRepository.setJwt(new Jwt(jwt));
+            if (jwt == null)
+                return null;
+            e.printStackTrace();
+        }
+
+        List<HabitWithProgressesData> habitWithProgressesDataList = habitsDatabaseRepository.loadHabitWithProgressesList().subscribeOn(Schedulers.newThread())
                 .blockingGet();
 
-        return habitsWebRepository.insertHabitWithProgressesList(habitWithProgressesList, jwt);
+        return habitsWebRepository.insertHabitWithProgressesList(habitWithProgressesDataList, jwt);
 
-    }
+    }*/
 
 }

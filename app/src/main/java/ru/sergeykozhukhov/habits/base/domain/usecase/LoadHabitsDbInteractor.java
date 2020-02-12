@@ -18,8 +18,8 @@ public class LoadHabitsDbInteractor implements ILoadHabitsDbInteractor {
     }
 
     @Override
-    public Flowable<List<Habit>> loadHabits() {
-        return habitsRepository.loadHabits();
+    public Flowable<List<Habit>> loadHabitList() {
+        return habitsRepository.loadHabitList();
     }
 
 }

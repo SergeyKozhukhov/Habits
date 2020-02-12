@@ -261,7 +261,7 @@ public class HabitsFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Toast.makeText(requireContext(), "Success synchronize", Toast.LENGTH_SHORT).show();
-                        insertHabits(response.body().getHabitList());
+                        insertHabit(response.body().getHabitList());
                     }
                 }
             }
@@ -295,7 +295,7 @@ public class HabitsFragment extends Fragment {
                 .subscribe(new DisposableSingleObserver<HabitsList>() {
                     @Override
                     public void onSuccess(HabitsList habitsList) {
-                        insertHabits(habitsList.getHabitList());
+                        insertHabit(habitsList.getHabitList());
                     }
 
                     @Override

@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.base.presentation;
+package ru.sergeykozhukhov.habits.notes.backup;
 
 import android.util.Log;
 
@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import io.reactivex.CompletableObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -23,6 +22,9 @@ public class BackupViewModel extends ViewModel {
 
     private final BackupWebHabitListWebInteractor insertWebHabitsInteractor;
     private final ReplicationListHabitsWebInteractor replicationListHabitsWebInteractor;
+
+    private Disposable disposableListInsertedWeb;
+    private Disposable disposableListHabitsLoadedWeb;
 
     private CompositeDisposable compositeDisposable;
 
@@ -46,31 +48,9 @@ public class BackupViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
+    /*public void insertWebHabits(){
 
-
-    public void LoadHabitWithProgressesList(){
-        Disposable disposable = replicationListHabitsWebInteractor.loadHabitWithProgressesList()
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Consumer<List<HabitWithProgresses>>() {
-                    @Override
-                    public void accept(List<HabitWithProgresses> habitsWithProgresses) throws Exception {
-                        isLoadedSingleLiveEvent.postValue(true);
-                        for(HabitWithProgresses habitsWithProgress : habitsWithProgresses){
-                            Log.d(TAG, "loadListHabitsWeb"+habitsWithProgress.toString());
-                        }
-                    }
-
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        isLoadedSingleLiveEvent.postValue(false);
-                    }
-                });
-        compositeDisposable.add(disposable);
-    }
-
-    public void insertHabitWithProgressesList(){
-        insertWebHabitsInteractor.insertHabitWithProgressesList()
+        insertWebHabitsInteractor.insertHabit()
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new CompletableObserver() {
                     @Override
@@ -82,7 +62,7 @@ public class BackupViewModel extends ViewModel {
                     public void onComplete() {
                         isInsertedSingleLiveEvent.postValue(true);
                         Log.d(TAG, "insertWebHabits: success");
-                        insertWebHabitsInteractor.insertHabitWithProgressesList().subscribe();
+                        insertWebHabitsInteractor.insertProgressList().subscribe();
                     }
 
                     @Override
@@ -91,6 +71,45 @@ public class BackupViewModel extends ViewModel {
                         Log.d(TAG, "insertWebHabits: error: " + e.getMessage());
                     }
                 });
+
+    }
+
+    public void loadListHabitsWeb(){
+
+        disposableListHabitsLoadedWeb = replicationListHabitsWebInteractor.loadHabitList()
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<List<Habit>>() {
+                    @Override
+                    public void accept(List<Habit> habitList) throws Exception {
+                        isLoadedSingleLiveEvent.postValue(true);
+                        for(Habit habit : habitList){
+                            Log.d(TAG, "loadListHabitsWeb"+habit.toString());
+                        }
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        isLoadedSingleLiveEvent.postValue(false);
+                    }
+                });
+    }*/
+
+    public void LoadHabitsWithProgress(){
+        Disposable d = replicationListHabitsWebInteractor.loadHabitWithProgressesList()
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Consumer<List<HabitWithProgresses>>() {
+                    @Override
+                    public void accept(List<HabitWithProgresses> habitsWithProgresses) throws Exception {
+                        Log.d(TAG, "load habitsWithProgress: " + habitsWithProgresses.size());
+                    }
+                });
+    }
+
+    public void tryTransaction(){
+        insertWebHabitsInteractor.insertHabitWithProgressesList()
+                .subscribeOn(Schedulers.newThread())
+                .subscribe();
 
     }
 

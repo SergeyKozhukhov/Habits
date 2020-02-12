@@ -10,13 +10,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.leochuan.CircleLayoutManager;
+
 import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
@@ -30,6 +31,8 @@ public class HabitsListFragment extends Fragment{
 
     private HabitsListViewModel habitsListViewModel;
     private BackupViewModel backupViewModel;
+
+    private HabitsListAdapter.IHabitClickListener habitClickListener;
 
     private HabitsListAdapter habitsListAdapter;
     private RecyclerView habitsListRecyclerView;
@@ -56,6 +59,7 @@ public class HabitsListFragment extends Fragment{
 
         habitsListRecyclerView = view.findViewById(R.id.habits_recycler_view);
         habitsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        //habitsListRecyclerView.setLayoutManager(new CircleLayoutManager(view.getContext()));
 
         testBackupButton = view.findViewById(R.id.backup_button);
         testReplicationButton = view.findViewById(R.id.replication_button);
@@ -84,31 +88,16 @@ public class HabitsListFragment extends Fragment{
         testBackupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Habit habit = new Habit();
-                habit.setIdHabit(1);
-                habit.setTitle("222");
-                habit.setDescription("333");
-                habit.setStartDate(new Date());
-                habit.setDuration(10);
-
-                List<Habit> habitList = new ArrayList<>();
-                habitList.add(habit);
-                habitList.add(habit);
-                habitList.add(habit);
-
-                backupViewModel.insertWebHabits();
-
+                backupViewModel.insertHabitWithProgressesList();
                 //backupViewModel.insertWebHabits();
-                //habitsListViewModel .insertWebHabits(habitsListViewModel.getHabitListLiveData().getValue());
             }
         });
 
         testReplicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //habitsListViewModel.loadListHabitsWeb();
-                backupViewModel.loadListHabitsWeb();
+
+                backupViewModel.LoadHabitWithProgressesList();
             }
         });
 
@@ -118,6 +107,18 @@ public class HabitsListFragment extends Fragment{
                 habitsListViewModel.deleteAllHabits();
             }
         });
+
+        habitClickListener = new HabitsListAdapter.IHabitClickListener() {
+            @Override
+            public void onItemClick(Habit habit) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof ProgressHolder){
+                    ((ProgressHolder)activity).showProgress(habit);
+
+                }
+            }
+        };
+        habitsListAdapter.setHabitClickListener(habitClickListener);
 
 
 
@@ -143,7 +144,7 @@ public class HabitsListFragment extends Fragment{
             }
         });
 
-        habitsListViewModel.loadHabits();
+        habitsListViewModel.loadHabitList();
 
         backupViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
                 .get(BackupViewModel.class);
@@ -169,6 +170,10 @@ public class HabitsListFragment extends Fragment{
         });
 
 
+    }
+
+    public interface ProgressHolder{
+        void showProgress(@NonNull Habit habit);
     }
 
 }

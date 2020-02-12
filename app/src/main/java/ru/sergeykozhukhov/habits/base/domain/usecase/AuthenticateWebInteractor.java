@@ -25,20 +25,20 @@ public class AuthenticateWebInteractor implements IAuthenticateWebInteractor {
     }
 
     @Override
-    public Single<Jwt> authenticateClientRx(Confidentiality confidentiality) {
-        return habitsWebRepository.authClientRx(confidentiality)
+    public Single<Jwt> authenticateClient(Confidentiality confidentiality) {
+        return habitsWebRepository.authenticateClient(confidentiality)
                 .doOnSuccess(new Consumer<Jwt>() {
                     @Override
                     public void accept(Jwt jwt) throws Exception {
                         habitsWebRepository.setJwt(jwt);
                         habitsPreferencesRepository.saveJwt(jwt);
-                        Log.d(TAG, "authenticateClientRx: success");
+                        Log.d(TAG, "authenticateClient: success");
                     }
                 })
                 .doOnError(new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.d(TAG, "authenticateClientRx: error");
+                        Log.d(TAG, "authenticateClient: error");
                     }
                 });
     }

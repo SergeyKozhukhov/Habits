@@ -6,6 +6,6 @@ import io.reactivex.Flowable;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public interface ILoadHabitsDbInteractor {
-    Flowable<List<Habit>> loadHabits();
+    Flowable<List<Habit>> loadHabitList();
 
 }

@@ -105,8 +105,6 @@ public class AddHabitFragment extends Fragment {
                 habit.setDuration(Integer.valueOf(duration_description_edit_text.getText().toString()));
 
                 addHabitViewModel.insertHabit(habit);
-
-
             }
         });
 

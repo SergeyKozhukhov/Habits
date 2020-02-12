@@ -21,7 +21,7 @@ public class UpdateHabitInteractor implements IUpdateHabitInreractor {
         Single<Habit> result = Single.fromCallable(new Callable<Habit>() {
             @Override
             public Habit call() throws Exception {
-                return habitsRepository.update(habit);
+                return habitsRepository.updateHabit(habit);
             }
         }).subscribeOn(Schedulers.io());
 

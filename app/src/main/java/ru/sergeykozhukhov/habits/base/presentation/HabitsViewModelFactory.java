@@ -6,6 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import ru.sergeykozhukhov.habits.base.data.converter.HabitWithProgressesConverter;
+import ru.sergeykozhukhov.habits.base.data.converter.ProgressConverter;
+import ru.sergeykozhukhov.habits.base.data.converter.ProgressesConverter;
+import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.LoadProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.notes.backup.AuthenticationConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ConfidentialityConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
@@ -45,7 +51,10 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
             IHabitsDatabaseRepository habitsDatabaseRepository = new HabitsDatabaseRepository(
                     HabitsDatabase.getInstance(context),
                     new HabitConverter(),
-                    new HabitsConverter());
+                    new HabitsConverter(),
+                    new ProgressConverter(),
+                    new ProgressesConverter(new ProgressConverter()),
+                    new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())));
 
 
             LoadHabitsDbInteractor loadHabitsInteractor = new LoadHabitsDbInteractor(habitsDatabaseRepository);
@@ -63,6 +72,8 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
                     new AuthenticationConverter(),
                     new ConfidentialityConverter(),
                     new HabitConverter(),
+                    new ProgressesConverter(new ProgressConverter()),
+                    new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())),
                     new JwtConverter()
             );
 
@@ -80,7 +91,10 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
             IHabitsDatabaseRepository habitsDatabaseRepository = new HabitsDatabaseRepository(
                     HabitsDatabase.getInstance(context),
                     new HabitConverter(),
-                    new HabitsConverter());
+                    new HabitsConverter(),
+                    new ProgressConverter(),
+                    new ProgressesConverter(new ProgressConverter()),
+                    new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())));
 
             InsertHabitDbInteractor insertHabitInteractor = new InsertHabitDbInteractor(habitsDatabaseRepository);
 
@@ -91,13 +105,18 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
             IHabitsDatabaseRepository habitsDatabaseRepository = new HabitsDatabaseRepository(
                     HabitsDatabase.getInstance(context),
                     new HabitConverter(),
-                    new HabitsConverter());
+                    new HabitsConverter(),
+                    new ProgressConverter(),
+                    new ProgressesConverter(new ProgressConverter()),
+                    new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())));
 
             IHabitsWebRepository habitsWebRepository = new HabitsWebRepository(
                     HabitsRetrofitClient.getInstance(),
                     new AuthenticationConverter(),
                     new ConfidentialityConverter(),
                     new HabitConverter(),
+                    new ProgressesConverter(new ProgressConverter()),
+                    new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())),
                     new JwtConverter()
             );
 
@@ -114,6 +133,21 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
             return (T) new BackupViewModel(
                     insertWebHabitsInteractor,
                     replicationListHabitsWebInteractor);
+        }
+        else if (ProgressViewModel.class.equals(modelClass)){
+            IHabitsDatabaseRepository habitsDatabaseRepository = new HabitsDatabaseRepository(
+                    HabitsDatabase.getInstance(context),
+                    new HabitConverter(),
+                    new HabitsConverter(),
+                    new ProgressConverter(),
+                    new ProgressesConverter(new ProgressConverter()),
+                    new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())));
+
+            LoadProgressListDbInteractor loadProgressListDbInteractor = new LoadProgressListDbInteractor(habitsDatabaseRepository);
+            InsertProgressDbInteractor insertProgressDbInteractor = new InsertProgressDbInteractor(habitsDatabaseRepository);
+            InsertProgressListDbInteractor insertProgressListDbInteractor = new InsertProgressListDbInteractor(habitsDatabaseRepository);
+            // noinspection unchecked
+            return (T) new ProgressViewModel(loadProgressListDbInteractor, insertProgressDbInteractor, insertProgressListDbInteractor);
         }
         else{
             return super.create(modelClass);
