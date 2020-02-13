@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.base.presentation;
+package ru.sergeykozhukhov.habits.notes.backup;
 
 import android.util.Log;
 
@@ -26,6 +26,10 @@ public class ProgressViewModel extends ViewModel {
 
     private static final String TAG = "ProgressViewModel";
 
+    private final LoadProgressListDbInteractor loadProgressListDbInteractor;
+    private final InsertProgressDbInteractor insertProgressDbInteractor;
+    private final InsertProgressListDbInteractor insertProgressListDbInteractor;
+
     private final ChangeProgressListDbInteractor changeProgressListDbInteractor;
 
 
@@ -36,7 +40,13 @@ public class ProgressViewModel extends ViewModel {
     private SingleLiveEvent<Boolean> progressListInsertedSingleLiveEvent;
 
     public ProgressViewModel(
+            @NonNull LoadProgressListDbInteractor loadProgressListDbInteractor,
+            @NonNull InsertProgressDbInteractor insertProgressDbInteractor,
+            @NonNull InsertProgressListDbInteractor insertProgressListDbInteractor,
             @NonNull ChangeProgressListDbInteractor changeProgressListDbInteractor) {
+        this.loadProgressListDbInteractor = loadProgressListDbInteractor;
+        this.insertProgressDbInteractor = insertProgressDbInteractor;
+        this.insertProgressListDbInteractor = insertProgressListDbInteractor;
         this.changeProgressListDbInteractor = changeProgressListDbInteractor;
         initData();
     }
@@ -46,6 +56,67 @@ public class ProgressViewModel extends ViewModel {
         dateListLoadedSingleLiveEvent = new SingleLiveEvent<>();
         progressInsertedSingleLiveEvent = new SingleLiveEvent<>();
         progressListInsertedSingleLiveEvent = new SingleLiveEvent<>();
+    }
+
+    public void loadProgressListByHabit(long idHabit) {
+
+        compositeDisposable.add(
+                loadProgressListDbInteractor.loadProgressListByHabit(idHabit)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<List<Progress>>() {
+                            @Override
+                            public void accept(List<Progress> progresses) throws Exception {
+                                // dateListLoadedSingleLiveEvent.postValue(progresses);
+                            }
+                        }));
+    }
+
+    public void insertProgress(Progress progress) {
+        insertProgressDbInteractor.insertProgress(progress)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        progressInsertedSingleLiveEvent.postValue(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        progressInsertedSingleLiveEvent.postValue(false);
+                    }
+                });
+    }
+
+    public void insertProgressList(List<Progress> progressList) {
+        insertProgressListDbInteractor.insertProgressList(progressList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        progressListInsertedSingleLiveEvent.postValue(true);
+                        Log.d(TAG, "insertedProgressList success");
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        progressListInsertedSingleLiveEvent.postValue(false);
+                        Log.d(TAG, "insertedProgressList fail");
+                    }
+                });
     }
 
     public void initChangeProgressList(long idHabit) {

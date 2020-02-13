@@ -17,6 +17,6 @@ public class LoadProgressListDbInteractor implements ILoadProgressListDbInteract
 
     @Override
     public Single<List<Progress>> loadProgressListByHabit(long idHabit) {
-        return habitsDatabaseRepository.loadProgressListByHabit(idHabit);
+        return habitsDatabaseRepository.loadProgressListByIdHabit(idHabit);
     }
 }

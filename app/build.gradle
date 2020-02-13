@@ -75,4 +75,7 @@ dependencies {
     // recyvler view
     // https://github.com/leochuan/ViewPagerLayoutManager
     implementation 'rouchuan.viewpagerlayoutmanager:viewpagerlayoutmanager:2.0.22'
+
+    // https://github.com/CleverPumpkin/CrunchyCalendar
+    //implementation 'ru.cleverpumpkin:crunchycalendar:2.0.0'
 }

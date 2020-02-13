@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitWithProgressesConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ProgressConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ProgressesConverter;
+import ru.sergeykozhukhov.habits.base.domain.usecase.ChangeProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressDbInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.LoadProgressListDbInteractor;
@@ -143,11 +144,9 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
                     new ProgressesConverter(new ProgressConverter()),
                     new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())));
 
-            LoadProgressListDbInteractor loadProgressListDbInteractor = new LoadProgressListDbInteractor(habitsDatabaseRepository);
-            InsertProgressDbInteractor insertProgressDbInteractor = new InsertProgressDbInteractor(habitsDatabaseRepository);
-            InsertProgressListDbInteractor insertProgressListDbInteractor = new InsertProgressListDbInteractor(habitsDatabaseRepository);
+            ChangeProgressListDbInteractor changeProgressListDbInteractor = new ChangeProgressListDbInteractor(habitsDatabaseRepository);
             // noinspection unchecked
-            return (T) new ProgressViewModel(loadProgressListDbInteractor, insertProgressDbInteractor, insertProgressListDbInteractor);
+            return (T) new ProgressViewModel(changeProgressListDbInteractor);
         }
         else{
             return super.create(modelClass);

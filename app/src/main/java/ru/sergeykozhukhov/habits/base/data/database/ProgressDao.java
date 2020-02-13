@@ -6,10 +6,13 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.base.model.data.ProgressData;
+import ru.sergeykozhukhov.habits.base.model.domain.Progress;
 
 @Dao
 public interface ProgressDao {
@@ -31,5 +34,8 @@ public interface ProgressDao {
 
     @Delete
     void deleteProgress(ProgressData progressData);
+
+    @Delete
+    void deleteProgressList(List<ProgressData> progressDataList);
 
 }

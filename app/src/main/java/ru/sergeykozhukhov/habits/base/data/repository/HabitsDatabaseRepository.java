@@ -126,7 +126,19 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     }
 
     @Override
-    public Single<List<Progress>> loadProgressListByHabit(long idHabit) {
+    public Completable deleteProgressList(List<Progress> progressList) {
+        return Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Exception {
+                Log.d(TAG, "deleted "+progressList.size());
+                progressDao.deleteProgressList(progressesConverter.convertFrom(progressList));
+            }
+        });
+    }
+
+
+    @Override
+    public Single<List<Progress>> loadProgressListByIdHabit(long idHabit) {
         return progressDao.getProgressByHabit(idHabit)
                 .map(new Function<List<ProgressData>, List<Progress>>() {
                     @Override
@@ -168,6 +180,7 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         return Completable.fromAction(new Action() {
             @Override
             public void run() throws Exception {
+                Log.d(TAG, "insert progress list, size: "+progressList.size());
                 progressDao.insertProgressList(progressesConverter.convertFrom(progressList));
             }
         });

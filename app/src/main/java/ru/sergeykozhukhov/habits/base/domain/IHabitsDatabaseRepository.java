@@ -22,7 +22,7 @@ public interface IHabitsDatabaseRepository {
 
     Flowable<List<Habit>> loadHabitList();
 
-    Single<List<Progress>> loadProgressListByHabit(long idHabit);
+    Single<List<Progress>> loadProgressListByIdHabit(long idHabit);
     Single<List<Progress>> loadProgressList();
 
     Single<List<HabitWithProgresses>> loadHabitWithProgressesList();
@@ -30,7 +30,7 @@ public interface IHabitsDatabaseRepository {
     Habit updateHabit(Habit habit);
 
     Completable deleteAllHabits();
-
+    Completable deleteProgressList(List<Progress> progressList);
 
 }
 

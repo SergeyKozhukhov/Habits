@@ -3,6 +3,7 @@ package ru.sergeykozhukhov.habits.base.model.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -92,6 +93,13 @@ public class Habit implements Parcelable {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public Date getEndDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        calendar.add(Calendar.DATE, duration);
+        return calendar.getTime();
     }
 
     @Override

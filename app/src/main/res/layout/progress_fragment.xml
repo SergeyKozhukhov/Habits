@@ -6,17 +6,10 @@
     android:orientation="vertical">
 
 
-    <com.applandeo.materialcalendarview.CalendarView
-        android:id="@+id/progress_list_calendar_view"
-        app:headerColor="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        app:type="many_days_picker"/>
-
-    <com.savvi.rangedatepicker.CalendarPickerView
+    <ru.sergeykozhukhov.habits.base.presentation.view.custom.CalendarProgressView
         android:id="@+id/calendar_piker_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:scrollbarStyle="outsideOverlay"
         android:clipToPadding="false"
         app:tsquare_orientation_horizontal="false"
