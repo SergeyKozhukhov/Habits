@@ -3,6 +3,7 @@ package ru.sergeykozhukhov.habits;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import ru.sergeykozhukhov.habits.base.presentation.view.AddHabitFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.AuthenticationFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.HabitsListFragment;
 import ru.sergeykozhukhov.habits.base.presentation.view.ProgressFragment;
+import ru.sergeykozhukhov.habits.base.presentation.view.SettingsFragment;
 import ru.sergeykozhukhov.habits.notes.database.HabitsDatabase;
 
 public class MainActivity extends AppCompatActivity implements HabitsListFragment.ProgressHolder {
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
     private Button open_auth_button;
     private Button open_habits_button;
     private Button open_add_habit_button;
+    private Button open_settings_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +39,23 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
         }
 
         initViews();
+        initListeners();
+
+        NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        this.registerReceiver(networkChangeReceiver, filter);
     }
 
     private void initViews(){
         open_auth_button = findViewById(R.id.open_auth_button);
         open_habits_button = findViewById(R.id.open_habits_button);
         open_add_habit_button = findViewById(R.id.open_add_habit_button);
+        open_settings_button = findViewById(R.id.open_settings_button);
+    }
 
+
+    public void initListeners(){
         open_auth_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +80,15 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.host_fragment_frame_layout, AddHabitFragment.newInstance())
+                        .commit();
+            }
+        });
+
+        open_settings_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.host_fragment_frame_layout, SettingsFragment.newInstance())
                         .commit();
             }
         });

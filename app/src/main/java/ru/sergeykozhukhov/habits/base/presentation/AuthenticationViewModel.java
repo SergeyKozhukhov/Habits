@@ -36,9 +36,9 @@ public class AuthenticationViewModel extends ViewModel {
     }
 
 
-    public void authenticateClient(Confidentiality confidentiality) {
+    public void authenticateClient(String email, String password) {
 
-        disposableAuthenticated = authenticateClientInteractor.authenticateClient(confidentiality)
+        disposableAuthenticated = authenticateClientInteractor.authenticateClient(email, password)
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Consumer<Jwt>() {
                     @Override

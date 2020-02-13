@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,15 +14,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.leochuan.CircleLayoutManager;
-
 import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 import ru.sergeykozhukhov.habits.base.presentation.BackupViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsListViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
 import ru.sergeykozhukhov.habits.base.presentation.view.adapter.HabitsListAdapter;
 
 public class HabitsListFragment extends Fragment{
@@ -36,11 +32,6 @@ public class HabitsListFragment extends Fragment{
 
     private HabitsListAdapter habitsListAdapter;
     private RecyclerView habitsListRecyclerView;
-
-    private Button testBackupButton;
-    private Button testReplicationButton;
-
-    private Button deleteAllHabitsButton;
 
 
     public static Fragment newInstance() {
@@ -60,10 +51,6 @@ public class HabitsListFragment extends Fragment{
         habitsListRecyclerView = view.findViewById(R.id.habits_recycler_view);
         habitsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         //habitsListRecyclerView.setLayoutManager(new CircleLayoutManager(view.getContext()));
-
-        testBackupButton = view.findViewById(R.id.backup_button);
-        testReplicationButton = view.findViewById(R.id.replication_button);
-        deleteAllHabitsButton = view.findViewById(R.id.delete_all_habits_button);
     }
 
     @Override
@@ -85,28 +72,6 @@ public class HabitsListFragment extends Fragment{
     }
 
     private void initListeners(){
-        testBackupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backupViewModel.insertHabitWithProgressesList();
-                //backupViewModel.insertWebHabits();
-            }
-        });
-
-        testReplicationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                backupViewModel.LoadHabitWithProgressesList();
-            }
-        });
-
-        deleteAllHabitsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                habitsListViewModel.deleteAllHabits();
-            }
-        });
 
         habitClickListener = new HabitsListAdapter.IHabitClickListener() {
             @Override
@@ -131,7 +96,7 @@ public class HabitsListFragment extends Fragment{
     }
 
     private void setupMvvm(){
-        habitsListViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+        habitsListViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
                 .get(HabitsListViewModel.class);
 
 
@@ -145,30 +110,6 @@ public class HabitsListFragment extends Fragment{
         });
 
         habitsListViewModel.loadHabitList();
-
-        backupViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
-                .get(BackupViewModel.class);
-
-        backupViewModel.getIsLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isLoaded) {
-                if(isLoaded)
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        backupViewModel.getIsInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isInserted) {
-                if (isInserted)
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
     }
 

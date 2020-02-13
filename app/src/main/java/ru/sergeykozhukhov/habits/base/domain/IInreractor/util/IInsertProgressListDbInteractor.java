@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.base.domain.IInreractor;
+package ru.sergeykozhukhov.habits.base.domain.IInreractor.util;
 
 import java.util.List;
 

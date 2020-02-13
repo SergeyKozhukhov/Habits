@@ -15,10 +15,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.base.presentation.AuthenticationViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsListViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
 
 public class AuthenticationFragment extends Fragment {
 
@@ -70,20 +69,17 @@ public class AuthenticationFragment extends Fragment {
         requestAuthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String login = loginAuthEditText.getText().toString();
-                String password = passwordAuthEditText.getText().toString();
-
-                Confidentiality confidentiality = new Confidentiality(login, password);
-
-                authenticate(confidentiality);
+                authenticationViewModel.authenticateClient(
+                        loginAuthEditText.getText().toString(),
+                        passwordAuthEditText.getText().toString()
+                );
 
             }
         });
     }
 
     private void setupMvvm(){
-        authenticationViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+        authenticationViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
                 .get(AuthenticationViewModel.class);
         authenticationViewModel.getIsAuthenticatedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -95,12 +91,4 @@ public class AuthenticationFragment extends Fragment {
             }
         });
     }
-    
-
-    private void authenticate(Confidentiality confidentiality){
-        authenticationViewModel.authenticateClient(confidentiality);
-    }
-
-
-
 }

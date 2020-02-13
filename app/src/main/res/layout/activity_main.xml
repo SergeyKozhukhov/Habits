@@ -37,6 +37,13 @@
             android:layout_height="wrap_content"
             android:text="add_habit"/>
 
+        <Button
+            android:id="@+id/open_settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="settings"/>
+
+
 
     </LinearLayout>
 

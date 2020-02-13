@@ -1,7 +1,6 @@
 package ru.sergeykozhukhov.habits.base.presentation.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.savvi.rangedatepicker.CalendarPickerView;
-import com.savvi.rangedatepicker.SubTitle;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
-import ru.sergeykozhukhov.habits.base.model.domain.Progress;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
 import ru.sergeykozhukhov.habits.base.presentation.ProgressViewModel;
 
 public class ProgressFragment extends Fragment {
@@ -104,7 +98,7 @@ public class ProgressFragment extends Fragment {
     }
 
     private void setupMvvm() {
-        progressViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+        progressViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
                 .get(ProgressViewModel.class);
 
         progressViewModel.getDateListLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<List<Date>>() {

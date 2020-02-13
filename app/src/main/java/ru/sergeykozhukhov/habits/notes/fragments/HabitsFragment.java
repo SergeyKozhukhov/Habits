@@ -151,7 +151,7 @@ public class HabitsFragment extends Fragment {
                 "email", "password"
         );
 
-        //Log.d("insertWeb", jwtData.getJwt());
+        //Log.d("insertWeb", jwtData.getValue());
         apiService.insertHabits(authUser, jwtData.getJwt()).enqueue(new Callback<HabitsList>() {
             @Override
             public void onResponse(Call<HabitsList> call, Response<HabitsList> response) {

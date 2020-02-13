@@ -9,10 +9,13 @@ import androidx.lifecycle.ViewModelProvider;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitWithProgressesConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ProgressConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ProgressesConverter;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IBuildConfidentialityInstance;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IBuildHabitInstance;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IGetJwtValue;
+import ru.sergeykozhukhov.habits.base.domain.usecase.builder.BuildConfidentialityInstance;
+import ru.sergeykozhukhov.habits.base.domain.usecase.builder.BuildHabitInstace;
 import ru.sergeykozhukhov.habits.base.domain.usecase.ChangeProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.LoadProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.builder.GetJwtValue;
 import ru.sergeykozhukhov.habits.notes.backup.AuthenticationConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ConfidentialityConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
@@ -29,16 +32,16 @@ import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.usecase.AuthenticateWebInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.DeleteAllHabitsDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertHabitDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.util.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.BackupWebHabitListWebInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.LoadHabitsDbInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.ReplicationListHabitsWebInteractor;
 
-public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private Context context;
 
-    public HabitsViewModelFactory(Context context) {
+    public ViewModelFactory(Context context) {
         this.context = context;
     }
 
@@ -59,11 +62,9 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
 
 
             LoadHabitsDbInteractor loadHabitsInteractor = new LoadHabitsDbInteractor(habitsDatabaseRepository);
-            DeleteAllHabitsDbInteractor deleteAllHabitsInteractor = new DeleteAllHabitsDbInteractor(habitsDatabaseRepository);
 
             // noinspection unchecked
-            return (T) new HabitsListViewModel(
-                    loadHabitsInteractor, deleteAllHabitsInteractor);
+            return (T) new HabitsListViewModel(loadHabitsInteractor);
         }
         else if (AuthenticationViewModel.class.equals(modelClass))
         {
@@ -83,7 +84,11 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
                     new JwtConverter()
             );
 
-            AuthenticateWebInteractor authenticateClientInteractor = new AuthenticateWebInteractor(habitsWebRepository, habitsPreferencesRepository);
+            IBuildConfidentialityInstance buildConfidentialityInstance = new BuildConfidentialityInstance();
+            AuthenticateWebInteractor authenticateClientInteractor = new AuthenticateWebInteractor(
+                    habitsWebRepository,
+                    habitsPreferencesRepository,
+                    buildConfidentialityInstance);
 
             // noinspection unchecked
             return (T) new AuthenticationViewModel(authenticateClientInteractor);
@@ -96,8 +101,9 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
                     new ProgressConverter(),
                     new ProgressesConverter(new ProgressConverter()),
                     new HabitWithProgressesConverter(new HabitConverter(), new ProgressesConverter(new ProgressConverter())));
+            IBuildHabitInstance buildHabitInstance = new BuildHabitInstace();
 
-            InsertHabitDbInteractor insertHabitInteractor = new InsertHabitDbInteractor(habitsDatabaseRepository);
+            InsertHabitDbInteractor insertHabitInteractor = new InsertHabitDbInteractor(habitsDatabaseRepository, buildHabitInstance);
 
             // noinspection unchecked
             return (T) new AddHabitViewModel(insertHabitInteractor);
@@ -126,14 +132,24 @@ public class HabitsViewModelFactory extends ViewModelProvider.NewInstanceFactory
                     new JwtConverter()
             );
 
-            BackupWebHabitListWebInteractor insertWebHabitsInteractor = new BackupWebHabitListWebInteractor(habitsWebRepository, habitsDatabaseRepository, habitsPreferencesRepository);
-            ReplicationListHabitsWebInteractor replicationListHabitsWebInteractor = new ReplicationListHabitsWebInteractor(habitsWebRepository, habitsDatabaseRepository, habitsPreferencesRepository);
+            IGetJwtValue getJwtValue = new GetJwtValue(habitsWebRepository, habitsPreferencesRepository);
 
+            BackupWebHabitListWebInteractor insertWebHabitsInteractor = new BackupWebHabitListWebInteractor(
+                    habitsWebRepository,
+                    habitsDatabaseRepository,
+                    getJwtValue);
+            ReplicationListHabitsWebInteractor replicationListHabitsWebInteractor = new ReplicationListHabitsWebInteractor(
+                    habitsWebRepository,
+                    habitsDatabaseRepository,
+                    getJwtValue);
+
+            DeleteAllHabitsDbInteractor deleteAllHabitsInteractor = new DeleteAllHabitsDbInteractor(habitsDatabaseRepository);
 
             // noinspection unchecked
             return (T) new BackupViewModel(
                     insertWebHabitsInteractor,
-                    replicationListHabitsWebInteractor);
+                    replicationListHabitsWebInteractor,
+                    deleteAllHabitsInteractor);
         }
         else if (ProgressViewModel.class.equals(modelClass)){
             IHabitsDatabaseRepository habitsDatabaseRepository = new HabitsDatabaseRepository(

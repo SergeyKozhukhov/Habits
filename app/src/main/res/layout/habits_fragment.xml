@@ -3,24 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/replication_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="replication" />
-
-    <Button
-        android:id="@+id/backup_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="backup" />
-
-    <Button
-        android:id="@+id/delete_all_habits_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="delete all" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/habits_recycler_view"
         android:layout_width="match_parent"

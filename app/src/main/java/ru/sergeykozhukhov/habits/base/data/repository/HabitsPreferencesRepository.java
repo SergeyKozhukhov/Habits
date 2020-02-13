@@ -34,7 +34,7 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
     @Override
     public Jwt loadJwt() {
         JwtData jwtData = new JwtData(habitsPreferences.getSharedPreferences()
-                .getString(HabitsPreferences.JWT_PREFERENCES, "error load jwt"));
+                .getString(HabitsPreferences.JWT_PREFERENCES, ""));
         return jwtConverter.convertTo(jwtData);
     }
 

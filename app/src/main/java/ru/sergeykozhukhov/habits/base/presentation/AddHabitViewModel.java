@@ -6,24 +6,22 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.internal.disposables.DisposableContainer;
 import io.reactivex.schedulers.Schedulers;
+import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertHabitDbInteractor;
-import ru.sergeykozhukhov.habits.base.model.domain.Habit;
+import ru.sergeykozhukhov.habits.base.domain.usecase.util.InsertHabitDbInteractor;
+import ru.sergeykozhukhov.habits.base.model.exception.BuildException;
 
-public class AddHabitViewModel  extends ViewModel {
+public class AddHabitViewModel extends ViewModel {
 
     private static final String TAG = "AddHabitViewModel";
 
     private final InsertHabitDbInteractor insertHabitInteractor;
-
+    private final SingleLiveEvent<Integer> insertedSuccessSingleLiveEvent = new SingleLiveEvent<>();
+    private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
 
     private CompositeDisposable compositeDisposable;
-
-    private SingleLiveEvent<Boolean> isInsertedSingleLiveEvent;
 
     public AddHabitViewModel(
             @NonNull InsertHabitDbInteractor insertHabitInteractor) {
@@ -31,37 +29,37 @@ public class AddHabitViewModel  extends ViewModel {
         initData();
     }
 
-    private void initData(){
-        isInsertedSingleLiveEvent = new SingleLiveEvent<>();
+    private void initData() {
         compositeDisposable = new CompositeDisposable();
-
     }
 
-    public void insertHabit(Habit habit){
+    public void insertHabit(String title, String description, String startDate, String duration) {
 
-        Disposable habitInsertedDisposable = insertHabitInteractor.insertHabit(habit)
+        compositeDisposable.add(insertHabitInteractor.insertHabit(title, description, startDate, duration)
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long id) throws Exception {
-                        isInsertedSingleLiveEvent.postValue(true);
-                        Log.d(TAG, "insertHabitList success. id = "+id);
+                        insertedSuccessSingleLiveEvent.postValue(R.string.habit_success_inserted_message);
+                        Log.d(TAG, "insertHabitList success. id = " + id);
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        isInsertedSingleLiveEvent.postValue(false);
-                        Log.d(TAG, "insertHabitList error");
+                }, throwable -> {
+                    if (throwable instanceof BuildException) {
+                        errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
                     }
-                });
-        compositeDisposable.add(habitInsertedDisposable);
+                    Log.d(TAG, "insertHabitList error");
+                }));
     }
 
-    public SingleLiveEvent<Boolean> getIsInsertedSingleLiveEvent() {
-        return isInsertedSingleLiveEvent;
+    public SingleLiveEvent<Integer> getInsertedSuccessSingleLiveEvent() {
+        return insertedSuccessSingleLiveEvent;
     }
 
-    public void cancelSubscribe(){
+    public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
+        return errorSingleLiveEvent;
+    }
+
+    public void cancelSubscribe() {
         compositeDisposable.clear();
     }
 }

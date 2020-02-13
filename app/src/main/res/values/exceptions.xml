@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="build_instance_exception">"data is incorrect"</string>
+    <string name="get_jwt_exception">"you are not authorized"</string>
+
+</resources>

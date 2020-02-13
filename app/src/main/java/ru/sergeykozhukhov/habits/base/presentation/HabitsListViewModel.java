@@ -20,17 +20,14 @@ public class HabitsListViewModel extends ViewModel {
     private static final String TAG = "HabitsListViewModel";
 
     private final LoadHabitsDbInteractor loadHabitsInteractor;
-    private final DeleteAllHabitsDbInteractor deleteAllHabitsInteractor;
 
     private CompositeDisposable compositeDisposable;
 
     private MutableLiveData<List<Habit>> habitListLiveData = new MutableLiveData<>();
 
-    public HabitsListViewModel(
-            @NonNull LoadHabitsDbInteractor loadHabitsInteractor,
-            @NonNull DeleteAllHabitsDbInteractor deleteAllHabitsInteractor) {
+    public HabitsListViewModel(@NonNull LoadHabitsDbInteractor loadHabitsInteractor) {
         this.loadHabitsInteractor = loadHabitsInteractor;
-        this.deleteAllHabitsInteractor = deleteAllHabitsInteractor;
+
 
         compositeDisposable = new CompositeDisposable();
     }
@@ -50,27 +47,6 @@ public class HabitsListViewModel extends ViewModel {
                     }
                 });
         compositeDisposable.add(disposable);
-    }
-
-    public void deleteAllHabits(){
-        deleteAllHabitsInteractor.deleteAllHabits()
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
     }
 
 

@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,9 +24,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 import ru.sergeykozhukhov.habits.base.presentation.AddHabitViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
 
 public class AddHabitFragment extends Fragment {
 
@@ -86,25 +84,12 @@ public class AddHabitFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat(
-                        "dd-MM-yyyy", // шаблон форматирования
-                        Locale.getDefault() // язык отображения (получение языка по-умолчанию)
+                addHabitViewModel.insertHabit(
+                        title_habit_edit_text.getText().toString(),
+                        description_habit_edit_text.getText().toString(),
+                        date_start_edit_text.getText().toString(),
+                        duration_description_edit_text.getText().toString()
                 );
-                Date date;
-                try {
-                    date = dateFormat.parse(date_start_edit_text.getText().toString());
-                } catch (ParseException e) {
-                    date = new Date();
-                    e.printStackTrace();
-                }
-
-                Habit habit = new Habit();
-                habit.setTitle(title_habit_edit_text.getText().toString());
-                habit.setDescription(description_habit_edit_text.getText().toString());
-                habit.setStartDate(date);
-                habit.setDuration(Integer.valueOf(duration_description_edit_text.getText().toString()));
-
-                addHabitViewModel.insertHabit(habit);
             }
         });
 
@@ -140,16 +125,22 @@ public class AddHabitFragment extends Fragment {
     }
 
     private void setupMvvm(){
-        addHabitViewModel = ViewModelProviders.of(this, new HabitsViewModelFactory(requireContext()))
+        addHabitViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
                 .get(AddHabitViewModel.class);
 
-        addHabitViewModel.getIsInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        addHabitViewModel.getInsertedSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(Boolean isInserted) {
-                if (isInserted)
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            public void onChanged(Integer idRes) {
+                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        addHabitViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer idRes) {
+                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             }
         });
     }

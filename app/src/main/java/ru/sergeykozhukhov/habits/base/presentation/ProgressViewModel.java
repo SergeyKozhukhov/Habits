@@ -1,7 +1,5 @@
 package ru.sergeykozhukhov.habits.base.presentation;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
@@ -9,18 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.base.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.base.domain.usecase.ChangeProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.LoadProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.base.model.domain.Progress;
 
 public class ProgressViewModel extends ViewModel {
 

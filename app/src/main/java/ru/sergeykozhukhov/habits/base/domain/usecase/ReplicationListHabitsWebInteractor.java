@@ -10,35 +10,34 @@ import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IReplicationWebInteractor;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IGetJwtValue;
 import ru.sergeykozhukhov.habits.base.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
+import ru.sergeykozhukhov.habits.base.model.exception.GetJwtException;
 
 public class ReplicationListHabitsWebInteractor implements IReplicationWebInteractor {
 
-    private IHabitsWebRepository habitsWebRepository;
-    private IHabitsDatabaseRepository habitsDatabaseRepository;
-    private IHabitsPreferencesRepository habitsPreferencesRepository;
+    private final IHabitsWebRepository habitsWebRepository;
+    private final IHabitsDatabaseRepository habitsDatabaseRepository;
+    private final IGetJwtValue getJwtValue;
 
     public ReplicationListHabitsWebInteractor(@NonNull IHabitsWebRepository habitsWebRepository,
                                               @NonNull IHabitsDatabaseRepository habitsDatabaseRepository,
-                                              @NonNull IHabitsPreferencesRepository habitsPreferencesRepository) {
+                                              @NonNull IGetJwtValue getJwtValue) {
         this.habitsWebRepository = habitsWebRepository;
         this.habitsDatabaseRepository = habitsDatabaseRepository;
-        this.habitsPreferencesRepository = habitsPreferencesRepository;
+        this.getJwtValue = getJwtValue;
     }
 
 
     @Override
     public Single<List<HabitWithProgresses>> loadHabitWithProgressesList() {
-        String jwt;
-        try{
-            jwt = habitsWebRepository.getJwt().getJwt();
-        } catch (Exception e) {
-            jwt = habitsPreferencesRepository.loadJwt().getJwt();
-            habitsWebRepository.setJwt(new Jwt(jwt));
-            if (jwt == null)
-                return null;
-            e.printStackTrace();
+
+        String jwt = null;
+        try {
+            jwt = getJwtValue.getValue();
+        } catch (GetJwtException e) {
+            return Single.error(e);
         }
 
         return habitsWebRepository.loadHabitWithProgressesList(jwt)

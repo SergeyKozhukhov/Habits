@@ -34,9 +34,9 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
 
         String jwt;
         try{
-            jwt = habitsWebRepository.getJwt().getJwt();
+            jwt = habitsWebRepository.getValue().getValue();
         } catch (Exception e) {
-            jwt = habitsPreferencesRepository.loadJwt().getJwt();
+            jwt = habitsPreferencesRepository.loadJwt().getValue();
             habitsWebRepository.setJwt(new Jwt(jwt));
             if (jwt == null)
                 return null;
@@ -52,9 +52,9 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
     public Completable insertProgressList() {
         String jwt;
         try{
-            jwt = habitsWebRepository.getJwt().getJwt();
+            jwt = habitsWebRepository.getValue().getValue();
         } catch (Exception e) {
-            jwt = habitsPreferencesRepository.loadJwt().getJwt();
+            jwt = habitsPreferencesRepository.loadJwt().getValue();
             habitsWebRepository.setJwt(new Jwt(jwt));
             if (jwt == null)
                 return null;
@@ -70,9 +70,9 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
     public Completable insertHabitWithProgressesList() {
         String jwt;
         try{
-            jwt = habitsWebRepository.getJwt().getJwt();
+            jwt = habitsWebRepository.getValue().getValue();
         } catch (Exception e) {
-            jwt = habitsPreferencesRepository.loadJwt().getJwt();
+            jwt = habitsPreferencesRepository.loadJwt().getValue();
             habitsWebRepository.setJwt(new Jwt(jwt));
             if (jwt == null)
                 return null;

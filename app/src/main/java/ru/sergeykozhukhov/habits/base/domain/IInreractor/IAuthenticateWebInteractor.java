@@ -6,6 +6,6 @@ import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 
 public interface IAuthenticateWebInteractor {
 
-    Single<Jwt> authenticateClient(Confidentiality confidentiality);
+    Single<Jwt> authenticateClient(String email, String password);
 
 }

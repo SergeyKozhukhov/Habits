@@ -1,10 +1,10 @@
-package ru.sergeykozhukhov.habits.base.domain.usecase;
+package ru.sergeykozhukhov.habits.base.domain.usecase.util;
 
 import java.util.List;
 
 import io.reactivex.Completable;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.IInsertProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.util.IInsertProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.Progress;
 
 public class InsertProgressListDbInteractor implements IInsertProgressListDbInteractor {

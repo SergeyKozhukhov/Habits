@@ -17,9 +17,9 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.base.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.base.domain.usecase.ChangeProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.InsertProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.LoadProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.util.InsertProgressDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.util.InsertProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.util.LoadProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.Progress;
 
 public class ProgressViewModel extends ViewModel {
