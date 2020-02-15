@@ -13,8 +13,12 @@ import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 import ru.sergeykozhukhov.habits.base.model.data.HabitWithProgressesData;
 import ru.sergeykozhukhov.habits.base.model.data.JwtData;
 import ru.sergeykozhukhov.habits.base.model.data.ProgressData;
+import ru.sergeykozhukhov.habits.base.model.data.RegistrationData;
 
 public interface IHabitsService {
+
+    @POST("/authentication-jwt/api/create_user.php")
+    Completable registrateClient(@Body RegistrationData registrationData);
 
     @POST("/authentication-jwt/api/login.php")
     Single<JwtData> authenticateClient(@Body ConfidentialityData confidentialityData);

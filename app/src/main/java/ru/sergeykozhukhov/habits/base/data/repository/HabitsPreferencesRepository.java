@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import ru.sergeykozhukhov.habits.base.data.converter.JwtConverter;
 import ru.sergeykozhukhov.habits.base.data.retrofit.HabitsRetrofitClient;
@@ -25,19 +26,28 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
     }
 
     @Override
-    public void saveJwt(Jwt jwt) {
+    public void saveJwt(@NonNull Jwt jwt) {
         SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
         editor.putString(HabitsPreferences.JWT_PREFERENCES, jwt.getJwt());
         editor.apply();
     }
 
+    @Nullable
     @Override
     public Jwt loadJwt() {
         JwtData jwtData = new JwtData(habitsPreferences.getSharedPreferences()
                 .getString(HabitsPreferences.JWT_PREFERENCES, ""));
+        if (jwtData.getJwt().equals(""))
+            return null;
         return jwtConverter.convertTo(jwtData);
     }
 
+    @Override
+    public void deleteJwt() {
+        SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
+        editor.remove(HabitsPreferences.JWT_PREFERENCES);
+        editor.apply();
+    }
 
 
 }

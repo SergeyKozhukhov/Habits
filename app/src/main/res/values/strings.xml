@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Habits</string>
 
-    <string name="habit_success_inserted_message">"habit inserted"</string>
+    <string name="habit_success_inserted_db_message">"habit inserted"</string>
+    <string name="registration_success_message">"registration success"</string>
 
 </resources>

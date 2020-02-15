@@ -7,12 +7,12 @@
         android:id="@+id/login_auth_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="123" />
+        android:text="ivanov@gmail.com" />
     <EditText
         android:id="@+id/password_auth_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="123" />
+        android:text="workharhplayhard" />
     <Button
         android:id="@+id/request_auth_button"
         android:layout_width="match_parent"

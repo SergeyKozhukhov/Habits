@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IBuildHabitInstance;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IBuildHabitInstance;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IInsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 import ru.sergeykozhukhov.habits.base.model.exception.BuildException;

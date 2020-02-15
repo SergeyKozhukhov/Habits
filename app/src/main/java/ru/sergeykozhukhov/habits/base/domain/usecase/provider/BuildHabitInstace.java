@@ -1,4 +1,7 @@
-package ru.sergeykozhukhov.habits.base.domain.usecase.builder;
+package ru.sergeykozhukhov.habits.base.domain.usecase.provider;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,7 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IBuildHabitInstance;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IBuildHabitInstance;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 import ru.sergeykozhukhov.habits.base.model.exception.BuildException;
 
@@ -14,10 +17,15 @@ public class BuildHabitInstace implements IBuildHabitInstance {
 
     private static final int minDuration = 5;
     private static final int maxDuration = 400;
-    private static final int minLength = 400;
 
+    @NonNull
     @Override
-    public Habit build(String title, String description, String startDate, String duration) throws BuildException {
+    public Habit build(@Nullable String title,
+                       @Nullable String description,
+                       @Nullable String startDate,
+                       @Nullable String duration) throws BuildException {
+        if (title == null || description == null || startDate == null|| duration == null)
+            throw new BuildException(R.string.build_instance_exception);
 
         if (title.length() < 2 || description.length() < 2){
             throw new BuildException(R.string.build_instance_exception);

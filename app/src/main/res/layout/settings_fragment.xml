@@ -4,6 +4,19 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/open_registration_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="registration"/>
+
+
+    <Button
+        android:id="@+id/open_authentication_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="authentication"/>
+
+    <Button
         android:id="@+id/replication_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

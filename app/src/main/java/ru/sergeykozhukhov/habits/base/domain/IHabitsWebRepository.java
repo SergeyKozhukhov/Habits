@@ -12,20 +12,22 @@ import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 import ru.sergeykozhukhov.habits.base.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.base.model.domain.Progress;
+import ru.sergeykozhukhov.habits.base.model.domain.Registration;
 
-public interface IHabitsWebRepository {
+public interface IHabitsWebRepository extends IRepository {
 
-    Single<Jwt> authenticateClient(Confidentiality confidentiality);
+    Completable registrateClient(@NonNull Registration registration);
+    Single<Jwt> authenticateClient(@NonNull Confidentiality confidentiality);
 
-    Single<Habit> insertHabit(Habit habit, String jwt);
-    Completable insertHabits(List<Habit> habitList, String jwt);
+    Single<Habit> insertHabit(Habit habit, @NonNull String jwt);
+    Completable insertHabits(List<Habit> habitList, @NonNull String jwt);
 
-    Completable insertProgressList(List<Progress> progressList, String jwt);
+    Completable insertProgressList(List<Progress> progressList, @NonNull String jwt);
 
-    Completable insertHabitWithProgressesList(List<HabitWithProgresses> habitWithProgressesList, String jwt);
+    Completable insertHabitWithProgressesList(List<HabitWithProgresses> habitWithProgressesList, @NonNull String jwt);
 
-    Single<List<Habit>> loadHabitList(String jwt);
-    Single<List<HabitWithProgresses>> loadHabitWithProgressesList(String jwt);
+    Single<List<Habit>> loadHabitList(@NonNull String jwt);
+    Single<List<HabitWithProgresses>> loadHabitWithProgressesList(@NonNull String jwt);
 
     void setJwt(@NonNull Jwt jwt);
     Jwt getJwt();

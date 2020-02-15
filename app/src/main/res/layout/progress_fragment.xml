@@ -9,29 +9,11 @@
     <ru.sergeykozhukhov.habits.base.presentation.view.custom.CalendarProgressView
         android:id="@+id/calendar_piker_view"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="match_parent"
         android:scrollbarStyle="outsideOverlay"
         android:clipToPadding="false"
         app:tsquare_orientation_horizontal="false"
         />
-
-
-
-    <TextView
-        android:id="@+id/progress_list_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/new_progress_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/add_progress_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="add"/>
-
 
 
 </LinearLayout>

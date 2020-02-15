@@ -9,6 +9,7 @@ import ru.sergeykozhukhov.habits.base.domain.IConverter;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public class HabitConverter implements IConverter<HabitData, Habit> {
+
     @NonNull
     @Override
     public Habit convertTo(@NonNull HabitData habitData) {
@@ -30,7 +31,7 @@ public class HabitConverter implements IConverter<HabitData, Habit> {
                 habit.getIdHabitServer(),
                 habit.getTitle(),
                 habit.getDescription(),
-                habit.getStartDate() == null? new Date() : habit.getStartDate(),
+                habit.getStartDate(),
                 habit.getDuration()
         );
     }

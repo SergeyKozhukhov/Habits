@@ -6,26 +6,23 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import io.reactivex.CompletableObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import ru.sergeykozhukhov.habits.base.domain.usecase.DeleteAllHabitsDbInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.LoadHabitsDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.LoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
 public class HabitsListViewModel extends ViewModel {
 
     private static final String TAG = "HabitsListViewModel";
 
-    private final LoadHabitsDbInteractor loadHabitsInteractor;
+    private final LoadHabitListDbInteractor loadHabitsInteractor;
 
     private CompositeDisposable compositeDisposable;
 
     private MutableLiveData<List<Habit>> habitListLiveData = new MutableLiveData<>();
 
-    public HabitsListViewModel(@NonNull LoadHabitsDbInteractor loadHabitsInteractor) {
+    public HabitsListViewModel(@NonNull LoadHabitListDbInteractor loadHabitsInteractor) {
         this.loadHabitsInteractor = loadHabitsInteractor;
 
 

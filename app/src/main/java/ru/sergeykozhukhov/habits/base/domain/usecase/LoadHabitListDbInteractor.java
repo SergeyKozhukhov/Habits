@@ -6,14 +6,14 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.ILoadHabitsDbInteractor;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.ILoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
-public class LoadHabitsDbInteractor implements ILoadHabitsDbInteractor {
+public class LoadHabitListDbInteractor implements ILoadHabitListDbInteractor {
 
     private final IHabitsDatabaseRepository habitsRepository;
 
-    public LoadHabitsDbInteractor(@NonNull IHabitsDatabaseRepository habitsRepository) {
+    public LoadHabitListDbInteractor(@NonNull IHabitsDatabaseRepository habitsRepository) {
         this.habitsRepository = habitsRepository;
     }
 

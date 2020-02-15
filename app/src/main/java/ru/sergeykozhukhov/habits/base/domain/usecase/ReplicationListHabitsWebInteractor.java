@@ -7,12 +7,10 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IReplicationWebInteractor;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IGetJwtValue;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IGetJwtValue;
 import ru.sergeykozhukhov.habits.base.model.domain.HabitWithProgresses;
-import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.base.model.exception.GetJwtException;
 
 public class ReplicationListHabitsWebInteractor implements IReplicationWebInteractor {

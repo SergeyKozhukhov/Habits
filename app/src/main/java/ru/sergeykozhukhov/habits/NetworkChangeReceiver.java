@@ -10,7 +10,7 @@ import android.widget.Toast;
 // https://codeunplug.com/check-internet-connection-status-using-broadcast-receiver-in-android/
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
-    private boolean isConnection = false;
+    private boolean isConnection = false  ;
 
     @Override
     public void onReceive(Context context, Intent intent) {

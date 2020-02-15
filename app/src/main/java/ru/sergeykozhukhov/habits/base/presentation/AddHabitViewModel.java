@@ -40,7 +40,7 @@ public class AddHabitViewModel extends ViewModel {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long id) throws Exception {
-                        insertedSuccessSingleLiveEvent.postValue(R.string.habit_success_inserted_message);
+                        insertedSuccessSingleLiveEvent.postValue(R.string.habit_success_inserted_db_message);
                         Log.d(TAG, "insertHabitList success. id = " + id);
                     }
                 }, throwable -> {

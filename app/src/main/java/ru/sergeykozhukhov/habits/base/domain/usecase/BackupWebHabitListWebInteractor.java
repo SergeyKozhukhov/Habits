@@ -9,9 +9,8 @@ import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IBackupWebInteractor;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IGetJwtValue;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IGetJwtValue;
 import ru.sergeykozhukhov.habits.base.model.domain.HabitWithProgresses;
-import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.base.model.exception.GetJwtException;
 
 public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {

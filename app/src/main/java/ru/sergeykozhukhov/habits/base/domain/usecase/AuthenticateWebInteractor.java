@@ -3,13 +3,14 @@ package ru.sergeykozhukhov.habits.base.domain.usecase;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IAuthenticateWebInteractor;
-import ru.sergeykozhukhov.habits.base.domain.IInreractor.builder.IBuildConfidentialityInstance;
+import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IBuildConfidentialityInstance;
 import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.base.model.exception.BuildException;
@@ -29,22 +30,21 @@ public class AuthenticateWebInteractor implements IAuthenticateWebInteractor {
         this.buildConfidentialityInstance = buildConfidentialityInstance;
     }
 
+
+    @NonNull
     @Override
-    public Single<Jwt> authenticateClient(String email, String password) {
-        Confidentiality confidentiality = null;
+    public Single<Jwt> authenticateClient(@Nullable String email, @Nullable String password) {
+        Confidentiality confidentiality;
         try {
             confidentiality = buildConfidentialityInstance.build(email, password);
         } catch (BuildException e) {
             return Single.error(e);
         }
         return habitsWebRepository.authenticateClient(confidentiality)
-                .doOnSuccess(new Consumer<Jwt>() {
-                    @Override
-                    public void accept(Jwt jwt) throws Exception {
-                        habitsWebRepository.setJwt(jwt);
-                        habitsPreferencesRepository.saveJwt(jwt);
-                        Log.d(TAG, "authenticateClient: success");
-                    }
+                .doOnSuccess(jwt -> {
+                    habitsWebRepository.setJwt(jwt);
+                    habitsPreferencesRepository.saveJwt(jwt);
+                    Log.d(TAG, "authenticateClient: success");
                 })
                 .doOnError(new Consumer<Throwable>() {
                     @Override

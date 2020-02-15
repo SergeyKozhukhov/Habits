@@ -9,11 +9,11 @@ import ru.sergeykozhukhov.habits.base.domain.IConverter;
 import ru.sergeykozhukhov.habits.base.model.data.ProgressData;
 import ru.sergeykozhukhov.habits.base.model.domain.Progress;
 
-public class ProgressesConverter implements IConverter<List<ProgressData>, List<Progress>> {
+public class ProgressListConverter implements IConverter<List<ProgressData>, List<Progress>> {
 
     private final ProgressConverter progressConverter;
 
-    public ProgressesConverter(ProgressConverter progressConverter) {
+    public ProgressListConverter(ProgressConverter progressConverter) {
         this.progressConverter = progressConverter;
     }
 

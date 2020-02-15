@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,7 +19,7 @@ import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
-import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.base.presentation.ProgressViewModel;
 
 public class ProgressFragment extends Fragment {
@@ -34,10 +32,6 @@ public class ProgressFragment extends Fragment {
 
     private CalendarPickerView calendarProgressPickerView;
 
-    private TextView progressListTextView;
-    private TextView newProgressTextView;
-
-    private Button addProgressButton;
 
     public static ProgressFragment newInstance() {
         return new ProgressFragment();
@@ -64,13 +58,6 @@ public class ProgressFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
-
-
-        progressListTextView = view.findViewById(R.id.progress_list_text_view);
-        newProgressTextView = view.findViewById(R.id.new_progress_text_view);
-
-        addProgressButton = view.findViewById(R.id.add_progress_button);
-
     }
 
     @Override

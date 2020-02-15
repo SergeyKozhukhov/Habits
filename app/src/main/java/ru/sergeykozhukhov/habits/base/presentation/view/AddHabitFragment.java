@@ -25,7 +25,7 @@ import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.presentation.AddHabitViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.factory.ViewModelFactory;
 
 public class AddHabitFragment extends Fragment {
 

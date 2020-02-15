@@ -2,7 +2,7 @@ package ru.sergeykozhukhov.habits.notes.backup;
 
 import java.util.List;
 
-import io.reactivex.Single;
+import io.reactivex.Completable;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 
@@ -15,7 +15,7 @@ public class InsertHabitListDbInteractor implements IInsertHabitListDbInteractor
     }
 
     @Override
-    public Single<Long> insertListHabitsDb(List<Habit> habitList) {
+    public Completable insertListHabitsDb(List<Habit> habitList) {
         return habitsRepository.insertHabitList(habitList);
     }
 }

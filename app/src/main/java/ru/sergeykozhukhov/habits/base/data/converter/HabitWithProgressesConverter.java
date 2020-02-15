@@ -10,11 +10,12 @@ public class HabitWithProgressesConverter implements IConverter<HabitWithProgres
 
 
     private final HabitConverter habitConverter;
-    private final ProgressesConverter progressesConverter;
+    private final ProgressListConverter progressListConverter;
 
-    public HabitWithProgressesConverter(HabitConverter habitConverter, ProgressesConverter progressesConverter) {
+    public HabitWithProgressesConverter(@NonNull HabitConverter habitConverter,
+                                        @NonNull ProgressListConverter progressListConverter) {
         this.habitConverter = habitConverter;
-        this.progressesConverter = progressesConverter;
+        this.progressListConverter = progressListConverter;
     }
 
     @NonNull
@@ -23,7 +24,7 @@ public class HabitWithProgressesConverter implements IConverter<HabitWithProgres
 
         return new HabitWithProgresses(
                 habitConverter.convertTo(habitWithProgressesData.getHabitData()),
-                progressesConverter.convertTo(habitWithProgressesData.getProgressDataList())
+                progressListConverter.convertTo(habitWithProgressesData.getProgressDataList())
         );
 
     }
@@ -33,7 +34,7 @@ public class HabitWithProgressesConverter implements IConverter<HabitWithProgres
     public HabitWithProgressesData convertFrom(@NonNull HabitWithProgresses habitWithProgresses) {
         HabitWithProgressesData habitWithProgressesData = new HabitWithProgressesData();
         habitWithProgressesData.setHabitData(habitConverter.convertFrom(habitWithProgresses.getHabit()));
-        habitWithProgressesData.setProgressDataList(progressesConverter.convertFrom(habitWithProgresses.getProgressList()));
+        habitWithProgressesData.setProgressDataList(progressListConverter.convertFrom(habitWithProgresses.getProgressList()));
         return habitWithProgressesData;
     }
 }

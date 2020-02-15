@@ -6,7 +6,7 @@ import ru.sergeykozhukhov.habits.base.model.data.RegistrationData;
 import ru.sergeykozhukhov.habits.base.domain.IConverter;
 import ru.sergeykozhukhov.habits.base.model.domain.Registration;
 
-public class RegistrationConverter implements IConverter<RegistrationData, Registration> {
+public class  RegistrationConverter implements IConverter<RegistrationData, Registration> {
 
     @NonNull
     @Override

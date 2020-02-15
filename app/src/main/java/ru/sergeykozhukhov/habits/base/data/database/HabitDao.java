@@ -10,22 +10,34 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 import ru.sergeykozhukhov.habits.base.model.data.HabitWithProgressesData;
+import ru.sergeykozhukhov.habits.base.model.data.StatisticData;
 
 @Dao
 public interface HabitDao {
 
+
     @Query("SELECT * FROM habits")
-    Flowable<List<HabitData>> getHabitListFlowable();
+    Flowable<List<HabitData>> getHabitList();
+
+    @Transaction
+    @Query("SELECT * from habits")
+    Single<List<HabitWithProgressesData>> getHabitWithProgressesList();
+
+    @Query("SELECT habits.id_habit, title, duration, COUNT (progresses.id_habit) as current_quantity " +
+            "FROM habits INNER JOIN progresses ON habits.id_habit == progresses.id_habit " +
+            "GROUP BY progresses.id_habit")
+    Single<List<StatisticData>> getStatisticList();
 
     @Insert
     long insertHabit(HabitData habitData);
 
     @Insert
-    void insertHabitList(List<HabitData> habitData);
+    Completable insertHabitList(List<HabitData> habitData);
 
     @Update
     void updateHabit(HabitData habitData);
@@ -36,9 +48,7 @@ public interface HabitDao {
     @Query("DELETE from habits")
     void deleteAll();
 
-    @Transaction
-    @Query("SELECT * from habits")
-    Single<List<HabitWithProgressesData>> getHabitWithProgressesList();
+
 
 
 

@@ -14,24 +14,25 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
-import ru.sergeykozhukhov.habits.base.presentation.BackupViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.HabitsListViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.base.presentation.view.adapter.HabitsListAdapter;
 
 public class HabitsListFragment extends Fragment{
 
     private HabitsListViewModel habitsListViewModel;
-    private BackupViewModel backupViewModel;
 
     private HabitsListAdapter.IHabitClickListener habitClickListener;
 
     private HabitsListAdapter habitsListAdapter;
     private RecyclerView habitsListRecyclerView;
+    private FloatingActionButton openAddFragmentFloatingActionButton;
 
 
     public static Fragment newInstance() {
@@ -50,6 +51,8 @@ public class HabitsListFragment extends Fragment{
 
         habitsListRecyclerView = view.findViewById(R.id.habits_recycler_view);
         habitsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        openAddFragmentFloatingActionButton = view.findViewById(R.id.add_habit_floating_action_button);
         //habitsListRecyclerView.setLayoutManager(new CircleLayoutManager(view.getContext()));
     }
 
@@ -68,7 +71,6 @@ public class HabitsListFragment extends Fragment{
 
     private void initViews() {
         habitsListAdapter = new HabitsListAdapter();
-
     }
 
     private void initListeners(){
@@ -85,9 +87,20 @@ public class HabitsListFragment extends Fragment{
         };
         habitsListAdapter.setHabitClickListener(habitClickListener);
 
+        openAddFragmentFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                FragmentActivity activity = getActivity();
+                if (activity instanceof OnAddClickListener){
+                    ((OnAddClickListener)activity).onClick();
+
+                }
+            }
+        });
 
     }
+
 
     private void initData(){
         habitsListAdapter = new HabitsListAdapter();
@@ -115,6 +128,10 @@ public class HabitsListFragment extends Fragment{
 
     public interface ProgressHolder{
         void showProgress(@NonNull Habit habit);
+    }
+
+    public interface OnAddClickListener{
+        void onClick();
     }
 
 }

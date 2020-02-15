@@ -16,12 +16,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.presentation.AuthenticationViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.HabitsListViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.factory.ViewModelFactory;
 
 public class AuthenticationFragment extends Fragment {
 
-    private HabitsListViewModel habitsListViewModel;
     private AuthenticationViewModel authenticationViewModel;
 
     private EditText loginAuthEditText;
@@ -36,7 +34,7 @@ public class AuthenticationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.auth_fragment, container, false);
+        return inflater.inflate(R.layout.authentication_fragment, container, false);
     }
 
     @Override

@@ -10,17 +10,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.presentation.BackupViewModel;
-import ru.sergeykozhukhov.habits.base.presentation.ViewModelFactory;
+import ru.sergeykozhukhov.habits.base.presentation.factory.ViewModelFactory;
 
 public class SettingsFragment extends Fragment {
 
     private BackupViewModel backupViewModel;
 
+    private Button openRegistrationButton;
+    private Button openAuthenticationButton;
     private Button testBackupButton;
     private Button testReplicationButton;
     private Button deleteAllHabitsButton;
@@ -40,6 +43,8 @@ public class SettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        openRegistrationButton = view.findViewById(R.id.open_registration_button);
+        openAuthenticationButton = view.findViewById(R.id.open_authentication_button);
         testBackupButton = view.findViewById(R.id.backup_button);
         testReplicationButton = view.findViewById(R.id.replication_button);
         deleteAllHabitsButton = view.findViewById(R.id.delete_all_habits_button);
@@ -63,6 +68,29 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initListeners(){
+
+        openRegistrationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof OnClientClickListener){
+                    ((OnClientClickListener)activity).onRegistrationClick();
+
+                }
+            }
+        });
+
+        openAuthenticationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof OnClientClickListener){
+                    ((OnClientClickListener)activity).onAuthenticationClick();
+                }
+            }
+        });
+
+
         testBackupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +149,11 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+    }
 
+    public interface OnClientClickListener{
+        void onRegistrationClick();
+        void onAuthenticationClick();
     }
 
 
