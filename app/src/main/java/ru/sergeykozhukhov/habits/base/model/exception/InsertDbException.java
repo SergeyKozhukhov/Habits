@@ -3,17 +3,19 @@ package ru.sergeykozhukhov.habits.base.model.exception;
 import androidx.annotation.StringRes;
 
 /**
- * Исключение при ошибке получения токена (jwt)
+ * Исключение при ошибке добавления записей в базу данных
  */
-public class GetJwtException extends Exception {
+public class InsertDbException extends Exception {
+
     @StringRes
     private final int messageRes;
 
-    public GetJwtException(int messageRes) {
+    public InsertDbException(String message, int messageRes) {
+        super(message);
         this.messageRes = messageRes;
     }
 
-    public GetJwtException(int messageRes, Throwable cause) {
+    public InsertDbException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -21,4 +23,5 @@ public class GetJwtException extends Exception {
     public int getMessageRes() {
         return messageRes;
     }
+
 }

@@ -132,13 +132,13 @@ public class ProgressViewModel extends ViewModel {
                         }));
     }
 
-    public void addProgress(Date date) {
+    /*public void addProgress(Date date) {
         changeProgressListDbInteractor.addNewDate(date);
     }
 
     public void deleteProgress(Date date) {
         changeProgressListDbInteractor.deleteDate(date);
-    }
+    }*/
 
     public void saveProgressList() {
         Completable completable = changeProgressListDbInteractor.saveProgressList();

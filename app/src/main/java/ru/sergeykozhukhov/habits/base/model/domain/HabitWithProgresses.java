@@ -1,7 +1,11 @@
 package ru.sergeykozhukhov.habits.base.model.domain;
 
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * Класс, содержащий информация о привычке и список дат ее выполнения (domain слой)
+ */
 public class HabitWithProgresses {
 
     private Habit habit;
@@ -26,6 +30,20 @@ public class HabitWithProgresses {
 
     public void setProgressList(List<Progress> progressList) {
         this.progressList = progressList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HabitWithProgresses that = (HabitWithProgresses) o;
+        return habit.equals(that.habit) &&
+                Objects.equals(progressList, that.progressList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(habit, progressList);
     }
 
     @Override

@@ -4,18 +4,15 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitListConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitWithProgressesConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitWithProgressesListConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ProgressListConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.RegistrationConverter;
-import ru.sergeykozhukhov.habits.base.model.data.HabitWithProgressesData;
 import ru.sergeykozhukhov.habits.base.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.base.model.domain.Progress;
 import ru.sergeykozhukhov.habits.base.model.domain.Registration;
@@ -23,11 +20,9 @@ import ru.sergeykozhukhov.habits.notes.backup.AuthenticationConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.ConfidentialityConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.HabitConverter;
 import ru.sergeykozhukhov.habits.base.data.converter.JwtConverter;
-import ru.sergeykozhukhov.habits.base.model.data.HabitData;
 import ru.sergeykozhukhov.habits.base.data.retrofit.HabitsRetrofitClient;
 import ru.sergeykozhukhov.habits.base.data.retrofit.IHabitsService;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.base.model.data.JwtData;
 import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.base.model.domain.Habit;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
@@ -76,8 +71,8 @@ public class HabitsWebRepository implements IHabitsWebRepository {
     }
 
     @Override
-    public Completable registrateClient(@NonNull Registration registration) {
-        return habitsService.registrateClient(registrationConverter.convertFrom(registration));
+    public Completable registerClient(@NonNull Registration registration) {
+        return habitsService.registerClient(registrationConverter.convertFrom(registration));
     }
 
     @Override

@@ -1,5 +1,10 @@
 package ru.sergeykozhukhov.habits.base.model.domain;
 
+import java.util.Objects;
+
+/**
+ * Класс, содержащий информацию о количестве выполненных дней для достижения цели по конкретной привычке (domain слой)
+ */
 public class Statistic {
 
     private long idHabit;
@@ -50,6 +55,22 @@ public class Statistic {
 
     public void setCurrentQuantity(int currentQuantity) {
         this.currentQuantity = currentQuantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Statistic statistic = (Statistic) o;
+        return idHabit == statistic.idHabit &&
+                duration == statistic.duration &&
+                currentQuantity == statistic.currentQuantity &&
+                title.equals(statistic.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idHabit, title, duration, currentQuantity);
     }
 
     @Override

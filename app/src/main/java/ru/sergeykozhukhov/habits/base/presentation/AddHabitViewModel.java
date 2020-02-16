@@ -13,6 +13,9 @@ import ru.sergeykozhukhov.habits.base.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.base.domain.usecase.util.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.exception.BuildException;
 
+/**
+ * ViewModel для добавления новой привычки в базу данных
+ */
 public class AddHabitViewModel extends ViewModel {
 
     private static final String TAG = "AddHabitViewModel";

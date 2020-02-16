@@ -8,14 +8,39 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import ru.sergeykozhukhov.habits.base.model.exception.ChangeProgressException;
 
+/**
+ * Интерфейс интерактора по изменению дат выполнения конкретной привычки
+ */
 public interface IChangeProgressListDbInteractor {
 
+    /**
+     * Получение списка дат выполнения конкретной привычки
+     * @param idHabit
+     * @return
+     */
     @NonNull
     Single<List<Date>> getProgressList(long idHabit);
-    void addNewDate(Date date);
-    void deleteDate(Date date);
 
+    /**
+     * Подготовка предоставленной даты для сохранения
+     * @param date
+     * @throws ChangeProgressException
+     */
+    void addNewDate(@Nullable Date date) throws ChangeProgressException;
+
+    /**
+     * Подготовка предоставленной даты для удаления
+     * @param date
+     * @throws ChangeProgressException
+     */
+    void deleteDate(@Nullable Date date) throws ChangeProgressException;
+
+    /**
+     * Сохранение изменнной информации по датам выполнения привычки
+     * @return
+     */
     @Nullable
     Completable saveProgressList();
 

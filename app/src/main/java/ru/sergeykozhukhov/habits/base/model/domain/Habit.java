@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Класс, содержащий информацию о привычке (domain слой)
+ */
 public class Habit implements Parcelable {
 
     private long idHabit;

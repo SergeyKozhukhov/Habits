@@ -18,7 +18,7 @@ import ru.sergeykozhukhov.habits.base.model.data.RegistrationData;
 public interface IHabitsService {
 
     @POST("/authentication-jwt/api/create_user.php")
-    Completable registrateClient(@Body RegistrationData registrationData);
+    Completable registerClient(@Body RegistrationData registrationData);
 
     @POST("/authentication-jwt/api/login.php")
     Single<JwtData> authenticateClient(@Body ConfidentialityData confidentialityData);

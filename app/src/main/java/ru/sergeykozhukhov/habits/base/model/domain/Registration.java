@@ -1,5 +1,10 @@
 package ru.sergeykozhukhov.habits.base.model.domain;
 
+import java.util.Objects;
+
+/**
+ * Класс, содержащий данные пользователя для регистрации (domain слой)
+ */
 public class Registration {
 
     private String firstName;
@@ -44,5 +49,31 @@ public class Registration {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Registration that = (Registration) o;
+        return firstName.equals(that.firstName) &&
+                lastName.equals(that.lastName) &&
+                email.equals(that.email) &&
+                password.equals(that.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, email, password);
+    }
+
+    @Override
+    public String toString() {
+        return "Registration{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

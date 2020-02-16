@@ -25,6 +25,9 @@ import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.IRepository;
 import ru.sergeykozhukhov.habits.notes.backup.AuthenticationConverter;
 
+/**
+ * Фабрика создания репозиториев
+ */
 public class Repositories {
 
     public static IHabitsDatabaseRepository newDatabaseRepository(Context context){

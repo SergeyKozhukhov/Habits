@@ -1,5 +1,10 @@
 package ru.sergeykozhukhov.habits.base.model.domain;
 
+import java.util.Objects;
+
+/**
+ * Класс, содержащий данные пользователя для автооризации (domain слой)
+ */
 public class Confidentiality {
 
     private String email;
@@ -24,5 +29,19 @@ public class Confidentiality {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Confidentiality that = (Confidentiality) o;
+        return email.equals(that.email) &&
+                password.equals(that.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password);
     }
 }

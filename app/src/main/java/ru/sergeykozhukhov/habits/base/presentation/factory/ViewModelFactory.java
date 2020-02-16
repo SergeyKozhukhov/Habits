@@ -11,7 +11,7 @@ import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IBuildHabitIns
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IBuildRegistrationInstance;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IGetJwtValue;
 import ru.sergeykozhukhov.habits.base.domain.usecase.LoadStatisticListInteractor;
-import ru.sergeykozhukhov.habits.base.domain.usecase.RegistrateWebInteractor;
+import ru.sergeykozhukhov.habits.base.domain.usecase.RegisterWebInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.provider.BuildConfidentialityInstance;
 import ru.sergeykozhukhov.habits.base.domain.usecase.provider.BuildHabitInstace;
 import ru.sergeykozhukhov.habits.base.domain.usecase.ChangeProgressListDbInteractor;
@@ -34,6 +34,9 @@ import ru.sergeykozhukhov.habits.base.presentation.ProgressViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.RegistrationViewModel;
 import ru.sergeykozhukhov.habits.base.presentation.StatisticsViewModel;
 
+/**
+ * Фабрика создания ViewModel
+ */
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private Context context;
@@ -63,10 +66,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
             IBuildRegistrationInstance buildRegistrationInstance = new BuildRegistrationInstance();
 
-            RegistrateWebInteractor registrateWebInteractor = new RegistrateWebInteractor(habitsWebRepository, buildRegistrationInstance);
+            RegisterWebInteractor registerWebInteractor = new RegisterWebInteractor(habitsWebRepository, buildRegistrationInstance);
 
             // noinspection unchecked
-            return (T) new RegistrationViewModel(registrateWebInteractor);
+            return (T) new RegistrationViewModel(registerWebInteractor);
         }
 
 

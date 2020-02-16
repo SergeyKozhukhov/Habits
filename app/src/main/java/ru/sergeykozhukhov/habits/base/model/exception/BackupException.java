@@ -2,6 +2,9 @@ package ru.sergeykozhukhov.habits.base.model.exception;
 
 import androidx.annotation.StringRes;
 
+/**
+ * Исключение при ошибки отправки данных о привычках на сервер
+ */
 public class BackupException extends Exception {
 
     @StringRes

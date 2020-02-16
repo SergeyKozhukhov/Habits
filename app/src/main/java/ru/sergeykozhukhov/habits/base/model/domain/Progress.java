@@ -1,7 +1,11 @@
 package ru.sergeykozhukhov.habits.base.model.domain;
 
 import java.util.Date;
+import java.util.Objects;
 
+/**
+ * Класс, содержащий информацию о дне выполнения конкретной привычки (domain слой)
+ */
 public class Progress {
 
     private long idProgress;
@@ -51,6 +55,22 @@ public class Progress {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Progress progress = (Progress) o;
+        return idProgress == progress.idProgress &&
+                idProgressServer == progress.idProgressServer &&
+                idHabit == progress.idHabit &&
+                date.equals(progress.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProgress, idProgressServer, idHabit, date);
     }
 
     @Override

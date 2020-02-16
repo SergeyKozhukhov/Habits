@@ -5,6 +5,12 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Relation;
 
+import java.util.Objects;
+
+
+/**
+ * Класс, содержащий информацию о количестве выполненных дней для достижения цели по конкретной привычке (data слой)
+ */
 public class StatisticData {
 
     @ColumnInfo(name = "id_habit")
@@ -63,5 +69,31 @@ public class StatisticData {
 
     public void setCurrentQuantity(int currentQuantity) {
         this.currentQuantity = currentQuantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StatisticData that = (StatisticData) o;
+        return idHabit == that.idHabit &&
+                duration == that.duration &&
+                currentQuantity == that.currentQuantity &&
+                title.equals(that.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idHabit, title, duration, currentQuantity);
+    }
+
+    @Override
+    public String toString() {
+        return "StatisticData{" +
+                "idHabit=" + idHabit +
+                ", title='" + title + '\'' +
+                ", duration=" + duration +
+                ", currentQuantity=" + currentQuantity +
+                '}';
     }
 }

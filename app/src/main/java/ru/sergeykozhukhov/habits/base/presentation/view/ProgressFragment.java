@@ -72,8 +72,14 @@ public class ProgressFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         progressViewModel.saveProgressList();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+
         super.onDestroy();
     }
     private void initData() {
@@ -103,22 +109,17 @@ public class ProgressFragment extends Fragment {
 
         progressViewModel.initChangeProgressList(getHabitFromArgs().getIdHabit());
 
-        progressViewModel.getProgressInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        progressViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(Boolean isInserted) {
-                if (isInserted)
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            public void onChanged(Integer idRes) {
+                Toast.makeText(getContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             }
         });
-        progressViewModel.getProgressListInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+
+        progressViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(Boolean isInserted) {
-                if (isInserted)
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            public void onChanged(Integer idRes) {
+                Toast.makeText(getContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -129,13 +130,11 @@ public class ProgressFragment extends Fragment {
             @Override
             public void onDateSelected(Date date) {
                 progressViewModel.addProgress(date);
-                Toast.makeText(requireContext(), "true: "+date.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onDateUnselected(Date date) {
                 progressViewModel.deleteProgress(date);
-                Toast.makeText(requireContext(), "false: "+date.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }

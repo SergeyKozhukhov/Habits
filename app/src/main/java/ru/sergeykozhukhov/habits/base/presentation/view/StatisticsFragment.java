@@ -63,9 +63,6 @@ public class StatisticsFragment extends Fragment{
         setupMvvm();
         initListeners();
 
-
-
-
     }
 
 
@@ -97,6 +94,14 @@ public class StatisticsFragment extends Fragment{
                 Toast.makeText(requireContext(), String.valueOf(statisticList.size()), Toast.LENGTH_SHORT).show();
             }
         });
+
+        statisticsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer idRes) {
+                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         statisticsViewModel.loadStatisticsList();
     }

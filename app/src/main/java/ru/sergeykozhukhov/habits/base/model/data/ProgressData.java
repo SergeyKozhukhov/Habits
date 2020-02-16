@@ -10,11 +10,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.Objects;
 
 import ru.sergeykozhukhov.habits.base.data.converter.DateConverter;
 
 import static androidx.room.ForeignKey.CASCADE;
 
+/**
+ * Класс, содержащий информацию о дне выполнения конкретной привычки (data слой)
+ */
 @Entity(tableName = "progresses", foreignKeys = @ForeignKey(entity = HabitData.class, parentColumns = "id_habit", childColumns = "id_habit", onDelete = CASCADE))
 public class ProgressData {
 
@@ -74,6 +78,22 @@ public class ProgressData {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProgressData that = (ProgressData) o;
+        return idProgress == that.idProgress &&
+                idProgressServer == that.idProgressServer &&
+                idHabit == that.idHabit &&
+                date.equals(that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProgress, idProgressServer, idHabit, date);
     }
 
     @Override

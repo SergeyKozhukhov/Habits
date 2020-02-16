@@ -2,6 +2,7 @@ package ru.sergeykozhukhov.habits.base.domain.usecase;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -11,10 +12,14 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IChangeProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.Progress;
+import ru.sergeykozhukhov.habits.base.model.exception.ChangeProgressException;
+import ru.sergeykozhukhov.habits.base.model.exception.DeleteFromDbException;
+import ru.sergeykozhukhov.habits.base.model.exception.InsertDbException;
+import ru.sergeykozhukhov.habits.base.model.exception.LoadDbException;
 
 public class ChangeProgressListDbInteractor implements IChangeProgressListDbInteractor {
 
@@ -31,35 +36,40 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
 
     }
 
-
+    @NonNull
     @Override
     public Single<List<Date>> getProgressList(long idHabit) {
         this.idHabit = idHabit;
         return habitsDatabaseRepository.loadProgressListByIdHabit(idHabit)
-                .map(new Function<List<Progress>, List<Date>>() {
-                    @Override
-                    public List<Date> apply(List<Progress> progressList) throws Exception {
-                        progressLoadedList = progressList;
-                        List<Date> dateList  = new ArrayList<>(progressList.size());
-                        progressAddedList = new LinkedList<>();
-                        progressDeletedList = new LinkedList<>();
-                        for (Progress progress: progressList){
-                            dateList.add(progress.getDate());
-                        }
-                        return dateList;
+                .map(progressList -> {
+                    progressLoadedList = progressList;
+                    List<Date> dateList  = new ArrayList<>(progressList.size());
+                    progressAddedList = new LinkedList<>();
+                    progressDeletedList = new LinkedList<>();
+                    for (Progress progress: progressList){
+                        dateList.add(progress.getDate());
                     }
-                });
+                    return dateList;
+                }).onErrorResumeNext(throwable -> Single.error(new LoadDbException(R.string.load_db_exception, throwable)));
     }
 
     @Override
-    public void addNewDate(Date date) {
+    public void addNewDate(@Nullable Date date) throws ChangeProgressException {
+        if (date == null)
+        {
+            throw new ChangeProgressException(R.string.change_progress_db_exception);
+        }
         if (!progressDeletedList.remove(date)) {
             progressAddedList.add(date);
         }
     }
 
     @Override
-    public void deleteDate(Date date) {
+    public void deleteDate(@Nullable Date date) throws ChangeProgressException {
+        if (date == null)
+        {
+            throw new ChangeProgressException(R.string.change_progress_db_exception);
+        }
         if (!progressAddedList.remove(date)) {
             progressDeletedList.add(date);
         }
@@ -84,7 +94,9 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
                 }
             }
 
-            deleteCompletable = habitsDatabaseRepository.deleteProgressList(deleteProgresses);
+            deleteCompletable = habitsDatabaseRepository.deleteProgressList(deleteProgresses)
+                    .onErrorResumeNext(throwable ->
+                            Completable.error(new DeleteFromDbException(R.string.delete_from_db_exception, throwable)));
         }
 
         Completable insertCompletable = null;
@@ -96,7 +108,9 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
                 Log.d(TAG, date.toString() + "\n");
                 addProgresses.add(new Progress(idHabit, date));
             }
-            insertCompletable = habitsDatabaseRepository.insertProgressList(addProgresses);
+            insertCompletable = habitsDatabaseRepository.insertProgressList(addProgresses)
+                    .onErrorResumeNext(throwable ->
+                            Completable.error(new InsertDbException(R.string.insert_db_exception, throwable)));
         }
 
         if (deleteCompletable != null && insertCompletable ==null){

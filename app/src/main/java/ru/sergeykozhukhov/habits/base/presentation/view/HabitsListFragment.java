@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -118,7 +119,13 @@ public class HabitsListFragment extends Fragment{
             @Override
             public void onChanged(List<Habit> habitList) {
                 ((HabitsListAdapter)habitsListRecyclerView.getAdapter()).setHabitList(habitList);
+            }
+        });
 
+        habitsListViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer idRes) {
+                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             }
         });
 

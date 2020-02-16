@@ -3,6 +3,9 @@ package ru.sergeykozhukhov.habits.base.model.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Класс, содержащий token (jwt) пользователя (data слой)
+ */
 public class JwtData {
 
     @SerializedName("jwt")

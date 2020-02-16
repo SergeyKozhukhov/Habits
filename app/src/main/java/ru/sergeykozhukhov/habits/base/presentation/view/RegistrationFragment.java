@@ -86,7 +86,7 @@ public class RegistrationFragment extends Fragment {
         registrationViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
                 .get(RegistrationViewModel.class);
 
-        registrationViewModel.getRegistatedSuccesSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+        registrationViewModel.getSuccesSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer idRes) {
                 Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();

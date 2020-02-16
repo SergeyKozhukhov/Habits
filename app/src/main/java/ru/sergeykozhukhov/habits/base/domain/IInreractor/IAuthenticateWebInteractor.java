@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import io.reactivex.Single;
-import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
 
+/**
+ * Интерфейс интерктора входа пользователя в свой аккаунт
+ */
 public interface IAuthenticateWebInteractor {
 
     @NonNull

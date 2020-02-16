@@ -14,26 +14,90 @@ import ru.sergeykozhukhov.habits.base.model.domain.Statistic;
 
 public interface IHabitsDatabaseRepository extends IRepository{
 
+    /**
+     * Добавление привычки
+     * @param habit
+     * @return
+     */
     @NonNull Single<Long> insertHabit(@NonNull Habit habit);
+
+    /**
+     * Добавление списка привычек
+     * @param habitList
+     * @return
+     */
     @NonNull Completable insertHabitList(@NonNull List<Habit> habitList);
 
+    /**
+     * Добавление даты выполнения
+     * @param progress
+     * @return
+     */
     @NonNull Completable insertProgress(@NonNull Progress progress);
+
+    /**
+     * Добавление списка дат выполнения
+     * @param progressList
+     * @return
+     */
     @NonNull Completable insertProgressList(@NonNull List<Progress> progressList);
 
+    /**
+     * Добавление списка привычек с соответствующими датами выполнения
+     * @param habitWithProgressesList
+     * @return
+     */
     @NonNull Completable insertHabitWithProgressesList(@NonNull List<HabitWithProgresses> habitWithProgressesList);
 
+    /**
+     * Загрузка списка привычек
+     * @return
+     */
     @NonNull Flowable<List<Habit>> loadHabitList();
 
-    @NonNull Single<List<Progress>> loadProgressListByIdHabit(@NonNull long idHabit);
+    /**
+     * Загрузка дат выполнения определенной привычки
+     * @param idHabit
+     * @return
+     */
+    @NonNull Single<List<Progress>> loadProgressListByIdHabit(long idHabit);
+
+    /**
+     * Загрузка списка дат выполнения всех привычек
+     * @return
+     */
     @NonNull Single<List<Progress>> loadProgressList();
 
+    /**
+     * Загрузка списка привычек с колличетсвом выполнныех дней
+     * @return
+     */
     @NonNull Single<List<Statistic>> loadStatisticList();
 
+    /**
+     * Загрузка списка всех привычек с соответствующими списками дат выполнения
+     * @return
+     */
     @NonNull Single<List<HabitWithProgresses>> loadHabitWithProgressesList();
 
-    @NonNull Habit updateHabit(@NonNull Habit habit);
+    /**
+     * Обновление информации о привычке
+     * @param habit
+     * @return
+     */
+    @NonNull Completable updateHabit(@NonNull Habit habit);
 
+    /**
+     * Удаление всех привычек
+     * @return
+     */
     @NonNull Completable deleteAllHabits();
+
+    /**
+     * Удаление списка привычек
+     * @param progressList
+     * @return
+     */
     @NonNull Completable deleteProgressList(@NonNull List<Progress> progressList);
 
 }

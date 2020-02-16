@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.base.model.data.ProgressData;
 import ru.sergeykozhukhov.habits.base.model.domain.Progress;
@@ -17,24 +18,56 @@ import ru.sergeykozhukhov.habits.base.model.domain.Progress;
 @Dao
 public interface ProgressDao {
 
+    /**
+     * Получение записей всех дат выполнения опредленной привычки
+     * @param idHabit
+     * @return
+     */
     @Query("SELECT * FROM progresses WHERE id_habit = :idHabit")
     Single<List<ProgressData>> getProgressByHabit(long idHabit);
 
+    /**
+     * Получение всех записей дат выполения по всем привычкам
+     * @return
+     */
     @Query("SELECT * FROM progresses")
     Single<List<ProgressData>> getProgressList();
 
+    /**
+     * Добавление записи о дате выполнения
+     * @param progressData
+     * @return
+     */
     @Insert
-    long insertProgress(ProgressData progressData);
+    Completable insertProgress(ProgressData progressData);
 
+    /**
+     * Добавление списка записей о датах выполнения
+     * @param progressDataList
+     * @return
+     */
     @Insert
-    void insertProgressList(List<ProgressData> progressDataList);
+    Completable insertProgressList(List<ProgressData> progressDataList);
 
+    /**
+     * Обновление записи о дате выполнения
+     * @param progressData
+     * @return
+     */
     @Update
-    void updateProgress(ProgressData progressData);
+    Completable updateProgress(ProgressData progressData);
 
+    /**
+     * Удаление записи о дате выполнения
+     * @param progressData
+     */
     @Delete
     void deleteProgress(ProgressData progressData);
 
+    /**
+     * Удаление списка записей о датах выполнения
+     * @param progressDataList
+     */
     @Delete
     void deleteProgressList(List<ProgressData> progressDataList);
 

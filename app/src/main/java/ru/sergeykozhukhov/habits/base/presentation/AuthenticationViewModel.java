@@ -5,24 +5,30 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.exceptions.CompositeException;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.base.domain.usecase.AuthenticateWebInteractor;
 
 import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
+import ru.sergeykozhukhov.habits.base.model.exception.AuthenticateException;
 
+/**
+ * ViewModel для входа пользователя в свой аккаунт
+ */
 public class AuthenticationViewModel extends ViewModel {
 
     private static final String TAG = "AuthenticationViewModel";
 
     private final AuthenticateWebInteractor authenticateClientInteractor;
-
-    private Disposable disposableAuthenticated;
-
-    private SingleLiveEvent<Boolean> isAuthenticatedSingleLiveEvent;
+    private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
+    private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+    private CompositeDisposable compositeDisposable;
 
 
     public AuthenticationViewModel(@NonNull AuthenticateWebInteractor authenticateClientInteractor) {
@@ -31,31 +37,36 @@ public class AuthenticationViewModel extends ViewModel {
         initData();
     }
 
-    private void initData(){
-        isAuthenticatedSingleLiveEvent = new SingleLiveEvent<>();
+    private void initData() {
+        compositeDisposable = new CompositeDisposable();
     }
 
 
     public void authenticateClient(String email, String password) {
 
-        disposableAuthenticated = authenticateClientInteractor.authenticateClient(email, password)
+        compositeDisposable.add(authenticateClientInteractor.authenticateClient(email, password)
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Consumer<Jwt>() {
-                    @Override
-                    public void accept(Jwt jwt) throws Exception {
-                        isAuthenticatedSingleLiveEvent.postValue(true);
-                        Log.d(TAG, "authenticateClient: success");
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        isAuthenticatedSingleLiveEvent.postValue(false);
+                .subscribe(idRes -> {
+                    successSingleLiveEvent.postValue(R.string.authentication_success_message);
+                    Log.d(TAG, "authenticateClient: success");
+                }, throwable -> {
+                    if (throwable instanceof AuthenticateException) {
+                        errorSingleLiveEvent.postValue((((AuthenticateException) throwable).getMessageRes()));
                         Log.d(TAG, "authenticateClient: error");
                     }
-                });
+
+                }));
     }
 
-    public SingleLiveEvent<Boolean> getIsAuthenticatedSingleLiveEvent() {
-        return isAuthenticatedSingleLiveEvent;
+    public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {
+        return successSingleLiveEvent;
+    }
+
+    public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
+        return errorSingleLiveEvent;
+    }
+
+    public void cancelSubscribe() {
+        compositeDisposable.clear();
     }
 }

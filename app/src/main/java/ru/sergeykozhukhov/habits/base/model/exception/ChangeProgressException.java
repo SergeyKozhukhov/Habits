@@ -3,17 +3,18 @@ package ru.sergeykozhukhov.habits.base.model.exception;
 import androidx.annotation.StringRes;
 
 /**
- * Исключение при ошибке получения токена (jwt)
+ * Исключение при ошибки внесении исправленных данных по привычкам
  */
-public class GetJwtException extends Exception {
+public class ChangeProgressException extends Exception {
+
     @StringRes
     private final int messageRes;
 
-    public GetJwtException(int messageRes) {
+    public ChangeProgressException(int messageRes) {
         this.messageRes = messageRes;
     }
 
-    public GetJwtException(int messageRes, Throwable cause) {
+    public ChangeProgressException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -21,4 +22,5 @@ public class GetJwtException extends Exception {
     public int getMessageRes() {
         return messageRes;
     }
+
 }

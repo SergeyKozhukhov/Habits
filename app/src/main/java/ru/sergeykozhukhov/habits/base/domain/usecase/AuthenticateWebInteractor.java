@@ -1,18 +1,19 @@
 package ru.sergeykozhukhov.habits.base.domain.usecase;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
+import io.reactivex.SingleSource;
+import io.reactivex.functions.Function;
+import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.base.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.IAuthenticateWebInteractor;
 import ru.sergeykozhukhov.habits.base.domain.IInreractor.provider.IBuildConfidentialityInstance;
 import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.base.model.domain.Jwt;
+import ru.sergeykozhukhov.habits.base.model.exception.AuthenticateException;
 import ru.sergeykozhukhov.habits.base.model.exception.BuildException;
 
 public class AuthenticateWebInteractor implements IAuthenticateWebInteractor {
@@ -41,16 +42,7 @@ public class AuthenticateWebInteractor implements IAuthenticateWebInteractor {
             return Single.error(e);
         }
         return habitsWebRepository.authenticateClient(confidentiality)
-                .doOnSuccess(jwt -> {
-                    habitsWebRepository.setJwt(jwt);
-                    habitsPreferencesRepository.saveJwt(jwt);
-                    Log.d(TAG, "authenticateClient: success");
-                })
-                .doOnError(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.d(TAG, "authenticateClient: error");
-                    }
-                });
+                .onErrorResumeNext(throwable ->
+                        Single.error(new AuthenticateException(R.string.authenticate_exception, throwable)));
     }
 }

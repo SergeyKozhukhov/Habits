@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Habits</string>
 
-    <string name="habit_success_inserted_db_message">"habit inserted"</string>
-    <string name="registration_success_message">"registration success"</string>
+    <string name="habit_success_inserted_db_message">"Привычка добавлена"</string>
+    <string name="registration_success_message">"Вы успешно зарегистрировались"</string>
+    <string name="authentication_success_message">"Вы успешно авторизовались"</string>
+    <string name="delete_from_db_success_message">"Все записи успешно удалены"</string>
+    <string name="load_db_success_message">"Записи успешно загружены"</string>
+    <string name="load_web_success_message">"Записи успешно загружены на сервер"</string>
+    <string name="insert_db_success_message">"Успешно добавлено"</string>
+    <string name="insert_web_success_message">"Успешно произведено резервено копирование на сервер"</string>
+    <string name="change_progress_db_success_message">"Данные успешно модифицированы"</string>
 
 </resources>

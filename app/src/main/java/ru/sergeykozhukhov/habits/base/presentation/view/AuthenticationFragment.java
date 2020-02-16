@@ -79,13 +79,16 @@ public class AuthenticationFragment extends Fragment {
     private void setupMvvm(){
         authenticationViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
                 .get(AuthenticationViewModel.class);
-        authenticationViewModel.getIsAuthenticatedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        authenticationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(Boolean isAuth) {
-                if (isAuth)
-                    Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(requireContext(), "fail", Toast.LENGTH_SHORT).show();
+            public void onChanged(Integer idRes) {
+                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
+            }
+        });
+        authenticationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer idRes) {
+                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             }
         });
     }

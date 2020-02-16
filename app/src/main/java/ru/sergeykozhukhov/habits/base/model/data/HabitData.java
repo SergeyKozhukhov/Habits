@@ -14,6 +14,9 @@ import java.util.Objects;
 import ru.sergeykozhukhov.habits.base.data.converter.DateConverter;
 
 
+/**
+ * Класс, содержащий информацию о привычке (data слой)
+ */
 @Entity (tableName = "habits")
 public class HabitData {
 
@@ -55,8 +58,6 @@ public class HabitData {
         this.startDate = startDate;
         this.duration = duration;
     }
-
-
 
     public long getIdHabit() {
         return idHabit;
@@ -105,7 +106,6 @@ public class HabitData {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-
 
     @Override
     public boolean equals(Object o) {

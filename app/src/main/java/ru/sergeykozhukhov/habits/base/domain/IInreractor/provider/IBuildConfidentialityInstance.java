@@ -6,6 +6,9 @@ import androidx.annotation.Nullable;
 import ru.sergeykozhukhov.habits.base.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.base.model.exception.BuildException;
 
+/**
+ * Интерфейс получения нового экземпляра класса confidentiality
+ */
 public interface IBuildConfidentialityInstance {
 
     @NonNull

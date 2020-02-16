@@ -2,6 +2,10 @@ package ru.sergeykozhukhov.habits.base.model.exception;
 
 import androidx.annotation.StringRes;
 
+/**
+ * Исключение при создании экземляра.
+ * В данном случае применяется к созданию habit, confidentiality, registration
+ */
 public class BuildException extends Exception {
     @StringRes
     private final int messageRes;

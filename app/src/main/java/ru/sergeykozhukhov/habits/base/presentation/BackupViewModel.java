@@ -10,15 +10,23 @@ import java.util.List;
 import io.reactivex.CompletableObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.base.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.base.domain.usecase.BackupWebHabitListWebInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.DeleteAllHabitsDbInteractor;
 import ru.sergeykozhukhov.habits.base.domain.usecase.ReplicationListHabitsWebInteractor;
 import ru.sergeykozhukhov.habits.base.model.domain.HabitWithProgresses;
+import ru.sergeykozhukhov.habits.base.model.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.base.model.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.base.model.exception.InsertWebException;
+import ru.sergeykozhukhov.habits.base.model.exception.LoadDbException;
 
+/**
+ * ViewModel для резервного копирования всей информации
+ */
 public class BackupViewModel extends ViewModel {
 
     private static final String TAG = "HabitsListViewModel";
@@ -32,6 +40,8 @@ public class BackupViewModel extends ViewModel {
     private SingleLiveEvent<Boolean> isInsertedSingleLiveEvent;
     private SingleLiveEvent<Boolean> isLoadedSingleLiveEvent;
 
+
+    private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
 
     public BackupViewModel(
@@ -53,76 +63,53 @@ public class BackupViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
-
-
     public void LoadHabitWithProgressesList(){
         Disposable disposable = replicationListHabitsWebInteractor.loadHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Consumer<List<HabitWithProgresses>>() {
-                    @Override
-                    public void accept(List<HabitWithProgresses> habitsWithProgresses) throws Exception {
-                        isLoadedSingleLiveEvent.postValue(true);
-                        for (HabitWithProgresses habitsWithProgress : habitsWithProgresses) {
-                            Log.d(TAG, "loadListHabitsWeb" + habitsWithProgress.toString());
-                        }
+                .subscribe(habitsWithProgresses -> {
+                    isLoadedSingleLiveEvent.postValue(true);
+                    for (HabitWithProgresses habitsWithProgress : habitsWithProgresses) {
+                        Log.d(TAG, "loadListHabitsWeb" + habitsWithProgress.toString());
                     }
-
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        if (throwable instanceof GetJwtException) {
-                            errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
-                        }
+                }, throwable -> {
+                    if (throwable instanceof GetJwtException) {
+                        errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
                     }
                 });
         compositeDisposable.add(disposable);
     }
 
     public void insertHabitWithProgressesList(){
-        insertWebHabitsInteractor.insertHabitWithProgressesList()
+        compositeDisposable.add(insertWebHabitsInteractor.insertHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
+                .subscribe(() -> {
+                    isInsertedSingleLiveEvent.postValue(true);
+                    Log.d(TAG, "insertWebHabits: success");
+                    insertWebHabitsInteractor.insertHabitWithProgressesList().subscribe();
+                }, throwable -> {
+                    if (throwable instanceof GetJwtException) {
+                        errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
                     }
-
-                    @Override
-                    public void onComplete() {
-                        isInsertedSingleLiveEvent.postValue(true);
-                        Log.d(TAG, "insertWebHabits: success");
-                        insertWebHabitsInteractor.insertHabitWithProgressesList().subscribe();
+                    else if (throwable instanceof LoadDbException){
+                        errorSingleLiveEvent.postValue(((LoadDbException) throwable).getMessageRes());
                     }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        if (throwable instanceof GetJwtException) {
-                            errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
-                        }
+                    else if (throwable instanceof InsertWebException){
+                        errorSingleLiveEvent.postValue(((InsertWebException)throwable).getMessageRes());
                     }
-                });
+                }));
 
     }
 
     public void deleteAllHabits(){
-        deleteAllHabitsInteractor.deleteAllHabits()
+        compositeDisposable.add(deleteAllHabitsInteractor.deleteAllHabits()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new CompletableObserver() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
+                .subscribe(() -> {
+                    successSingleLiveEvent.postValue(R.string.delete_from_db_success_message);
+                }, throwable -> {
+                    if (throwable instanceof DeleteFromDbException) {
+                        errorSingleLiveEvent.postValue((((DeleteFromDbException) throwable).getMessageRes()));
                     }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
+                }));
     }
 
     public SingleLiveEvent<Boolean> getIsInsertedSingleLiveEvent() {
@@ -135,5 +122,9 @@ public class BackupViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
+    }
+
+    public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {
+        return successSingleLiveEvent;
     }
 }

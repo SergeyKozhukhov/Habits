@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="build_instance_exception">"data is incorrect"</string>
-    <string name="get_jwt_exception">"you are not authorized"</string>
+    <string name="build_instance_exception">"Неверные данные"</string>
+    <string name="get_jwt_exception">"Вы не авторизованы"</string>
+    <string name="authenticate_exception">"Ошибка авторизации"</string>
+    <string name="register_exception">"Ошибка регистрации"</string>
+    <string name="delete_from_db_exception">"Ошибка удаления"</string>
+    <string name="load_db_exception">"Ошибка загрузки данных "</string>
+    <string name="load_web_exception">"Ошибка загрузки данных с сервера"</string>
+    <string name="insert_db_exception">"Ошибка добавления"</string>
+    <string name="insert_web_exception">"Ошибка загрузки данных на сервер"</string>
+    <string name="change_progress_db_exception">"Ошибка изменения прогресса"</string>
 
 </resources>

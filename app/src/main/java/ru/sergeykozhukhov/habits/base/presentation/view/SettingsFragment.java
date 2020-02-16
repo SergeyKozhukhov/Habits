@@ -149,6 +149,13 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        backupViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer idRes) {
+                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     public interface OnClientClickListener{

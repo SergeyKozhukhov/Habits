@@ -3,17 +3,19 @@ package ru.sergeykozhukhov.habits.base.model.exception;
 import androidx.annotation.StringRes;
 
 /**
- * Исключение при ошибке получения токена (jwt)
+ * Исключение при ошибке удаления записей из базы данных
  */
-public class GetJwtException extends Exception {
+public class DeleteFromDbException extends Exception {
+
     @StringRes
     private final int messageRes;
 
-    public GetJwtException(int messageRes) {
+    public DeleteFromDbException(String message, int messageRes) {
+        super(message);
         this.messageRes = messageRes;
     }
 
-    public GetJwtException(int messageRes, Throwable cause) {
+    public DeleteFromDbException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -21,4 +23,5 @@ public class GetJwtException extends Exception {
     public int getMessageRes() {
         return messageRes;
     }
+
 }
