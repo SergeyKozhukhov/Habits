@@ -10,5 +10,6 @@
     <string name="insert_db_success_message">"Успешно добавлено"</string>
     <string name="insert_web_success_message">"Успешно произведено резервено копирование на сервер"</string>
     <string name="change_progress_db_success_message">"Данные успешно модифицированы"</string>
+    <string name="log_out__success_message">"Вы вышли из аккаунта"</string>
 
 </resources>

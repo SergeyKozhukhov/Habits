@@ -7,27 +7,6 @@
     android:orientation="vertical"
     tools:context="ru.sergeykozhukhov.habits.MainActivity">
 
-   <!-- <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/openAddHabitButton"
-            app:expandedTitleGravity="end|bottom"
-            app:title="title"
-            app:titleEnabled="true">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                app:menu="@menu/main_menu"/>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>-->
-
 
     <FrameLayout
         android:id="@+id/host_fragment_frame_layout"
@@ -36,23 +15,14 @@
         android:layout_weight="0.5" />
 
 
-    <LinearLayout
-        android:id="@+id/guide_app_action_bar"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-
-        <Button
-            android:id="@+id/open_statistics_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="stat" />
-
-
-
-    </LinearLayout>
+        app:menu="@menu/bottom_menu"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white" />
 
 
 </LinearLayout>

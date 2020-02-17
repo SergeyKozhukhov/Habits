@@ -1,53 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="16dp"
+    app:elevation="8dp">
 
-    <EditText
-        android:id="@+id/title_habit_edit_text"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="title" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/description_habit_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:layout_below="@id/title_habit_edit_text"
-        android:text="description"/>
+        <EditText
+            android:id="@+id/title_habit_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="title" />
 
-    <EditText
-        android:id="@+id/date_start_habit_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:layout_below="@id/description_habit_edit_text"/>
+        <EditText
+            android:id="@+id/description_habit_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_habit_edit_text"
+            android:inputType="text"
+            android:text="description" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/date_start_habit_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/date_start_habit_edit_text"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_date_range"/>
+        <EditText
+            android:id="@+id/date_start_habit_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description_habit_edit_text"
+            android:inputType="date" />
 
-
-    <EditText
-        android:id="@+id/duration_habit_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/date_start_habit_edit_text"
-        android:inputType="numberDecimal" />
-
-    <Button
-        android:id="@+id/add_habit_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/duration_habit_edit_text"
-        android:text="add" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/date_start_habit_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/date_start_habit_edit_text"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_date_range" />
 
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/duration_habit_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date_start_habit_edit_text"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/add_habit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/duration_habit_edit_text"
+            android:text="add" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/account_replication_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Восстановление сохраненный данных" />
+
+    <Button
+        android:id="@+id/account_backup_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Резервная копия" />
+
+    <Button
+        android:id="@+id/account_log_out_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выйти из аккаунта"/>
+
+</LinearLayout>

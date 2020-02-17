@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/open_habit_list_item_menu"
+        android:icon="@drawable/ic_format_list"
+        android:title="Привычки"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/open_statistics_item_menu"
+        android:icon="@drawable/ic_insert_chart"
+        android:title="График"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/open_settings_item_menu"
+        android:icon="@drawable/ic_settings_applications"
+        android:title="Настройки"
+        app:showAsAction="always" />
+
+</menu>

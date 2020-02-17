@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <ru.sergeykozhukhov.habits.base.presentation.view.custom.CalendarProgressView
+    <ru.sergeykozhukhov.habits.presentation.view.custom.CalendarProgressView
         android:id="@+id/calendar_piker_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

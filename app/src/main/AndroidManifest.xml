@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name="ru.sergeykozhukhov.habits.AccountActivity"></activity>
         <activity android:name="ru.sergeykozhukhov.habits.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,16 +21,12 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="ru.sergeykozhukhov.habits.NetworkChangeReceiver" >
+        <receiver android:name="ru.sergeykozhukhov.habits.presentation.element.NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-
-
     </application>
-
-
 
 </manifest>

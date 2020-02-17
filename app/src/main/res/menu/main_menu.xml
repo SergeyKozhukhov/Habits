@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/open_settings_item_menu"
-        android:icon="@drawable/ic_settings_applications"
-        android:title="settings"
+        android:id="@+id/open_account"
+        android:icon="@drawable/ic_account"
+        android:title="Аккаунт"
         app:showAsAction="always" />
 </menu>

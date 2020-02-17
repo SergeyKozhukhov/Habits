@@ -3,27 +3,29 @@ package ru.sergeykozhukhov.habits;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.base.presentation.view.AddHabitFragment;
-import ru.sergeykozhukhov.habits.base.presentation.view.AuthenticationFragment;
-import ru.sergeykozhukhov.habits.base.presentation.view.HabitsListFragment;
-import ru.sergeykozhukhov.habits.base.presentation.view.ProgressFragment;
-import ru.sergeykozhukhov.habits.base.presentation.view.RegistrationFragment;
-import ru.sergeykozhukhov.habits.base.presentation.view.SettingsFragment;
-import ru.sergeykozhukhov.habits.base.presentation.view.StatisticsFragment;
-import ru.sergeykozhukhov.habits.notes.database.HabitsDatabase;
+import ru.sergeykozhukhov.habits.presentation.element.NetworkChangeReceiver;
+import ru.sergeykozhukhov.habits.presentation.view.AddHabitFragment;
+import ru.sergeykozhukhov.habits.presentation.view.account.AuthenticationFragment;
+import ru.sergeykozhukhov.habits.presentation.view.HabitsListFragment;
+import ru.sergeykozhukhov.habits.presentation.view.ProgressFragment;
+import ru.sergeykozhukhov.habits.presentation.view.account.RegistrationFragment;
+import ru.sergeykozhukhov.habits.presentation.view.SettingsFragment;
+import ru.sergeykozhukhov.habits.presentation.view.StatisticsFragment;
+
 
 public class MainActivity extends AppCompatActivity implements HabitsListFragment.ProgressHolder,
         HabitsListFragment.OnAddClickListener, SettingsFragment.OnClientClickListener {
 
-    private Button open_statistics_button;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +49,40 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
     }
 
     private void initViews(){
-        open_statistics_button = findViewById(R.id.open_statistics_button);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
     }
 
     public void initListeners(){
 
-        open_statistics_button.setOnClickListener(new View.OnClickListener() {
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.host_fragment_frame_layout, StatisticsFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.open_habit_list_item_menu:
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+                                .replace(R.id.host_fragment_frame_layout, HabitsListFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case R.id.open_statistics_item_menu:
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+                                .replace(R.id.host_fragment_frame_layout, StatisticsFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case R.id.open_settings_item_menu:
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+                                .replace(R.id.host_fragment_frame_layout, SettingsFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                }
+                return true;
             }
         });
 
@@ -72,17 +96,19 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.open_settings_item_menu) {
-            getSupportFragmentManager().beginTransaction()
+        if (item.getItemId() == R.id.open_account) {
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            startActivity(intent);
+            /*getSupportFragmentManager().beginTransaction()
                     .replace(R.id.host_fragment_frame_layout, SettingsFragment.newInstance())
                     .addToBackStack(null)
-                    .commit();
+                    .commit();*/
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void showProgress(@NonNull ru.sergeykozhukhov.habits.base.model.domain.Habit habit) {
+    public void showProgress(@NonNull ru.sergeykozhukhov.habits.model.domain.Habit habit) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.host_fragment_frame_layout, ProgressFragment.newInstance(habit))
                 .addToBackStack(null)
