@@ -6,12 +6,7 @@
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:id="@+id/progress_horizontal_bar_chart"
         android:layout_width="match_parent"
-        android:layout_height="400dp"/>
+        android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/statistics_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
 
 </LinearLayout>

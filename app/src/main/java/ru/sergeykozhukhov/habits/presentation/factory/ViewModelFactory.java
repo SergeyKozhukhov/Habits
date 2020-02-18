@@ -27,14 +27,15 @@ import ru.sergeykozhukhov.habits.domain.usecase.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
-import ru.sergeykozhukhov.habits.presentation.AccountManagerViewModel;
-import ru.sergeykozhukhov.habits.presentation.AddHabitViewModel;
-import ru.sergeykozhukhov.habits.presentation.AuthenticationViewModel;
-import ru.sergeykozhukhov.habits.presentation.BackupViewModel;
-import ru.sergeykozhukhov.habits.presentation.HabitsListViewModel;
-import ru.sergeykozhukhov.habits.presentation.ProgressViewModel;
-import ru.sergeykozhukhov.habits.presentation.RegistrationViewModel;
-import ru.sergeykozhukhov.habits.presentation.StatisticsViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.ProgressViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.RegistrationViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.SettingsViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.StatisticsViewModel;
 
 /**
  * Фабрика создания ViewModel
@@ -101,7 +102,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             // noinspection unchecked
             return (T) new AddHabitViewModel(insertHabitInteractor);
         }
-        else if (BackupViewModel.class.equals(modelClass)){
+        else if (AccountViewModel.class.equals(modelClass)){
             IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
 
             IHabitsWebRepository habitsWebRepository = Repositories.newWebRepository();
@@ -123,11 +124,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             DeleteAllHabitsDbInteractor deleteAllHabitsInteractor = new DeleteAllHabitsDbInteractor(habitsDatabaseRepository);
 
             // noinspection unchecked
-            return (T) new BackupViewModel(
+            return (T) new AccountViewModel(
                     insertWebHabitsInteractor,
                     replicationListHabitsWebInteractor,
-                    deleteJwtInteractor,
-                    deleteAllHabitsInteractor);
+                    deleteJwtInteractor);
         }
         else if (ProgressViewModel.class.equals(modelClass)){
             IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
@@ -152,6 +152,19 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             // noinspection unchecked
             return (T) new AccountManagerViewModel(getJwtValueInteractor);
         }
+
+        else if (SettingsViewModel.class.equals(modelClass)){
+
+            IHabitsWebRepository habitsWebRepository = Repositories.newWebRepository();
+            IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(context);
+            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
+
+            DeleteAllHabitsDbInteractor deleteAllHabitsDbInteractor = new DeleteAllHabitsDbInteractor(habitsDatabaseRepository);
+
+            // noinspection unchecked
+            return (T) new SettingsViewModel(deleteAllHabitsDbInteractor);
+        }
+
         else{
             return super.create(modelClass);
         }

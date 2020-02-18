@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.RegistrationViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.RegistrationViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
 public class RegistrationFragment extends Fragment {

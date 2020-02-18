@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.AuthenticationViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
 public class AuthenticationFragment extends Fragment {

@@ -12,8 +12,10 @@
         android:layout_above="@id/authentication_account_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/holo_orange_light"
         android:text="Регистрация" />
+
+    <!--android:background="@android:color/transparent"-->
 
     <Button
         android:id="@+id/authentication_account_button"
@@ -22,7 +24,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
-        android:background="@android:color/transparent"
+        android:alpha="0.6"
+        android:backgroundTint="@android:color/holo_orange_light"
         android:text="Авторизация" />
 
 </RelativeLayout>

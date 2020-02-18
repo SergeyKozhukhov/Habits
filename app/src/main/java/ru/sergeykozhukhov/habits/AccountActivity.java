@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import okhttp3.Authenticator;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.AccountManagerViewModel;
-import ru.sergeykozhukhov.habits.presentation.HabitsListViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.view.account.AccountFragment;
 import ru.sergeykozhukhov.habits.presentation.view.account.AuthenticationFragment;

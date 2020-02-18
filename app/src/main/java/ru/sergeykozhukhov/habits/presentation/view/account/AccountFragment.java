@@ -15,13 +15,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.BackupViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
-import ru.sergeykozhukhov.habits.presentation.view.SettingsFragment;
 
 public class AccountFragment extends Fragment{
 
-    private BackupViewModel backupViewModel;
+    private AccountViewModel accountViewModel;
 
     private Button testBackupButton;
     private Button testReplicationButton;
@@ -69,7 +68,7 @@ public class AccountFragment extends Fragment{
         testBackupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backupViewModel.insertHabitWithProgressesList();
+                accountViewModel.insertHabitWithProgressesList();
             }
         });
 
@@ -77,14 +76,14 @@ public class AccountFragment extends Fragment{
             @Override
             public void onClick(View v) {
 
-                backupViewModel.LoadHabitWithProgressesList();
+                accountViewModel.LoadHabitWithProgressesList();
             }
         });
 
         testLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backupViewModel.logout();
+                accountViewModel.logout();
             }
         });
 
@@ -96,10 +95,10 @@ public class AccountFragment extends Fragment{
 
     private void setupMvvm(){
 
-        backupViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
-                .get(BackupViewModel.class);
+        accountViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
+                .get(AccountViewModel.class);
 
-        backupViewModel.getIsLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        accountViewModel.getIsLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isLoaded) {
                 if(isLoaded)
@@ -109,7 +108,7 @@ public class AccountFragment extends Fragment{
             }
         });
 
-        backupViewModel.getIsInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        accountViewModel.getIsInsertedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isInserted) {
                 if (isInserted)
@@ -117,21 +116,21 @@ public class AccountFragment extends Fragment{
             }
         });
 
-        backupViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+        accountViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer idRes) {
                 Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             }
         });
 
-        backupViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+        accountViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer idRes) {
                 Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             }
         });
 
-        backupViewModel.getLogOutSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+        accountViewModel.getLogOutSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer idRes) {
                 Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();

@@ -1,19 +1,14 @@
-package ru.sergeykozhukhov.habits.presentation;
-
-import android.util.Log;
+package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.domain.usecase.GetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
-import ru.sergeykozhukhov.habits.model.exception.RegisterException;
 
 public class AccountManagerViewModel extends ViewModel {
 

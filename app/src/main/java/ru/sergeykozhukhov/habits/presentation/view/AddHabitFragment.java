@@ -24,7 +24,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.AddHabitViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
 public class AddHabitFragment extends Fragment {

@@ -21,9 +21,9 @@ import ru.sergeykozhukhov.habits.presentation.view.account.RegistrationFragment;
 import ru.sergeykozhukhov.habits.presentation.view.SettingsFragment;
 import ru.sergeykozhukhov.habits.presentation.view.StatisticsFragment;
 
-
+// https://www.flaticon.com/packs/landscapes-collection
 public class MainActivity extends AppCompatActivity implements HabitsListFragment.ProgressHolder,
-        HabitsListFragment.OnAddClickListener, SettingsFragment.OnClientClickListener {
+        HabitsListFragment.OnAddClickListener, SettingsFragment.OnAccountClickListener {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -123,19 +123,10 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
                 .commit();
     }
 
-    @Override
-    public void onRegistrationClick() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.host_fragment_frame_layout, RegistrationFragment.newInstance())
-                .addToBackStack(null)
-                .commit();
-    }
 
     @Override
-    public void onAuthenticationClick() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.host_fragment_frame_layout, AuthenticationFragment.newInstance())
-                .addToBackStack(null)
-                .commit();
+    public void onAccountClick() {
+        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+        startActivity(intent);
     }
 }

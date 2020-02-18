@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation;
+package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
 import android.util.Log;
 
@@ -23,14 +23,13 @@ import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
 /**
  * ViewModel для резервного копирования всей информации
  */
-public class BackupViewModel extends ViewModel {
+public class AccountViewModel extends ViewModel {
 
     private static final String TAG = "HabitsListViewModel";
 
     private final BackupWebHabitListWebInteractor insertWebHabitsInteractor;
     private final ReplicationListHabitsWebInteractor replicationListHabitsWebInteractor;
     private final DeleteJwtInteractor deleteJwtInteractor;
-    private final DeleteAllHabitsDbInteractor deleteAllHabitsInteractor;
 
     private CompositeDisposable compositeDisposable;
 
@@ -42,15 +41,13 @@ public class BackupViewModel extends ViewModel {
     private final SingleLiveEvent<Integer> logOutSuccessSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
 
-    public BackupViewModel(
+    public AccountViewModel(
             @NonNull BackupWebHabitListWebInteractor insertWebHabitsInteractor,
             @NonNull ReplicationListHabitsWebInteractor replicationListHabitsWebInteractor,
-            @NonNull DeleteJwtInteractor deleteJwtInteractor,
-            @NonNull DeleteAllHabitsDbInteractor deleteAllHabitsInteractor) {
+            @NonNull DeleteJwtInteractor deleteJwtInteractor) {
         this.insertWebHabitsInteractor = insertWebHabitsInteractor;
         this.replicationListHabitsWebInteractor = replicationListHabitsWebInteractor;
         this.deleteJwtInteractor = deleteJwtInteractor;
-        this.deleteAllHabitsInteractor = deleteAllHabitsInteractor;
 
         initData();
     }
@@ -100,17 +97,6 @@ public class BackupViewModel extends ViewModel {
 
     }
 
-    public void deleteAllHabits(){
-        compositeDisposable.add(deleteAllHabitsInteractor.deleteAllHabits()
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(() -> {
-                    successSingleLiveEvent.postValue(R.string.delete_from_db_success_message);
-                }, throwable -> {
-                    if (throwable instanceof DeleteFromDbException) {
-                        errorSingleLiveEvent.postValue((((DeleteFromDbException) throwable).getMessageRes()));
-                    }
-                }));
-    }
 
     public void logout(){
         deleteJwtInteractor.deleteJwt();
@@ -132,7 +118,6 @@ public class BackupViewModel extends ViewModel {
     public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {
         return successSingleLiveEvent;
     }
-
 
     public SingleLiveEvent<Integer> getLogOutSuccessSingleLiveEvent() {
         return logOutSuccessSingleLiveEvent;

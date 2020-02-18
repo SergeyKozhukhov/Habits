@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,9 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.savvi.rangedatepicker.CalendarPickerView;
 import com.savvi.rangedatepicker.SubTitle;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +24,7 @@ import java.util.List;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
-import ru.sergeykozhukhov.habits.presentation.ProgressViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.ProgressViewModel;
 
 public class ProgressFragment extends Fragment {
 
@@ -36,6 +35,11 @@ public class ProgressFragment extends Fragment {
     private ProgressViewModel progressViewModel;
 
     private CalendarPickerView calendarProgressPickerView;
+
+    private TextView titleHabitTextView;
+    private TextView startDateHabitTextView;
+    private TextView durationHabitTextView;
+    private TextView descriptionHabitTextView;
 
 
     public static ProgressFragment newInstance() {
@@ -61,6 +65,11 @@ public class ProgressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        titleHabitTextView = view.findViewById(R.id.title_habit_text_view);
+        startDateHabitTextView = view.findViewById(R.id.start_date_habit_text_view);
+        durationHabitTextView = view.findViewById(R.id.duration_habit_text_view);
+        descriptionHabitTextView = view.findViewById(R.id.description_habit_text_view);
 
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
     }
@@ -93,6 +102,15 @@ public class ProgressFragment extends Fragment {
         Date max = getHabitFromArgs().getEndDate();
 
         calendarProgressPickerView.init(min, max);
+
+        Habit habit = getHabitFromArgs();
+
+        titleHabitTextView.setText(habit.getTitle());
+        startDateHabitTextView.setText(habit.getStartDate().toString());
+        durationHabitTextView.setText("Продолжительность: " + String.valueOf(habit.getDuration()));
+        descriptionHabitTextView.setText(habit.getDescription());
+
+
     }
 
     private void setupMvvm() {

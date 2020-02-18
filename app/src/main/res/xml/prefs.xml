@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <Preference
+        app:key="@string/pref_account_key"
+        app:title="Аккаунт"
+        app:icon="@drawable/ic_account_black"
+        app:summary="Резервное копировани и восстановление данных"
+        />
+
+    <Preference
+        app:key="@string/pref_delete_all_key"
+        app:title="Сброс всех записей"
+        app:icon="@drawable/ic_delete_all_black"
+        app:summary="Удаление все информации о привычках с базы данных телефона"
+        />
+
+
+
+</PreferenceScreen>

@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation;
+package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
 import android.util.Log;
 

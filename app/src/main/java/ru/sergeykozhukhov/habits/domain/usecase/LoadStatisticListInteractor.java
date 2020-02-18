@@ -15,6 +15,8 @@ public class LoadStatisticListInteractor implements ILoadStatisticListInteractor
 
     private final IHabitsDatabaseRepository habitsRepository;
 
+    //private List<Float>
+
     public LoadStatisticListInteractor(IHabitsDatabaseRepository habitsRepository) {
         this.habitsRepository = habitsRepository;
     }

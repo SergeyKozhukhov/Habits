@@ -8,6 +8,10 @@
     <color name="colorPrimaryDark">#7BC7FF</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name ="openAddHabitButton">#4CB6FF</color>
+    <color name="openAddHabitButton">#4CB6FF</color>
+
+    <color name="green">#00E609</color>
+    <color name="yellow">#F8FF03</color>
+    <color name="orange">#FF9C00</color>
 
 </resources>
