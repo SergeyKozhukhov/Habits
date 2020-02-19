@@ -29,7 +29,7 @@ import ru.sergeykozhukhov.habits.model.domain.Statistic;
 
 public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
 
-    private static final String TAG = "DatabaseRepository";
+    private static final String TAG = "HabitsDatabaseRepository";
 
     private HabitsDatabase habitsDatabase;
     private HabitDao habitDao;
@@ -38,7 +38,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     private HabitConverter habitConverter;
     private HabitListConverter habitListConverter;
 
-    private ProgressConverter progressConverter;
     private ProgressListConverter progressListConverter;
 
     private HabitWithProgressesConverter habitWithProgressesConverter;
@@ -49,7 +48,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     public HabitsDatabaseRepository(@NonNull HabitsDatabase habitsDatabase,
                                     @NonNull HabitConverter habitConverter,
                                     @NonNull HabitListConverter habitListConverter,
-                                    @NonNull ProgressConverter progressConverter,
                                     @NonNull ProgressListConverter progressListConverter,
                                     @NonNull HabitWithProgressesConverter habitWithProgressesConverter,
                                     @NonNull HabitWithProgressesListConverter habitWithProgressesListConverter,
@@ -60,7 +58,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         this.habitConverter = habitConverter;
         this.habitListConverter = habitListConverter;
 
-        this.progressConverter = progressConverter;
         this.progressListConverter = progressListConverter;
 
         this.habitWithProgressesConverter = habitWithProgressesConverter;
@@ -79,17 +76,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         return habitDao.insertHabit(habitConverter.convertFrom(habit));
     }
 
-    @NonNull
-    @Override
-    public Completable insertHabitList(@NonNull List<Habit> habitList) {
-        return habitDao.insertHabitList(habitListConverter.convertFrom(habitList));
-    }
-
-    @NonNull
-    @Override
-    public Completable insertProgress(@NonNull Progress progress) {
-        return progressDao.insertProgress(progressConverter.convertFrom(progress));
-    }
 
     @NonNull
     @Override
@@ -134,13 +120,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
 
     @NonNull
     @Override
-    public Single<List<Progress>> loadProgressList() {
-        return progressDao.getProgressList()
-                .map(progressDataList -> progressListConverter.convertTo(progressDataList));
-    }
-
-    @NonNull
-    @Override
     public Single<List<Statistic>> loadStatisticList() {
         return habitDao.getStatisticList()
                 .map(statisticDataList ->
@@ -153,12 +132,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         return habitDao.getHabitWithProgressesList()
                 .map(habitWithProgressesDataList ->
                         habitWithProgressesListConverter.convertTo(habitWithProgressesDataList));
-    }
-
-    @NonNull
-    @Override
-    public Completable updateHabit(@NonNull Habit habit) {
-        return habitDao.updateHabit(habitConverter.convertFrom(habit));
     }
 
     @NonNull

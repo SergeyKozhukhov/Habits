@@ -8,11 +8,13 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 import ru.sergeykozhukhov.habits.data.converter.HabitListConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesListConverter;
 import ru.sergeykozhukhov.habits.data.converter.ProgressListConverter;
 import ru.sergeykozhukhov.habits.data.converter.RegistrationConverter;
+import ru.sergeykozhukhov.habits.model.data.JwtData;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
 import ru.sergeykozhukhov.habits.model.domain.Registration;
@@ -36,9 +38,6 @@ public class HabitsWebRepository implements IHabitsWebRepository {
     private RegistrationConverter registrationConverter;
     private ConfidentialityConverter confidentialityConverter;
 
-    private HabitConverter habitConverter;
-    private HabitListConverter habitListConverter;
-    private ProgressListConverter progressListConverter;
     private HabitWithProgressesListConverter habitWithProgressesListConverter;
 
     private JwtConverter jwtConverter;
@@ -47,55 +46,36 @@ public class HabitsWebRepository implements IHabitsWebRepository {
             @NonNull HabitsRetrofitClient habitsRetrofitClient,
             @NonNull RegistrationConverter registrationConverter,
             @NonNull ConfidentialityConverter confidentialityConverter,
-            @NonNull HabitConverter habitConverter,
-            @NonNull HabitListConverter habitListConverter,
-            @NonNull ProgressListConverter progressListConverter,
             @NonNull HabitWithProgressesListConverter habitWithProgressesListConverter,
             @NonNull JwtConverter jwtConverter) {
         this.habitsRetrofitClient = habitsRetrofitClient;
         this.registrationConverter = registrationConverter;
         this.confidentialityConverter = confidentialityConverter;
-        this.habitConverter = habitConverter;
-        this.habitListConverter = habitListConverter;
-        this.progressListConverter = progressListConverter;
         this.habitWithProgressesListConverter = habitWithProgressesListConverter;
         this.jwtConverter = jwtConverter;
         habitsService = habitsRetrofitClient.getApiService();
     }
 
+    @NonNull
     @Override
     public Completable registerClient(@NonNull Registration registration) {
         return habitsService.registerClient(registrationConverter.convertFrom(registration));
     }
 
+    @NonNull
     @Override
     public Single<Jwt> authenticateClient(@NonNull Confidentiality confidentiality) {
         return habitsService.authenticateClient(confidentialityConverter.convertFrom(confidentiality))
-                .map(jwtData -> {
-                    Log.d(TAG, "authenticateClient: " + jwtData.getJwt());
-                    return jwtConverter.convertTo(jwtData);
+                .map(new Function<JwtData, Jwt>() {
+                    @Override
+                    public Jwt apply(JwtData jwtData) throws Exception {
+                        Log.d(TAG, "authenticateClient: " + jwtData.getJwt());
+                        return jwtConverter.convertTo(jwtData);
+                    }
                 });
     }
 
-    @Override
-    public Single<Habit> insertHabit(Habit habit, @NonNull String jwt) {
-        return habitsService.insertHabit(habitConverter.convertFrom(habit), jwt)
-                .map(habitData -> {
-                    Log.d(TAG, "insertHabit: " + habitData.getIdHabitServer());
-                    return habitConverter.convertTo(habitData);
-                });
-    }
-
-    @Override
-    public Completable insertHabits(List<Habit> habitList, @NonNull String jwt) {
-        return habitsService.insertHabitList(habitListConverter.convertFrom(habitList), jwt);
-    }
-
-    @Override
-    public Completable insertProgressList(List<Progress> progressList, @NonNull String jwt) {
-        return habitsService.insertProgressList(progressListConverter.convertFrom(progressList), jwt);
-    }
-
+    @NonNull
     @Override
     public Completable insertHabitWithProgressesList(List<HabitWithProgresses> habitWithProgressesList, @NonNull String jwt) {
         return habitsService.insertHabitWithProgressesList(
@@ -103,12 +83,7 @@ public class HabitsWebRepository implements IHabitsWebRepository {
                 jwt);
     }
 
-    @Override
-    public Single<List<Habit>> loadHabitList(@NonNull String jwt) {
-        return habitsService.loadHabitList(jwt)
-                .map(habitDataList -> habitListConverter.convertTo(habitDataList));
-    }
-
+    @NonNull
     @Override
     public Single<List<HabitWithProgresses>> loadHabitWithProgressesList(@NonNull String jwt) {
         return habitsService.loadHabitWithProgressesList(jwt)
@@ -119,6 +94,7 @@ public class HabitsWebRepository implements IHabitsWebRepository {
     public void setJwt(@NonNull Jwt jwt) {
         habitsRetrofitClient.setJwtData(jwtConverter.convertFrom(jwt));
     }
+
 
     @Override
     public Jwt getJwt() {

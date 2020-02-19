@@ -33,7 +33,6 @@ public class Repositories {
                 HabitsDatabase.getInstance(context),
                 new HabitConverter(),
                 new HabitListConverter(new HabitConverter()),
-                new ProgressConverter(),
                 new ProgressListConverter(new ProgressConverter()),
                 new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter(new ProgressConverter())),
                 new HabitWithProgressesListConverter(new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter(new ProgressConverter()))),
@@ -45,9 +44,6 @@ public class Repositories {
                 HabitsRetrofitClient.getInstance(),
                 new RegistrationConverter(),
                 new ConfidentialityConverter(),
-                new HabitConverter(),
-                new HabitListConverter(new HabitConverter()),
-                new ProgressListConverter(new ProgressConverter()),
                 new HabitWithProgressesListConverter(new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter(new ProgressConverter()))),
                 new JwtConverter()
         );

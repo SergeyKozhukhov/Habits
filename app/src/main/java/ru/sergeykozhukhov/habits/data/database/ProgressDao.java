@@ -24,42 +24,12 @@ public interface ProgressDao {
     Single<List<ProgressData>> getProgressByHabit(long idHabit);
 
     /**
-     * Получение всех записей дат выполения по всем привычкам
-     * @return
-     */
-    @Query("SELECT * FROM progresses")
-    Single<List<ProgressData>> getProgressList();
-
-    /**
-     * Добавление записи о дате выполнения
-     * @param progressData
-     * @return
-     */
-    @Insert
-    Completable insertProgress(ProgressData progressData);
-
-    /**
      * Добавление списка записей о датах выполнения
      * @param progressDataList
      * @return
      */
     @Insert
     Completable insertProgressList(List<ProgressData> progressDataList);
-
-    /**
-     * Обновление записи о дате выполнения
-     * @param progressData
-     * @return
-     */
-    @Update
-    Completable updateProgress(ProgressData progressData);
-
-    /**
-     * Удаление записи о дате выполнения
-     * @param progressData
-     */
-    @Delete
-    void deleteProgress(ProgressData progressData);
 
     /**
      * Удаление списка записей о датах выполнения

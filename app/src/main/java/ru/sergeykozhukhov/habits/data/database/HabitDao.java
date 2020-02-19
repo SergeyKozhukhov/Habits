@@ -53,30 +53,6 @@ public interface HabitDao {
     Single<Long> insertHabit(HabitData habitData);
 
     /**
-     * Добавление списка записей о привычках
-     * @param habitData
-     * @return
-     */
-    @Insert
-    Completable insertHabitList(List<HabitData> habitData);
-
-    /**
-     * Обновление записи о привычке
-     * @param habitData
-     * @return
-     */
-    @Update
-    Completable updateHabit(HabitData habitData);
-
-    /**
-     * Удаление записи о привычке
-     * @param habitData
-     * @return
-     */
-    @Delete
-    Completable deleteHabit(HabitData habitData);
-
-    /**
      * Удаление всех записей о привычках
      */
     @Query("DELETE from habits")

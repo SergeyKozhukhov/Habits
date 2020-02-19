@@ -22,20 +22,6 @@ public interface IHabitsDatabaseRepository {
     @NonNull Single<Long> insertHabit(@NonNull Habit habit);
 
     /**
-     * Добавление списка привычек
-     * @param habitList
-     * @return
-     */
-    @NonNull Completable insertHabitList(@NonNull List<Habit> habitList);
-
-    /**
-     * Добавление даты выполнения
-     * @param progress
-     * @return
-     */
-    @NonNull Completable insertProgress(@NonNull Progress progress);
-
-    /**
      * Добавление списка дат выполнения
      * @param progressList
      * @return
@@ -63,12 +49,6 @@ public interface IHabitsDatabaseRepository {
     @NonNull Single<List<Progress>> loadProgressListByIdHabit(long idHabit);
 
     /**
-     * Загрузка списка дат выполнения всех привычек
-     * @return
-     */
-    @NonNull Single<List<Progress>> loadProgressList();
-
-    /**
      * Загрузка списка привычек с колличетсвом выполнныех дней
      * @return
      */
@@ -79,13 +59,6 @@ public interface IHabitsDatabaseRepository {
      * @return
      */
     @NonNull Single<List<HabitWithProgresses>> loadHabitWithProgressesList();
-
-    /**
-     * Обновление информации о привычке
-     * @param habit
-     * @return
-     */
-    @NonNull Completable updateHabit(@NonNull Habit habit);
 
     /**
      * Удаление всех привычек

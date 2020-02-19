@@ -29,29 +29,6 @@ public interface IHabitsWebRepository {
      */
     @NonNull Single<Jwt> authenticateClient(@NonNull Confidentiality confidentiality);
 
-    /**
-     * Добавление привычки
-     * @param habit
-     * @param jwt
-     * @return
-     */
-    @NonNull Single<Habit> insertHabit(Habit habit, @NonNull String jwt);
-
-    /**
-     * Добавление списка привычек
-     * @param habitList
-     * @param jwt
-     * @return
-     */
-    @NonNull Completable insertHabits(List<Habit> habitList, @NonNull String jwt);
-
-    /**
-     * Добавление списка дат выполения
-     * @param progressList
-     * @param jwt
-     * @return
-     */
-    @NonNull Completable insertProgressList(List<Progress> progressList, @NonNull String jwt);
 
     /**
      * Добавление списка привычек с соответствующими списками дат выполнения
@@ -61,12 +38,6 @@ public interface IHabitsWebRepository {
      */
     @NonNull Completable insertHabitWithProgressesList(List<HabitWithProgresses> habitWithProgressesList, @NonNull String jwt);
 
-    /**
-     * Получение списка всех привычек
-     * @param jwt
-     * @return
-     */
-    @NonNull Single<List<Habit>> loadHabitList(@NonNull String jwt);
 
     /**
      * Получение списка всех привычек с соответствующими списками дат выполнения
