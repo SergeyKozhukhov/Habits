@@ -44,16 +44,18 @@ public class HabitsWebRepository implements IHabitsWebRepository {
 
     public HabitsWebRepository(
             @NonNull HabitsRetrofitClient habitsRetrofitClient,
+            @NonNull IHabitsService habitsService,
             @NonNull RegistrationConverter registrationConverter,
             @NonNull ConfidentialityConverter confidentialityConverter,
             @NonNull HabitWithProgressesListConverter habitWithProgressesListConverter,
             @NonNull JwtConverter jwtConverter) {
         this.habitsRetrofitClient = habitsRetrofitClient;
+        this.habitsService = habitsService;
         this.registrationConverter = registrationConverter;
         this.confidentialityConverter = confidentialityConverter;
         this.habitWithProgressesListConverter = habitWithProgressesListConverter;
         this.jwtConverter = jwtConverter;
-        habitsService = habitsRetrofitClient.getApiService();
+        //habitsService = habitsRetrofitClient.getApiService();
     }
 
     @NonNull

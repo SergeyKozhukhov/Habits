@@ -42,6 +42,7 @@ public class Repositories {
     public static IHabitsWebRepository newWebRepository(){
         return new HabitsWebRepository(
                 HabitsRetrofitClient.getInstance(),
+                HabitsRetrofitClient.getInstance().getApiService(),
                 new RegistrationConverter(),
                 new ConfidentialityConverter(),
                 new HabitWithProgressesListConverter(new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter(new ProgressConverter()))),
