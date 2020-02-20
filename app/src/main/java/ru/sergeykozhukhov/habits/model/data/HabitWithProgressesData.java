@@ -1,6 +1,7 @@
 package ru.sergeykozhukhov.habits.model.data;
 
 import androidx.room.Embedded;
+import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import com.google.gson.annotations.Expose;
@@ -24,6 +25,10 @@ public class HabitWithProgressesData {
     @Relation(parentColumn = "id_habit", entityColumn = "id_habit")
     private List<ProgressData> progressDataList;
 
+    public HabitWithProgressesData(HabitData habitData, List<ProgressData> progressDataList) {
+        this.habitData = habitData;
+        this.progressDataList = progressDataList;
+    }
 
     public HabitData getHabitData() {
         return habitData;

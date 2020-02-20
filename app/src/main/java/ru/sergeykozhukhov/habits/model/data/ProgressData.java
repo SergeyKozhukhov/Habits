@@ -3,6 +3,7 @@ package ru.sergeykozhukhov.habits.model.data;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -40,6 +41,12 @@ public class ProgressData {
     @SerializedName("date")
     @Expose
     private Date date;
+
+    @Ignore
+    public ProgressData(long idHabit, Date date) {
+        this.idHabit = idHabit;
+        this.date = date;
+    }
 
     public ProgressData(long idProgress, long idProgressServer, long idHabit, Date date) {
         this.idProgress = idProgress;

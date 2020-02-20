@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.StatisticsViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
@@ -78,8 +80,8 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void setupMvvm() {
-        statisticsViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
-                .get(StatisticsViewModel.class);
+
+        statisticsViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(StatisticsViewModel.class);
 
         statisticsViewModel.getLoadSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<List<Statistic>>() {
             @Override

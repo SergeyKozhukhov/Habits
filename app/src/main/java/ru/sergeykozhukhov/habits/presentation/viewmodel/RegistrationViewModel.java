@@ -25,7 +25,7 @@ public class RegistrationViewModel extends ViewModel {
 
     private CompositeDisposable compositeDisposable;
 
-    private final SingleLiveEvent<Integer> succesSingleLiveEvent = new SingleLiveEvent<>();
+    private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
 
 
@@ -46,7 +46,7 @@ public class RegistrationViewModel extends ViewModel {
                 .subscribe(new Action() {
                                @Override
                                public void run() throws Exception {
-                                   succesSingleLiveEvent.postValue(R.string.registration_success_message);
+                                   successSingleLiveEvent.postValue(R.string.registration_success_message);
                                }
                            },
                         new Consumer<Throwable>() {
@@ -66,8 +66,8 @@ public class RegistrationViewModel extends ViewModel {
 
     }
 
-    public SingleLiveEvent<Integer> getSuccesSingleLiveEvent() {
-        return succesSingleLiveEvent;
+    public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {
+        return successSingleLiveEvent;
     }
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {

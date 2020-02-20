@@ -13,7 +13,6 @@ import ru.sergeykozhukhov.habits.model.data.ProgressData;
 public abstract class HabitsDatabase extends RoomDatabase {
 
     public abstract HabitDao getHabitDao();
-    public abstract ProgressDao getProgressDao();
 
     private static HabitsDatabase habitsDatabase;
     private static final String DATABASE_NAME = "database.db";

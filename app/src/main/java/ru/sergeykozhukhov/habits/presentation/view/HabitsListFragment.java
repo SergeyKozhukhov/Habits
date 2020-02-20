@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.view.adapter.HabitsListAdapter;
@@ -120,9 +122,7 @@ public class HabitsListFragment extends Fragment {
     }
 
     private void setupMvvm() {
-        habitsListViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
-                .get(HabitsListViewModel.class);
-
+        habitsListViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(HabitsListViewModel.class);
 
         habitsListViewModel.getHabitListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Habit>>() {
             @Override

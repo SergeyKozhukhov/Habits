@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.text.SimpleDateFormat;
@@ -125,8 +126,8 @@ public class AddHabitFragment extends Fragment {
     }
 
     private void setupMvvm(){
-        addHabitViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
-                .get(AddHabitViewModel.class);
+
+        addHabitViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(AddHabitViewModel.class);
 
         addHabitViewModel.getInsertedSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override

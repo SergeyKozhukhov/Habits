@@ -2,6 +2,8 @@ package ru.sergeykozhukhov.habits.domain.usecase.provider;
 
 import org.reactivestreams.Subscription;
 
+import java.util.function.Consumer;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
@@ -32,9 +34,10 @@ public class NetworkControllerInteractor implements INetworkControllerInteractor
     }
 
     @Override
-    public void subscribe(Observer<Boolean> observer) {
-        networkConnectionStatus.subscribe(observer);
+    public Disposable subscribe(Consumer<Boolean> onNext, Consumer<Throwable> onError) {
+        return networkConnectionStatus.subscribe();
     }
+
 
 
     @Override

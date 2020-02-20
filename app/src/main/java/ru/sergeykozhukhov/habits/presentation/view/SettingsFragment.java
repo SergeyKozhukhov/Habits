@@ -9,12 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.SettingsViewModel;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -92,8 +94,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private void setupMvvm(){
 
-        settingsViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
-                .get(SettingsViewModel.class);
+        settingsViewModel= new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(SettingsViewModel.class);
 
 
         settingsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {

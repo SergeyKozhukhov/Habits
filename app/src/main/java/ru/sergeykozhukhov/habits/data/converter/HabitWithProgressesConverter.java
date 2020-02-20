@@ -32,9 +32,10 @@ public class HabitWithProgressesConverter implements IConverter<HabitWithProgres
     @NonNull
     @Override
     public HabitWithProgressesData convertFrom(@NonNull HabitWithProgresses habitWithProgresses) {
-        HabitWithProgressesData habitWithProgressesData = new HabitWithProgressesData();
-        habitWithProgressesData.setHabitData(habitConverter.convertFrom(habitWithProgresses.getHabit()));
-        habitWithProgressesData.setProgressDataList(progressListConverter.convertFrom(habitWithProgresses.getProgressList()));
-        return habitWithProgressesData;
+
+        return new HabitWithProgressesData(
+                habitConverter.convertFrom(habitWithProgresses.getHabit()),
+                progressListConverter.convertFrom(habitWithProgresses.getProgressList())
+        );
     }
 }

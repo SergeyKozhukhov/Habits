@@ -55,7 +55,6 @@ public class HabitsWebRepository implements IHabitsWebRepository {
         this.confidentialityConverter = confidentialityConverter;
         this.habitWithProgressesListConverter = habitWithProgressesListConverter;
         this.jwtConverter = jwtConverter;
-        //habitsService = habitsRetrofitClient.getApiService();
     }
 
     @NonNull
@@ -68,13 +67,7 @@ public class HabitsWebRepository implements IHabitsWebRepository {
     @Override
     public Single<Jwt> authenticateClient(@NonNull Confidentiality confidentiality) {
         return habitsService.authenticateClient(confidentialityConverter.convertFrom(confidentiality))
-                .map(new Function<JwtData, Jwt>() {
-                    @Override
-                    public Jwt apply(JwtData jwtData) throws Exception {
-                        Log.d(TAG, "authenticateClient: " + jwtData.getJwt());
-                        return jwtConverter.convertTo(jwtData);
-                    }
-                });
+                .map(jwtData -> jwtConverter.convertTo(jwtData));
     }
 
     @NonNull

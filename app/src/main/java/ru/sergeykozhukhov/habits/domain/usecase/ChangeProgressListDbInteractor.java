@@ -30,7 +30,6 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
     private List<Date> progressAddedList;
     private List<Date> progressDeletedList;
 
-
     public ChangeProgressListDbInteractor(IHabitsDatabaseRepository habitsDatabaseRepository) {
         this.habitsDatabaseRepository = habitsDatabaseRepository;
 

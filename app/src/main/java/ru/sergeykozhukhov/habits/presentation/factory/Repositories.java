@@ -30,7 +30,7 @@ public class Repositories {
 
     public static IHabitsDatabaseRepository newDatabaseRepository(Context context){
         return new HabitsDatabaseRepository(
-                HabitsDatabase.getInstance(context),
+                HabitsDatabase.getInstance(context).getHabitDao(),
                 new HabitConverter(),
                 new HabitListConverter(new HabitConverter()),
                 new ProgressListConverter(new ProgressConverter()),
