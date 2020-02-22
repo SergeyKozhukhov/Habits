@@ -7,14 +7,18 @@ import org.mockito.Mock;
 import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subscribers.TestSubscriber;
+import okhttp3.ResponseBody;
+import retrofit2.HttpException;
 import retrofit2.Response;
 import ru.sergeykozhukhov.habits.data.converter.ConfidentialityConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesListConverter;
@@ -121,33 +125,28 @@ public class HabitsWebRepositoryTest {
     @Test
     public void authenticateClientSuccess() {
 
-        // arrange
-
         Confidentiality confidentiality = new Confidentiality("email", "password");
         ConfidentialityData confidentialityData = new ConfidentialityData("email", "password");
 
         Jwt jwt = new Jwt("token");
         JwtData jwtData = new JwtData("token");
 
-        Single<Jwt> jwtSingle = Single.just(jwt);
         Single<JwtData> jwtDataSingle = Single.just(jwtData);
-
 
         when(confidentialityConverter.convertFrom(confidentiality)).thenReturn(confidentialityData);
         when(jwtConverter.convertTo(jwtData)).thenReturn(jwt);
+
         when(habitsService.authenticateClient(confidentialityData)).thenReturn(jwtDataSingle);
-        when(habitsWebRepository.authenticateClient(confidentiality)).thenReturn(jwtSingle); // не проходит
-        //when(habitsWebRepository.authenticateClient(confidentiality)).thenReturn(jwtSingle.delay(2, TimeUnit.SECONDS)); // проходит
 
-        // act
+        habitsWebRepository.authenticateClient(confidentiality)
+                .test()
+                .assertNoErrors()
+                .assertValue(jwt);
 
-        TestObserver<Jwt> testObserver = habitsWebRepository.authenticateClient(confidentiality).test();
-
-        // assert
-
-        testObserver.assertNoErrors();
-        testObserver.assertValue(jwt);
-
+        verify(confidentialityConverter).convertFrom(confidentiality);
+        verify(habitsService).authenticateClient(confidentialityData);
+        verify(jwtConverter).convertTo(jwtData);
+        verifyNoMoreInteractions(habitsService);
 
     }
 
