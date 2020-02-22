@@ -71,13 +71,8 @@ public class AddHabitFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initData();
         initViewListeners();
         setupMvvm();
-    }
-
-    private void initData(){
-
     }
 
     private void initViewListeners(){

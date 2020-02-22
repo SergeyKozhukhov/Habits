@@ -74,7 +74,6 @@ public class HabitsListFragment extends Fragment {
         initData();
         initListeners();
         initViews();
-
         setupMvvm();
 
 
