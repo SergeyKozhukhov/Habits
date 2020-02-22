@@ -1,41 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardCornerRadius="16dp"
-    app:elevation="8dp">
+    android:layout_height="match_parent"
+    android:background="#99ffffff"
+    android:clickable="true"
+    android:focusable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_vertical">
 
         <EditText
             android:id="@+id/title_habit_edit_text"
+            style="@style/account_edit_text_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="title" />
+            android:drawableRight="@drawable/ic_text_fields_black"
+            android:hint="Название"
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/description_habit_edit_text"
+            style="@style/account_edit_text_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title_habit_edit_text"
-            android:inputType="text"
-            android:text="description" />
+            android:drawableRight="@drawable/ic_description_black"
+            android:hint="Описание"
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/date_start_habit_edit_text"
+            style="@style/account_edit_text_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/description_habit_edit_text"
+            android:hint="Дата начала"
             android:inputType="date" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/date_start_habit_image_button"
+            style="@style/account_edit_text_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/date_start_habit_edit_text"
@@ -45,18 +53,22 @@
 
         <EditText
             android:id="@+id/duration_habit_edit_text"
+            style="@style/account_edit_text_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/date_start_habit_edit_text"
+            android:drawableRight="@drawable/ic_hourglass_empty_black"
+            android:hint="Продолжительность"
             android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/add_habit_button"
+            style="@style/account_button_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_habit_edit_text"
-            android:text="add" />
+            android:text="Добавить" />
 
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+</FrameLayout>

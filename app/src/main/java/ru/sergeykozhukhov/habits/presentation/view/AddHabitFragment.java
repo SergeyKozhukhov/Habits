@@ -81,47 +81,34 @@ public class AddHabitFragment extends Fragment {
     }
 
     private void initViewListeners(){
-        add_habit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        add_habit_button.setOnClickListener(v -> addHabitViewModel.insertHabit(
+                title_habit_edit_text.getText().toString(),
+                description_habit_edit_text.getText().toString(),
+                date_start_edit_text.getText().toString(),
+                duration_description_edit_text.getText().toString()
+        ));
 
-                addHabitViewModel.insertHabit(
-                        title_habit_edit_text.getText().toString(),
-                        description_habit_edit_text.getText().toString(),
-                        date_start_edit_text.getText().toString(),
-                        duration_description_edit_text.getText().toString()
-                );
-            }
+        date_start_image_button.setOnClickListener(v -> {
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            new DatePickerDialog(requireContext(), setStartDateCallBack,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)).show();
         });
 
-        date_start_image_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GregorianCalendar calendar = new GregorianCalendar();
-                calendar.setTime(new Date());
-                new DatePickerDialog(requireContext(), setStartDateCallBack,
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+        setStartDateCallBack = (view, year, monthOfYear, dayOfMonth) -> {
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.set(year, monthOfYear, dayOfMonth);
 
-        setStartDateCallBack = new DatePickerDialog.OnDateSetListener() {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "dd-MM-yyyy", // шаблон форматирования
+                    Locale.getDefault() // язык отображения (получение языка по-умолчанию)
+            );
 
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                GregorianCalendar calendar = new GregorianCalendar();
-                calendar.set(year, monthOfYear, dayOfMonth);
+            String dateString = dateFormat.format(calendar.getTime());
+            date_start_edit_text.setText(dateString);
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat(
-                        "dd-MM-yyyy", // шаблон форматирования
-                        Locale.getDefault() // язык отображения (получение языка по-умолчанию)
-                );
-
-                String dateString = dateFormat.format(calendar.getTime());
-                date_start_edit_text.setText(dateString);
-
-            }
         };
     }
 

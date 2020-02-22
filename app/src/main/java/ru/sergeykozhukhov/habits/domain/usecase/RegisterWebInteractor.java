@@ -7,7 +7,7 @@ import io.reactivex.Completable;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IRegisterWebInteractor;
-import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IBuildRegistrationInstance;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildRegistrationInstance;
 import ru.sergeykozhukhov.habits.model.domain.Registration;
 import ru.sergeykozhukhov.habits.model.exception.BuildException;
 import ru.sergeykozhukhov.habits.model.exception.RegisterException;

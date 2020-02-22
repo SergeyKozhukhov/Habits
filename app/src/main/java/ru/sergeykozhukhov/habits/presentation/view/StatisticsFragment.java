@@ -40,6 +40,10 @@ public class StatisticsFragment extends Fragment {
     private HorizontalBarChart progressHorizontalBarChart;
     private TextView statisticsTextView;
 
+    private static final int COLOR_YELLOW = 0xFFFFFF00;
+    private static final int COLOR_GOLD = 0xFFFFD700;
+    private static final int COLOR_ORANGE = 0xFFFFA500;
+
     public static Fragment newInstance() {
 
         return new StatisticsFragment();
@@ -63,7 +67,6 @@ public class StatisticsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initData();
-        // setSkillGraph();
         setupMvvm();
         initListeners();
 
@@ -86,12 +89,7 @@ public class StatisticsFragment extends Fragment {
         statisticsViewModel.getLoadSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<List<Statistic>>() {
             @Override
             public void onChanged(List<Statistic> statisticList) {
-                // setData(statisticList, 100.0f);
-
                 setSkillGraph(statisticList);
-
-                //setSkillGraph();
-
                 Toast.makeText(requireContext(), String.valueOf(statisticList.size()), Toast.LENGTH_SHORT).show();
             }
         });
@@ -111,14 +109,6 @@ public class StatisticsFragment extends Fragment {
     private void setSkillGraph(List<Statistic> statisticList) {
         //skill_rating_chart is the id of the XML layout
 
-        /*String description = Description()
-        description.text = ""
-        skillRatingChart.description = description*
-         */
-        /*Description description = new Description();
-        description.setText("Процент выполнения");
-        description.setPosition(-10.0f, 0);
-        progressHorizontalBarChart.setDescription(description);*/
         progressHorizontalBarChart.getDescription().setEnabled(false);
         progressHorizontalBarChart.getLegend().setEnabled(false);
         progressHorizontalBarChart.setPinchZoom(false);
@@ -151,7 +141,7 @@ public class StatisticsFragment extends Fragment {
 
             @Override
             public String getFormattedValue(float value) {
-                return String.valueOf(statisticList.get((int) value).getIdHabit());
+                return String.valueOf(statisticList.get((int) value).getTitle());
             }
         };
 
@@ -189,34 +179,23 @@ public class StatisticsFragment extends Fragment {
             entries.add(new BarEntry(indexX, percent));
             int color = 0;
             if (percent < 33.3f) {
-                color = R.color.orange;
+                //color = R.color.orange;
+                color = COLOR_ORANGE;
             } else if (percent > 66.6f) {
-                color = R.color.green;
+                //color = R.color.green;
+                color = COLOR_YELLOW;
             } else {
-                color = R.color.yellow;
+                //color = R.color.yellow;
+                color = COLOR_GOLD;
             }
-            listColor.add(requireContext().getResources().getColor(color));
+            //listColor.add(requireContext().getResources().getColor(color));
+            listColor.add(color);
             indexX = indexX + 1.0f;
         }
 
         //Note : These entries can be replaced by real-time data, say, from an API
-
         BarDataSet barDataSet = new BarDataSet(entries, "Bar Data Set");
-
-        //barDataSet.setDrawValues(true);
-      /*  barDataSet.setValueTextSize(20.0f);
-        barDataSet.setBarBorderWidth(0.1f);*/
-
         barDataSet.setColors(listColor);
-
-
-        /*barDataSet.setColors(
-                ContextCompat.getColor(progressHorizontalBarChart.getContext(), R.color.colorAccent),
-                ContextCompat.getColor(progressHorizontalBarChart.getContext(), R.color.calendar_bg),
-                ContextCompat.getColor(progressHorizontalBarChart.getContext(), R.color.colorAccent),
-                ContextCompat.getColor(progressHorizontalBarChart.getContext(), R.color.calendar_inactive_month_bg),
-                ContextCompat.getColor(progressHorizontalBarChart.getContext(), R.color.colorAccent));*/
-
 
         progressHorizontalBarChart.setDrawBarShadow(true);
         barDataSet.setBarShadowColor(Color.argb(40, 150, 150, 150));
@@ -232,6 +211,16 @@ public class StatisticsFragment extends Fragment {
         progressHorizontalBarChart.invalidate();
 
     }
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -51,9 +51,9 @@ public class ProgressFragment extends Fragment {
     public static ProgressFragment newInstance(@NonNull Habit habit) {
 
         ProgressFragment progressFragment = new ProgressFragment();
-        Bundle args = new Bundle(); // создание объекта для передачи данных
-        args.putParcelable(ARG_HABIT, habit); // запись данных по лекции lecture c ключом ARG_LECTURE в bundle
-        progressFragment.setArguments(args); // закрепление данных за данных фрагментом с сохранением их при повороте экрана
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_HABIT, habit);
+        progressFragment.setArguments(args);
         return progressFragment;
     }
 

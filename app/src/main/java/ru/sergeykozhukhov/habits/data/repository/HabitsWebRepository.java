@@ -9,18 +9,24 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
-import ru.sergeykozhukhov.habits.data.converter.ConfidentialityConverter;
+import ru.sergeykozhukhov.habits.data.converter.HabitListConverter;
+import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesListConverter;
-import ru.sergeykozhukhov.habits.data.converter.JwtConverter;
+import ru.sergeykozhukhov.habits.data.converter.ProgressListConverter;
 import ru.sergeykozhukhov.habits.data.converter.RegistrationConverter;
+import ru.sergeykozhukhov.habits.model.data.JwtData;
+import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
+import ru.sergeykozhukhov.habits.model.domain.Progress;
+import ru.sergeykozhukhov.habits.model.domain.Registration;
+import ru.sergeykozhukhov.habits.data.converter.ConfidentialityConverter;
+import ru.sergeykozhukhov.habits.data.converter.HabitConverter;
+import ru.sergeykozhukhov.habits.data.converter.JwtConverter;
 import ru.sergeykozhukhov.habits.data.retrofit.HabitsRetrofitClient;
 import ru.sergeykozhukhov.habits.data.retrofit.IHabitsService;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.model.data.JwtData;
 import ru.sergeykozhukhov.habits.model.domain.Confidentiality;
-import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
+import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
-import ru.sergeykozhukhov.habits.model.domain.Registration;
 
 public class HabitsWebRepository implements IHabitsWebRepository {
 

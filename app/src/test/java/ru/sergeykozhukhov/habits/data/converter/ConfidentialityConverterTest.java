@@ -15,7 +15,7 @@ public class ConfidentialityConverterTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         confidentialityConverter = new ConfidentialityConverter();
     }
 

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 
@@ -13,6 +14,6 @@ import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 public interface IReplicationWebInteractor {
 
     @NonNull
-    Single<List<HabitWithProgresses>> loadHabitWithProgressesList();
+    Completable loadHabitWithProgressesList();
 
 }

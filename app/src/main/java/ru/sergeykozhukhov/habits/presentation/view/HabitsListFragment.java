@@ -63,10 +63,8 @@ public class HabitsListFragment extends Fragment {
 
         );
         new CenterSnapHelper().attachToRecyclerView(habitsListRecyclerView);
-        //habitsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         openAddFragmentFloatingActionButton = view.findViewById(R.id.add_habit_floating_action_button);
-        //habitsListRecyclerView.setLayoutManager(new CircleLayoutManager(view.getContext()));
     }
 
     @Override
@@ -88,27 +86,21 @@ public class HabitsListFragment extends Fragment {
 
     private void initListeners() {
 
-        habitClickListener = new HabitsListAdapter.IHabitClickListener() {
-            @Override
-            public void onItemClick(Habit habit) {
-                FragmentActivity activity = getActivity();
-                if (activity instanceof ProgressHolder) {
-                    ((ProgressHolder) activity).showProgress(habit);
+        habitClickListener = habit -> {
+            FragmentActivity activity = getActivity();
+            if (activity instanceof ProgressHolder) {
+                ((ProgressHolder) activity).showProgress(habit);
 
-                }
             }
         };
         habitsListAdapter.setHabitClickListener(habitClickListener);
 
-        openAddFragmentFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        openAddFragmentFloatingActionButton.setOnClickListener(v -> {
 
-                FragmentActivity activity = getActivity();
-                if (activity instanceof OnAddClickListener) {
-                    ((OnAddClickListener) activity).onClick();
+            FragmentActivity activity = getActivity();
+            if (activity instanceof OnAddClickListener) {
+                ((OnAddClickListener) activity).onClick();
 
-                }
             }
         });
 

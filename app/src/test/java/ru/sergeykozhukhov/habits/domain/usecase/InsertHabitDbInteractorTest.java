@@ -11,12 +11,10 @@ import java.util.Date;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.data.repository.HabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.domain.usecase.provider.BuildHabitInstace;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.model.exception.BuildException;
 import ru.sergeykozhukhov.habits.model.exception.InsertDbException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;

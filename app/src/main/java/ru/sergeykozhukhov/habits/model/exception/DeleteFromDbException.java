@@ -26,6 +26,7 @@ public class DeleteFromDbException extends Exception {
         return messageRes;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

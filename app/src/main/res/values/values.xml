@@ -2,5 +2,6 @@
 <resources>
 
     <string name="pref_account_key" translatable="false">account_key</string>
+    <string name="pref_delete_all_key" translatable="false">delete_all_key</string>
 
 </resources>

@@ -5,8 +5,12 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
@@ -53,22 +57,17 @@ public class AccountViewModel extends ViewModel {
     }
 
 
-    private void initData(){
+    private void initData() {
         isInsertedSingleLiveEvent = new SingleLiveEvent<>();
         isLoadedSingleLiveEvent = new SingleLiveEvent<>();
 
         compositeDisposable = new CompositeDisposable();
     }
 
-    public void LoadHabitWithProgressesList(){
+    public void LoadHabitWithProgressesList() {
         Disposable disposable = replicationListHabitsWebInteractor.loadHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(habitsWithProgresses -> {
-                    isLoadedSingleLiveEvent.postValue(true);
-                    for (HabitWithProgresses habitsWithProgress : habitsWithProgresses) {
-                        Log.d(TAG, "loadListHabitsWeb" + habitsWithProgress.toString());
-                    }
-                }, throwable -> {
+                .subscribe(() -> isLoadedSingleLiveEvent.postValue(true), throwable -> {
                     if (throwable instanceof GetJwtException) {
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
                     }
@@ -76,7 +75,7 @@ public class AccountViewModel extends ViewModel {
         compositeDisposable.add(disposable);
     }
 
-    public void insertHabitWithProgressesList(){
+    public void insertHabitWithProgressesList() {
         compositeDisposable.add(insertWebHabitsInteractor.insertHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(() -> {
@@ -86,19 +85,17 @@ public class AccountViewModel extends ViewModel {
                 }, throwable -> {
                     if (throwable instanceof GetJwtException) {
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
-                    }
-                    else if (throwable instanceof LoadDbException){
+                    } else if (throwable instanceof LoadDbException) {
                         errorSingleLiveEvent.postValue(((LoadDbException) throwable).getMessageRes());
-                    }
-                    else if (throwable instanceof InsertWebException){
-                        errorSingleLiveEvent.postValue(((InsertWebException)throwable).getMessageRes());
+                    } else if (throwable instanceof InsertWebException) {
+                        errorSingleLiveEvent.postValue(((InsertWebException) throwable).getMessageRes());
                     }
                 }));
 
     }
 
 
-    public void logout(){
+    public void logout() {
         deleteJwtInteractor.deleteJwt();
         logOutSuccessSingleLiveEvent.postValue(R.string.log_out__success_message);
     }

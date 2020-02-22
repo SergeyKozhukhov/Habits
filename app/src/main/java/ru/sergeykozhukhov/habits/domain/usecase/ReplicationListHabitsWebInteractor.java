@@ -1,20 +1,20 @@
 package ru.sergeykozhukhov.habits.domain.usecase;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import java.util.List;
 
-import io.reactivex.CompletableObserver;
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Single;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.SingleSource;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IReplicationWebInteractor;
-import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IGetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
 import ru.sergeykozhukhov.habits.model.exception.LoadWebException;
@@ -36,37 +36,36 @@ public class ReplicationListHabitsWebInteractor implements IReplicationWebIntera
 
     @NonNull
     @Override
-    public Single<List<HabitWithProgresses>> loadHabitWithProgressesList() {
+    public Completable loadHabitWithProgressesList() {
 
         String jwt;
         try {
             jwt = getJwtValue.getValue();
         } catch (GetJwtException e) {
-            return Single.error(e);
+            return Completable.error(e);
         }
 
+
         return habitsWebRepository.loadHabitWithProgressesList(jwt)
+                .onErrorResumeNext(throwable -> Single.error(new LoadWebException(R.string.load_web_exception, throwable)))
+                .flatMapCompletable(
+                        new Function<List<HabitWithProgresses>, CompletableSource>() {
+                            @Override
+                            public CompletableSource apply(List<HabitWithProgresses> habitWithProgresses) throws Exception {
+                                return habitsDatabaseRepository.deleteAllHabits()
+                                        .andThen(habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgresses));
+                            }
+                        });
+
+
+
+        /*return habitsWebRepository.loadHabitWithProgressesList(jwt)
                 .doOnSuccess(habitWithProgresses -> {
                     habitsDatabaseRepository.deleteAllHabits().subscribe();
                     habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgresses)
                             .subscribeOn(Schedulers.io())
-                            .subscribe(new CompletableObserver() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-
-                                }
-
-                                @Override
-                                public void onComplete() {
-                                    Log.d("FF", "111" );
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    Log.d("FF", "222" );
-                                }
-                            });
+                            .subscribe();
                 })
-                .onErrorResumeNext(throwable -> Single.error(new LoadWebException(R.string.load_web_exception, throwable)));
+                .onErrorResumeNext(throwable -> Single.error(new LoadWebException(R.string.load_web_exception, throwable)));*/
     }
 }

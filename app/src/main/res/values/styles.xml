@@ -27,6 +27,7 @@
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_marginBottom">16dp</item>
         <item name="android:padding">16dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
         <item name="android:background">@drawable/account_button_fill</item>
 
     </style>

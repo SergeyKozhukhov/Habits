@@ -3,11 +3,9 @@ package ru.sergeykozhukhov.habits.presentation.viewmodel;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IGetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
 
 public class AccountManagerViewModel extends ViewModel {
@@ -35,20 +33,13 @@ public class AccountManagerViewModel extends ViewModel {
 
 
     public void isLogInClient() {
-        compositeDisposable.add(getJwtValueInteractor.getValueSingle().subscribe(new Consumer<Jwt>() {
-            @Override
-            public void accept(Jwt jwt) throws Exception {
-                successSingleLiveEvent.postValue(R.string.authentication_success_message);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                if (throwable instanceof GetJwtException) {
-                    errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
-                }
 
-            }
-        }));
+        try {
+            getJwtValueInteractor.getValue();
+            successSingleLiveEvent.postValue(R.string.authentication_success_message);
+        } catch (GetJwtException e) {
+            errorSingleLiveEvent.postValue((e.getMessageRes()));
+        }
     }
 
     public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {

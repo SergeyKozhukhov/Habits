@@ -6,17 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IBuildConfidentialityInstance;
-import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IBuildHabitInstance;
-import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IBuildRegistrationInstance;
-import ru.sergeykozhukhov.habits.domain.IInreractor.provider.IGetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildConfidentialityInstance;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildHabitInstance;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildRegistrationInstance;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadStatisticListInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.RegisterWebInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.provider.BuildConfidentialityInstance;
-import ru.sergeykozhukhov.habits.domain.usecase.provider.BuildHabitInstace;
+import ru.sergeykozhukhov.habits.domain.usecase.BuildConfidentialityInstance;
+import ru.sergeykozhukhov.habits.domain.usecase.BuildHabitInstace;
 import ru.sergeykozhukhov.habits.domain.usecase.ChangeProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.provider.BuildRegistrationInstance;
+import ru.sergeykozhukhov.habits.domain.usecase.BuildRegistrationInstance;
 import ru.sergeykozhukhov.habits.domain.usecase.GetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
@@ -27,6 +27,7 @@ import ru.sergeykozhukhov.habits.domain.usecase.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecase.NetworkControllerInteractor;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
@@ -89,8 +90,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
                     habitsPreferencesRepository,
                     buildConfidentialityInstance);
 
+            NetworkControllerInteractor networkControllerInteractor = NetworkControllerInteractor.getInstance();
+
             // noinspection unchecked
-            return (T) new AuthenticationViewModel(authenticateClientInteractor);
+            return (T) new AuthenticationViewModel(authenticateClientInteractor, networkControllerInteractor);
         }
         else if (AddHabitViewModel.class.equals(modelClass)){
             IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
