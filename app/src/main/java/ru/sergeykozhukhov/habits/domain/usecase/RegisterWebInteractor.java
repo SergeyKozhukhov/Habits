@@ -14,7 +14,7 @@ import ru.sergeykozhukhov.habits.model.exception.RegisterException;
 
 public class RegisterWebInteractor implements IRegisterWebInteractor {
 
-    public static final String TAG = "registrateClientInter";
+    public static final String TAG = "registerClientInter";
     private final IHabitsWebRepository habitsWebRepository;
     private final IBuildRegistrationInstance buildRegistrationInstance;
 
