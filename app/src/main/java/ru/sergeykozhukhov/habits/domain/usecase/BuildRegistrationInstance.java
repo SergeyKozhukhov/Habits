@@ -10,8 +10,13 @@ import ru.sergeykozhukhov.habits.model.exception.BuildException;
 
 public class BuildRegistrationInstance implements IBuildRegistrationInstance {
 
-    private static final int minLength = 2;
-    private static final int maxLength = 30;
+    private static final int nameMinLength = 2;
+    private static final int nameMaxLength = 15;
+
+    private static final int emailMinLength = 5;
+
+    private static final int passwordMinLength = 5;
+    private static final int passwordMaxLength = 30;
 
     @NonNull
     @Override
@@ -23,16 +28,23 @@ public class BuildRegistrationInstance implements IBuildRegistrationInstance {
 
         if (firstaname == null || lastname == null || email == null || password == null || passwordConfirmation == null)
             throw new BuildException(R.string.null_data_build_instance_exception);
+        if (firstaname.length() <= nameMinLength)
+            throw new BuildException(R.string.firstname_min_build_instance_exception);
+        if (firstaname.length() >= nameMaxLength)
+            throw new BuildException(R.string.firstname_max_build_instance_exception);
+        if (lastname.length() <= nameMinLength)
+            throw new BuildException(R.string.lastname_min_build_instance_exception);
+        if (lastname.length() >= nameMaxLength)
+            throw new BuildException(R.string.lastname_max_build_instance_exception);
+        if (email.length() <= emailMinLength)
+            throw new BuildException(R.string.email_min_build_instance_exception);
+        if (password.length() <= passwordMinLength)
+            throw new BuildException(R.string.password_min_build_instance_exception);
+        if (password.length() >= passwordMaxLength)
+            throw new BuildException(R.string.password_max_build_instance_exception);
         if (!password.equals(passwordConfirmation))
-            throw new BuildException(R.string.null_data_build_instance_exception);
-        if (firstaname.length() < minLength || firstaname.length() > maxLength)
-            throw new BuildException(R.string.null_data_build_instance_exception);
-        if (lastname.length() < minLength || lastname.length() > maxLength)
-            throw new BuildException(R.string.null_data_build_instance_exception);
-        if (email.length() < minLength || email.length() > maxLength)
-            throw new BuildException(R.string.null_data_build_instance_exception);
-        if (password.length()<minLength || password.length() > maxLength)
-            throw new BuildException(R.string.null_data_build_instance_exception);
+            throw new BuildException(R.string.password_confirmation_build_instance_exception);
+
         return new Registration(firstaname, lastname, email, password);
     }
 }

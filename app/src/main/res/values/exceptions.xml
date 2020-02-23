@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="null_data_build_instance_exception">"Неверные данные"</string>
+
+    <string name="firstname_min_build_instance_exception">"Имя должено быть длиннее"</string>
+    <string name="firstname_max_build_instance_exception">"Имя должено быть короче"</string>
+    <string name="lastname_min_build_instance_exception">"Фамилия должена быть длиннее"</string>
+    <string name="lastname_max_build_instance_exception">"Фамилия должена быть короче"</string>
     <string name="email_min_build_instance_exception">"email должен быть длиннее"</string>
     <string name="password_min_build_instance_exception">"Пароль должен быть длиннее"</string>
     <string name="password_max_build_instance_exception">"Пароль должен быть короче"</string>
+    <string name="password_confirmation_build_instance_exception">"Пароли не совпадают"</string>
 
     <string name="get_jwt_exception">"Вы не авторизованы"</string>
     <string name="authenticate_exception">"Ошибка авторизации"</string>
