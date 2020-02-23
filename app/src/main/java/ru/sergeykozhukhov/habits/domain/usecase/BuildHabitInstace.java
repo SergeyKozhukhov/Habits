@@ -26,11 +26,11 @@ public class BuildHabitInstace implements IBuildHabitInstance {
                        @Nullable String startDate,
                        @Nullable String duration) throws BuildException {
         if (title == null || description == null || startDate == null|| duration == null)
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         if (title.length() >maxTitle)
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         if (title.length() < 2 || description.length() < 2){
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -42,17 +42,17 @@ public class BuildHabitInstace implements IBuildHabitInstance {
         try {
             date = dateFormat.parse(startDate);
         } catch (ParseException e) {
-            throw new BuildException(R.string.build_instance_exception, e);
+            throw new BuildException(R.string.null_data_build_instance_exception, e);
         }
 
         int durationInt;
         try {
             durationInt = Integer.parseInt(duration);
             if (durationInt > maxDuration || durationInt < minDuration){
-                throw new BuildException(R.string.build_instance_exception);
+                throw new BuildException(R.string.null_data_build_instance_exception);
             }
         } catch (NumberFormatException e) {
-            throw new BuildException(R.string.build_instance_exception, e);
+            throw new BuildException(R.string.null_data_build_instance_exception, e);
         }
 
         Habit habit = new Habit();

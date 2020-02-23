@@ -22,17 +22,17 @@ public class BuildRegistrationInstance implements IBuildRegistrationInstance {
                               @Nullable String passwordConfirmation) throws BuildException {
 
         if (firstaname == null || lastname == null || email == null || password == null || passwordConfirmation == null)
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         if (!password.equals(passwordConfirmation))
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         if (firstaname.length() < minLength || firstaname.length() > maxLength)
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         if (lastname.length() < minLength || lastname.length() > maxLength)
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         if (email.length() < minLength || email.length() > maxLength)
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         if (password.length()<minLength || password.length() > maxLength)
-            throw new BuildException(R.string.build_instance_exception);
+            throw new BuildException(R.string.null_data_build_instance_exception);
         return new Registration(firstaname, lastname, email, password);
     }
 }

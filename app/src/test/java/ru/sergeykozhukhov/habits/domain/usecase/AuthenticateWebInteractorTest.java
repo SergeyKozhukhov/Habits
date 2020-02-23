@@ -9,24 +9,18 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import io.reactivex.Single;
-import io.reactivex.observers.TestObserver;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.data.repository.GeneratorData;
-import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.model.data.ConfidentialityData;
 import ru.sergeykozhukhov.habits.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.exception.AuthenticateException;
 import ru.sergeykozhukhov.habits.model.exception.BuildException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -79,7 +73,7 @@ public class AuthenticateWebInteractorTest {
         String email = "ivanov@gmail.com";
         String password = "workhardplayhard";
 
-        BuildException buildException = new BuildException(R.string.build_instance_exception);
+        BuildException buildException = new BuildException(R.string.null_data_build_instance_exception);
 
         when(buildConfidentialityInstance.build(email, password)).thenThrow(buildException);
 

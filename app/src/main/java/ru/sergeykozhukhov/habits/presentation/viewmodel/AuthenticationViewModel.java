@@ -14,6 +14,7 @@ import ru.sergeykozhukhov.habits.domain.usecase.AuthenticateWebInteractor;
 
 import ru.sergeykozhukhov.habits.domain.usecase.NetworkControllerInteractor;
 import ru.sergeykozhukhov.habits.model.exception.AuthenticateException;
+import ru.sergeykozhukhov.habits.model.exception.BuildException;
 
 /**
  * ViewModel для входа пользователя в свой аккаунт
@@ -69,6 +70,9 @@ public class AuthenticationViewModel extends ViewModel {
                         successSingleLiveEvent.postValue(R.string.authentication_success_message);
                         Log.d(TAG, "authenticateClient: success");
                     }, throwable -> {
+                        if (throwable instanceof BuildException) {
+                            errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
+                        }
                         if (throwable instanceof AuthenticateException) {
                             errorSingleLiveEvent.postValue((((AuthenticateException) throwable).getMessageRes()));
                             Log.d(TAG, "authenticateClient: error");

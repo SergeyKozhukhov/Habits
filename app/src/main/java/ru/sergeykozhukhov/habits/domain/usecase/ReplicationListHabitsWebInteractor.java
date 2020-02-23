@@ -51,13 +51,11 @@ public class ReplicationListHabitsWebInteractor implements IReplicationWebIntera
                 .flatMapCompletable(
                         new Function<List<HabitWithProgresses>, CompletableSource>() {
                             @Override
-                            public CompletableSource apply(List<HabitWithProgresses> habitWithProgresses) throws Exception {
+                            public CompletableSource apply(List<HabitWithProgresses> habitWithProgresses) {
                                 return habitsDatabaseRepository.deleteAllHabits()
                                         .andThen(habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgresses));
                             }
                         });
-
-
 
         /*return habitsWebRepository.loadHabitWithProgressesList(jwt)
                 .doOnSuccess(habitWithProgresses -> {

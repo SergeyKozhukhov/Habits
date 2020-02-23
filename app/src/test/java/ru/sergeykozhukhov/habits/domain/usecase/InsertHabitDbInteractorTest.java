@@ -68,7 +68,7 @@ public class InsertHabitDbInteractorTest {
         String startDate = "01-01-2000";
         String duration = "-10";
 
-        BuildException buildException = new BuildException(R.string.build_instance_exception);
+        BuildException buildException = new BuildException(R.string.null_data_build_instance_exception);
 
         when(buildHabitInstace.build(title, description, startDate, duration)).thenThrow(buildException);
 
