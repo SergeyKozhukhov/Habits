@@ -19,10 +19,6 @@ public class LoadStatisticListInteractor implements ILoadStatisticListInteractor
 
     private final IHabitsDatabaseRepository habitsRepository;
 
-    private static final int COLOR_YELLOW = 0xFFFFFF00;
-    private static final int COLOR_GOLD = 0xFFFFD700;
-    private static final int COLOR_ORANGE = 0xFFFFA500;
-
     public LoadStatisticListInteractor(IHabitsDatabaseRepository habitsRepository) {
         this.habitsRepository = habitsRepository;
     }

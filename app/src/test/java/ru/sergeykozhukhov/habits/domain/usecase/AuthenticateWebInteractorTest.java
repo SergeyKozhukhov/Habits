@@ -15,6 +15,7 @@ import retrofit2.Response;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IAuthenticateWebInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.exception.AuthenticateException;

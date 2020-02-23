@@ -27,7 +27,6 @@ import ru.sergeykozhukhov.habits.domain.usecase.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.NetworkControllerInteractor;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
@@ -90,10 +89,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
                     habitsPreferencesRepository,
                     buildConfidentialityInstance);
 
-            NetworkControllerInteractor networkControllerInteractor = NetworkControllerInteractor.getInstance();
 
             // noinspection unchecked
-            return (T) new AuthenticationViewModel(authenticateClientInteractor, networkControllerInteractor);
+            return (T) new AuthenticationViewModel(authenticateClientInteractor);
         }
         else if (AddHabitViewModel.class.equals(modelClass)){
             IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);

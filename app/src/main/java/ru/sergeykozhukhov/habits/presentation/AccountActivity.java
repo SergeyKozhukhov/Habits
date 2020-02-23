@@ -3,29 +3,24 @@ package ru.sergeykozhukhov.habits.presentation;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.IntentFilter;
 import android.os.Bundle;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.NetworkChangeReceiver;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.view.account.AccountFragment;
 import ru.sergeykozhukhov.habits.presentation.view.account.AuthenticationFragment;
 import ru.sergeykozhukhov.habits.presentation.view.account.RegistrationFragment;
 import ru.sergeykozhukhov.habits.presentation.view.account.EnterAccountFragment;
-import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 
 public class AccountActivity extends AppCompatActivity implements EnterAccountFragment.OnClientClickListener,
         AccountFragment.OnLogoutClickListener,
         AuthenticationFragment.OnLoginSuccess,
         RegistrationFragment.OnRegistrationSuccess {
 
-
     private AccountManagerViewModel accountManagerViewModel;
-    private NetworkChangeReceiver networkChangeReceiver;
 
 
     @Override
@@ -33,10 +28,6 @@ public class AccountActivity extends AppCompatActivity implements EnterAccountFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        networkChangeReceiver = new NetworkChangeReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        this.registerReceiver(networkChangeReceiver, filter);
 
 
         setMvvm();
@@ -51,7 +42,6 @@ public class AccountActivity extends AppCompatActivity implements EnterAccountFr
 
     @Override
     protected void onDestroy() {
-        this.unregisterReceiver(networkChangeReceiver);
         super.onDestroy();
     }
 
