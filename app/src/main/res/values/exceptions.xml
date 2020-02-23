@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="build_instance_exception">"Неверные данные"</string>
+    <string name="email_min_build_instance_exception">"Минимальная длинна email - %d"</string>
+
+
+
+
     <string name="get_jwt_exception">"Вы не авторизованы"</string>
     <string name="authenticate_exception">"Ошибка авторизации"</string>
     <string name="register_exception">"Ошибка регистрации"</string>

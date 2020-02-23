@@ -19,7 +19,7 @@ public class BuildRegistrationInstance implements IBuildRegistrationInstance {
                               @Nullable String lastname,
                               @Nullable String email,
                               @Nullable String password,
-                              @Nullable String passwordConfirmation) throws BuildException, BuildException {
+                              @Nullable String passwordConfirmation) throws BuildException {
 
         if (firstaname == null || lastname == null || email == null || password == null || passwordConfirmation == null)
             throw new BuildException(R.string.build_instance_exception);

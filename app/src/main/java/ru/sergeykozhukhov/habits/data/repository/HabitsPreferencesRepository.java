@@ -25,9 +25,12 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
 
     @Override
     public void saveJwt(@NonNull Jwt jwt) {
-        SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
+        habitsPreferences.getSharedPreferences().edit().
+                putString(HabitsPreferences.JWT_PREFERENCES, jwt.getJwt()).
+                apply();
+        /*SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
         editor.putString(HabitsPreferences.JWT_PREFERENCES, jwt.getJwt());
-        editor.apply();
+        editor.apply();*/
     }
 
     @Nullable
@@ -42,9 +45,12 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
 
     @Override
     public void deleteJwt() {
-        SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
+        habitsPreferences.getSharedPreferences().edit()
+                .remove(HabitsPreferences.JWT_PREFERENCES)
+                .apply();
+        /*SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
         editor.remove(HabitsPreferences.JWT_PREFERENCES);
-        editor.apply();
+        editor.apply();*/
     }
 
 

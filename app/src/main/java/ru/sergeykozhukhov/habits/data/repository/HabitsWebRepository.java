@@ -84,10 +84,12 @@ public class HabitsWebRepository implements IHabitsWebRepository {
         habitsRetrofitClient.setJwtData(jwtConverter.convertFrom(jwt));
     }
 
-
     @Override
-    public Jwt getJwt() {
-        return jwtConverter.convertTo(habitsRetrofitClient.getJwtData());
+    public Jwt getJwt() throws NullPointerException {
+        JwtData jwtData = habitsRetrofitClient.getJwtData();
+        if (jwtData == null)
+            throw new NullPointerException();
+        return jwtConverter.convertTo(jwtData);
     }
 
     @Override

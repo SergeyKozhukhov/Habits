@@ -33,6 +33,7 @@ public class HabitsPreferences {
         return sharedPreferences;
     }
 
+
     public void cleanUp(){
         sharedPreferences = null;
     }

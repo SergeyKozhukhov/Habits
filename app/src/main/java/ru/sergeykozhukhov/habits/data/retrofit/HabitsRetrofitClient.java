@@ -74,7 +74,7 @@ public class HabitsRetrofitClient {
         jwtData = null;
     }
 
-    public JwtData getJwtData(){
+    public JwtData getJwtData() {
         return jwtData;
     }
 

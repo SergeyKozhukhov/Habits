@@ -56,7 +56,7 @@ public interface IHabitsWebRepository {
      * Получение из памяти токена
      * @return
      */
-    Jwt getJwt();
+    Jwt getJwt() throws NullPointerException;
 
     void deleteJwt();
 }

@@ -18,6 +18,8 @@ public class BuildConfidentialityInstance implements IBuildConfidentialityInstan
     public Confidentiality build(@Nullable String email, @Nullable String password) throws BuildException {
         if (email == null || password == null)
             throw new BuildException(R.string.build_instance_exception);
+        /*if (email.length() < minLength)
+            throw new BuildException()*/
         if (email.length() < minLength || email.length() > maxLength)
             throw new BuildException(R.string.build_instance_exception);
         if (password.length() < minLength || password.length() > maxLength)

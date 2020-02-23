@@ -24,13 +24,14 @@ public class GetJwtValueInteractor implements IGetJwtValueInteractor {
     @NonNull
     @Override
     public String getValue() throws GetJwtException {
-        try{
+        try {
             Jwt token = habitsWebRepository.getJwt();
             return token.getJwt();
         } catch (Exception e) {
             Jwt token = habitsPreferencesRepository.loadJwt();
-            if (token == null)
+            if (token == null) {
                 throw new GetJwtException(R.string.get_jwt_exception);
+            }
             habitsWebRepository.setJwt(token);
             return token.getJwt();
         }

@@ -262,4 +262,37 @@ public class HabitsWebRepositoryTest {
         verify(habitsService).loadHabitWithProgressesList(jwt);
         verifyNoMoreInteractions(habitsService);
     }
+
+    @Test
+    public void setJwt() {
+        Jwt jwt = new Jwt("token");
+        JwtData jwtData = new JwtData("token");
+
+        when(jwtConverter.convertFrom(jwt)).thenReturn(jwtData);
+        habitsWebRepository.setJwt(jwt);
+
+        verify(habitsRetrofitClient).setJwtData(jwtData);
+        verifyNoMoreInteractions(habitsRetrofitClient);
+    }
+
+    @Test
+    public void getJwt() {
+        Jwt jwt = new Jwt("token");
+        JwtData jwtData = new JwtData("token");
+
+        when(habitsRetrofitClient.getJwtData()).thenReturn(jwtData);
+        when(jwtConverter.convertTo(jwtData)).thenReturn(jwt);
+        habitsWebRepository.getJwt();
+
+        verify(habitsRetrofitClient).getJwtData();
+        verifyNoMoreInteractions(habitsRetrofitClient);
+    }
+
+    @Test
+    public void deleteJwt() {
+        habitsWebRepository.deleteJwt();
+        verify(habitsRetrofitClient).clearJwtData();
+        verifyNoMoreInteractions(habitsRetrofitClient);
+
+    }
 }
