@@ -13,7 +13,7 @@ import ru.sergeykozhukhov.habits.domain.IInreractor.IBackupWebInteractor;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
-import ru.sergeykozhukhov.habits.model.exception.InsertWebException;
+import ru.sergeykozhukhov.habits.model.exception.BackupException;
 
 public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
 
@@ -50,7 +50,7 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
         }
         return habitsWebRepository.insertHabitWithProgressesList(habitWithProgressesList, jwt)
                 .onErrorResumeNext(throwable ->
-                        Completable.error(new InsertWebException(R.string.insert_web_exception, throwable)));
+                        Completable.error(new BackupException(R.string.insert_web_exception, throwable)));
 
     }
 

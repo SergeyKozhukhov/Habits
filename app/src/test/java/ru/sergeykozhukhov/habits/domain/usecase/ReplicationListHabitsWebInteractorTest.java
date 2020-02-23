@@ -7,38 +7,28 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.verification.VerificationMode;
 
 import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observers.TestObserver;
-import io.reactivex.subscribers.TestSubscriber;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.data.repository.GeneratorData;
-import ru.sergeykozhukhov.habits.data.repository.HabitsWebRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
-import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
 import ru.sergeykozhukhov.habits.model.exception.InsertDbException;
-import ru.sergeykozhukhov.habits.model.exception.LoadWebException;
+import ru.sergeykozhukhov.habits.model.exception.ReplicationException;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -119,16 +109,16 @@ public class ReplicationListHabitsWebInteractorTest {
 
         ResponseBody errorBody = mock(ResponseBody.class);
         HttpException exception = new HttpException(Response.error(401, errorBody));
-        LoadWebException loadWebException = new LoadWebException(R.string.load_web_exception, exception);
+        ReplicationException replicationException = new ReplicationException(R.string.load_web_exception, exception);
 
-        Single<List<HabitWithProgresses>> single = Single.error(loadWebException);
+        Single<List<HabitWithProgresses>> single = Single.error(replicationException);
 
         when(getJwtValue.getValue()).thenReturn(jwt);
         when(habitsWebRepository.loadHabitWithProgressesList(jwt)).thenReturn(single);
 
         replicationListHabitsWebInteractor.loadHabitWithProgressesList()
                 .test()
-                .assertError(loadWebException);
+                .assertError(replicationException);
 
         InOrder inOrder = Mockito.inOrder(getJwtValue, habitsWebRepository, habitsDatabaseRepository);
 

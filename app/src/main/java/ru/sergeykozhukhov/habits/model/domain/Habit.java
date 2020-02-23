@@ -22,6 +22,13 @@ public class Habit implements Parcelable {
     public Habit() {
     }
 
+    public Habit(String title, String description, Date startDate, int duration) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.duration = duration;
+    }
+
     public Habit(long idHabitServer, String title, String description, Date startDate, int duration) {
         this.idHabitServer = idHabitServer;
         this.title = title;

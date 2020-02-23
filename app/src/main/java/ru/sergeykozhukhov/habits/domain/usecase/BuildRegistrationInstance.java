@@ -10,13 +10,13 @@ import ru.sergeykozhukhov.habits.model.exception.BuildException;
 
 public class BuildRegistrationInstance implements IBuildRegistrationInstance {
 
-    private static final int nameMinLength = 2;
-    private static final int nameMaxLength = 15;
+    private static final int nameMin = 2;
+    private static final int nameMax = 15;
 
-    private static final int emailMinLength = 5;
+    private static final int emailMin = 5;
 
-    private static final int passwordMinLength = 5;
-    private static final int passwordMaxLength = 30;
+    private static final int passwordMin = 5;
+    private static final int passwordMax = 30;
 
     @NonNull
     @Override
@@ -28,19 +28,19 @@ public class BuildRegistrationInstance implements IBuildRegistrationInstance {
 
         if (firstaname == null || lastname == null || email == null || password == null || passwordConfirmation == null)
             throw new BuildException(R.string.null_data_build_instance_exception);
-        if (firstaname.length() <= nameMinLength)
+        if (firstaname.length() <= nameMin)
             throw new BuildException(R.string.firstname_min_build_instance_exception);
-        if (firstaname.length() >= nameMaxLength)
+        if (firstaname.length() >= nameMax)
             throw new BuildException(R.string.firstname_max_build_instance_exception);
-        if (lastname.length() <= nameMinLength)
+        if (lastname.length() <= nameMin)
             throw new BuildException(R.string.lastname_min_build_instance_exception);
-        if (lastname.length() >= nameMaxLength)
+        if (lastname.length() >= nameMax)
             throw new BuildException(R.string.lastname_max_build_instance_exception);
-        if (email.length() <= emailMinLength)
+        if (email.length() <= emailMin)
             throw new BuildException(R.string.email_min_build_instance_exception);
-        if (password.length() <= passwordMinLength)
+        if (password.length() <= passwordMin)
             throw new BuildException(R.string.password_min_build_instance_exception);
-        if (password.length() >= passwordMaxLength)
+        if (password.length() >= passwordMax)
             throw new BuildException(R.string.password_max_build_instance_exception);
         if (!password.equals(passwordConfirmation))
             throw new BuildException(R.string.password_confirmation_build_instance_exception);

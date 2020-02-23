@@ -7,17 +7,17 @@ import java.util.Objects;
 /**
  * Исключение при ошибке загрузки записей с сервера
  */
-public class LoadWebException extends Exception {
+public class ReplicationException extends Exception {
 
     @StringRes
     private final int messageRes;
 
-    public LoadWebException(String message, int messageRes) {
+    public ReplicationException(String message, int messageRes) {
         super(message);
         this.messageRes = messageRes;
     }
 
-    public LoadWebException(int messageRes, Throwable cause) {
+    public ReplicationException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -31,7 +31,7 @@ public class LoadWebException extends Exception {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LoadWebException that = (LoadWebException) o;
+        ReplicationException that = (ReplicationException) o;
         return messageRes == that.messageRes;
     }
 
@@ -42,7 +42,7 @@ public class LoadWebException extends Exception {
 
     @Override
     public String toString() {
-        return "LoadWebException{" +
+        return "ReplicationException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

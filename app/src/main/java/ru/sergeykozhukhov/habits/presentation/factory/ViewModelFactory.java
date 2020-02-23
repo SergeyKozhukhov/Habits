@@ -14,7 +14,7 @@ import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadStatisticListInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.RegisterWebInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.BuildConfidentialityInstance;
-import ru.sergeykozhukhov.habits.domain.usecase.BuildHabitInstace;
+import ru.sergeykozhukhov.habits.domain.usecase.BuildHabitInstance;
 import ru.sergeykozhukhov.habits.domain.usecase.ChangeProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.BuildRegistrationInstance;
 import ru.sergeykozhukhov.habits.domain.usecase.GetJwtValueInteractor;
@@ -98,7 +98,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         else if (AddHabitViewModel.class.equals(modelClass)){
             IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
 
-            IBuildHabitInstance buildHabitInstance = new BuildHabitInstace();
+            IBuildHabitInstance buildHabitInstance = new BuildHabitInstance();
 
             InsertHabitDbInteractor insertHabitInteractor = new InsertHabitDbInteractor(habitsDatabaseRepository, buildHabitInstance);
 

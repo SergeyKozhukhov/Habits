@@ -28,11 +28,11 @@ public class InsertHabitDbInteractorTest {
     @Mock
     private HabitsDatabaseRepository habitsDatabaseRepository;
     @Mock
-    private BuildHabitInstace buildHabitInstace;
+    private BuildHabitInstance buildHabitInstance;
 
     @Before
     public void setUp() {
-        insertHabitDbInteractor = new InsertHabitDbInteractor(habitsDatabaseRepository, buildHabitInstace);
+        insertHabitDbInteractor = new InsertHabitDbInteractor(habitsDatabaseRepository, buildHabitInstance);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class InsertHabitDbInteractorTest {
 
         Single<Long> single = Single.just(idHabit);
 
-        when(buildHabitInstace.build(title, description, startDate, duration)).thenReturn(habit);
+        when(buildHabitInstance.build(title, description, startDate, duration)).thenReturn(habit);
         when(habitsDatabaseRepository.insertHabit(habit)).thenReturn(single);
 
         insertHabitDbInteractor.insertHabit(title, description, startDate, duration)
@@ -56,7 +56,7 @@ public class InsertHabitDbInteractorTest {
                 .assertNoErrors()
                 .assertValue(idHabit);
 
-        verify(buildHabitInstace).build(title, description, startDate, duration);
+        verify(buildHabitInstance).build(title, description, startDate, duration);
         verify(habitsDatabaseRepository).insertHabit(habit);
         verifyNoMoreInteractions(habitsDatabaseRepository);
     }
@@ -70,13 +70,13 @@ public class InsertHabitDbInteractorTest {
 
         BuildException buildException = new BuildException(R.string.null_data_build_instance_exception);
 
-        when(buildHabitInstace.build(title, description, startDate, duration)).thenThrow(buildException);
+        when(buildHabitInstance.build(title, description, startDate, duration)).thenThrow(buildException);
 
         insertHabitDbInteractor.insertHabit(title, description, startDate, duration)
                 .test()
                 .assertError(buildException);
 
-        verify(buildHabitInstace).build(title, description, startDate, duration);
+        verify(buildHabitInstance).build(title, description, startDate, duration);
         verifyNoMoreInteractions(habitsDatabaseRepository);
     }
 
@@ -97,14 +97,14 @@ public class InsertHabitDbInteractorTest {
 
         Single<Long> single = Single.error(insertDbException);
 
-        when(buildHabitInstace.build(title, description, startDate, duration)).thenReturn(habit);
+        when(buildHabitInstance.build(title, description, startDate, duration)).thenReturn(habit);
         when(habitsDatabaseRepository.insertHabit(habit)).thenReturn(single);
 
         insertHabitDbInteractor.insertHabit(title, description, startDate, duration)
                 .test()
                 .assertError(insertDbException);
 
-        verify(buildHabitInstace).build(title, description, startDate, duration);
+        verify(buildHabitInstance).build(title, description, startDate, duration);
         verify(habitsDatabaseRepository).insertHabit(habit);
         verifyNoMoreInteractions(habitsDatabaseRepository);
     }

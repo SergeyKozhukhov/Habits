@@ -5,23 +5,16 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
-import java.util.List;
-
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.DeleteAllHabitsDbInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
-import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
-import ru.sergeykozhukhov.habits.model.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
-import ru.sergeykozhukhov.habits.model.exception.InsertWebException;
+import ru.sergeykozhukhov.habits.model.exception.BackupException;
 import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
 
 /**
@@ -87,8 +80,8 @@ public class AccountViewModel extends ViewModel {
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
                     } else if (throwable instanceof LoadDbException) {
                         errorSingleLiveEvent.postValue(((LoadDbException) throwable).getMessageRes());
-                    } else if (throwable instanceof InsertWebException) {
-                        errorSingleLiveEvent.postValue(((InsertWebException) throwable).getMessageRes());
+                    } else if (throwable instanceof BackupException) {
+                        errorSingleLiveEvent.postValue(((BackupException) throwable).getMessageRes());
                     }
                 }));
 

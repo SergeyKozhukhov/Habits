@@ -2,6 +2,9 @@
 <resources>
     <string name="null_data_build_instance_exception">"Неверные данные"</string>
 
+    <string name="parsing_start_date_build_instance_exception">"Неверный формат даты начала"</string>
+    <string name="parsing_duration_build_instance_exception">"Неверный формат продолжительности привычки"</string>
+
     <string name="firstname_min_build_instance_exception">"Имя должено быть длиннее"</string>
     <string name="firstname_max_build_instance_exception">"Имя должено быть короче"</string>
     <string name="lastname_min_build_instance_exception">"Фамилия должена быть длиннее"</string>
@@ -10,6 +13,15 @@
     <string name="password_min_build_instance_exception">"Пароль должен быть длиннее"</string>
     <string name="password_max_build_instance_exception">"Пароль должен быть короче"</string>
     <string name="password_confirmation_build_instance_exception">"Пароли не совпадают"</string>
+
+    <string name="title_min_build_instance_exception">"Название должно быть длиннее"</string>
+    <string name="title_max_build_instance_exception">"Название должно быть короче"</string>
+    <string name="description_min_build_instance_exception">"Описание должно быть длинее"</string>
+    <string name="description_max_build_instance_exception">"Описание должно быть короче"</string>
+    <string name="duration_min_build_instance_exception">"Продолжительность дожна быть больше"</string>
+    <string name="duration_max_build_instance_exception">"Продолжительность должна быть меньше"</string>
+
+
 
     <string name="get_jwt_exception">"Вы не авторизованы"</string>
     <string name="authenticate_exception">"Ошибка авторизации"</string>

@@ -7,9 +7,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
@@ -17,7 +15,7 @@ import ru.sergeykozhukhov.habits.domain.IInreractor.IReplicationWebInteractor;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
-import ru.sergeykozhukhov.habits.model.exception.LoadWebException;
+import ru.sergeykozhukhov.habits.model.exception.ReplicationException;
 
 public class ReplicationListHabitsWebInteractor implements IReplicationWebInteractor {
 
@@ -47,7 +45,7 @@ public class ReplicationListHabitsWebInteractor implements IReplicationWebIntera
 
 
         return habitsWebRepository.loadHabitWithProgressesList(jwt)
-                .onErrorResumeNext(throwable -> Single.error(new LoadWebException(R.string.load_web_exception, throwable)))
+                .onErrorResumeNext(throwable -> Single.error(new ReplicationException(R.string.load_web_exception, throwable)))
                 .flatMapCompletable(
                         new Function<List<HabitWithProgresses>, CompletableSource>() {
                             @Override
@@ -64,6 +62,6 @@ public class ReplicationListHabitsWebInteractor implements IReplicationWebIntera
                             .subscribeOn(Schedulers.io())
                             .subscribe();
                 })
-                .onErrorResumeNext(throwable -> Single.error(new LoadWebException(R.string.load_web_exception, throwable)));*/
+                .onErrorResumeNext(throwable -> Single.error(new ReplicationException(R.string.load_web_exception, throwable)));*/
     }
 }
