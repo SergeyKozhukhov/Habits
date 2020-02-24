@@ -8,11 +8,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
-import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;

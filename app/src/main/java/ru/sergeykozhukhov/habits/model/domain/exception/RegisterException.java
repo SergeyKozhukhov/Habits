@@ -1,22 +1,23 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при создании экземляра.
- * В данном случае применяется к созданию habit, confidentiality, registration
+ * Исключение при ошибки регистрации пользователя
  */
-public class BuildException extends Exception {
+public class RegisterException extends Exception{
+
     @StringRes
     private final int messageRes;
 
-    public BuildException(int messageRes) {
+    public RegisterException(String message, int messageRes) {
+        super(message);
         this.messageRes = messageRes;
     }
 
-    public BuildException(int messageRes, Throwable cause) {
+    public RegisterException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -29,7 +30,7 @@ public class BuildException extends Exception {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BuildException that = (BuildException) o;
+        RegisterException that = (RegisterException) o;
         return messageRes == that.messageRes;
     }
 
@@ -40,7 +41,7 @@ public class BuildException extends Exception {
 
     @Override
     public String toString() {
-        return "BuildException{" +
+        return "RegisterException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

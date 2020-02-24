@@ -13,11 +13,9 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildRegistrationInstance;
 import ru.sergeykozhukhov.habits.model.domain.Registration;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
-import ru.sergeykozhukhov.habits.model.exception.RegisterException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.RegisterException;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;

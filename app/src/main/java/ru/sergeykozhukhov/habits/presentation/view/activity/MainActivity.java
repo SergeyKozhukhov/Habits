@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation;
+package ru.sergeykozhukhov.habits.presentation.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,11 +11,11 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.view.AddHabitFragment;
-import ru.sergeykozhukhov.habits.presentation.view.HabitsListFragment;
-import ru.sergeykozhukhov.habits.presentation.view.ProgressFragment;
-import ru.sergeykozhukhov.habits.presentation.view.SettingsFragment;
-import ru.sergeykozhukhov.habits.presentation.view.StatisticsFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.AddHabitFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.HabitsListFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.ProgressFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.SettingsFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.StatisticsFragment;
 
 // https://www.flaticon.com/packs/landscapes-collection
 public class MainActivity extends AppCompatActivity implements HabitsListFragment.ProgressHolder,

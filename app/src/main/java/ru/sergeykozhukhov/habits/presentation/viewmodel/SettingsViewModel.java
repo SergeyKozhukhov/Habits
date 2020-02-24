@@ -8,7 +8,7 @@ import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.DeleteAllHabitsDbInteractor;
-import ru.sergeykozhukhov.habits.model.exception.DeleteFromDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 
 /**
  * ViewModel для резервного копирования всей информации
@@ -21,19 +21,11 @@ public class SettingsViewModel extends ViewModel {
 
     private CompositeDisposable compositeDisposable;
 
-
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
 
     public SettingsViewModel(@NonNull DeleteAllHabitsDbInteractor deleteAllHabitsInteractor) {
         this.deleteAllHabitsInteractor = deleteAllHabitsInteractor;
-
-        initData();
-    }
-
-
-    private void initData(){
-
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -56,6 +48,10 @@ public class SettingsViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {
         return successSingleLiveEvent;
+    }
+
+    public void cancelSubscriptions() {
+        compositeDisposable.clear();
     }
 
 }

@@ -11,8 +11,8 @@ import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.RegisterWebInteractor;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
-import ru.sergeykozhukhov.habits.model.exception.RegisterException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.RegisterException;
 
 /**
  * ViewModel для регистрации нового пользователя
@@ -31,11 +31,6 @@ public class RegistrationViewModel extends ViewModel {
 
     public RegistrationViewModel(RegisterWebInteractor registerWebInteractor) {
         this.registerWebInteractor = registerWebInteractor;
-
-        initData();
-    }
-
-    private void initData(){
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -74,7 +69,7 @@ public class RegistrationViewModel extends ViewModel {
         return errorSingleLiveEvent;
     }
 
-    public void cancelSubscribe() {
+    public void cancelSubscritions() {
         compositeDisposable.clear();
     }
 }

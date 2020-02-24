@@ -1,23 +1,22 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при ошибке удаления записей из базы данных
+ * Исключение при создании экземляра.
+ * В данном случае применяется к созданию habit, confidentiality, registration
  */
-public class DeleteFromDbException extends Exception {
-
+public class BuildException extends Exception {
     @StringRes
     private final int messageRes;
 
-    public DeleteFromDbException(String message, int messageRes) {
-        super(message);
+    public BuildException(int messageRes) {
         this.messageRes = messageRes;
     }
 
-    public DeleteFromDbException(int messageRes, Throwable cause) {
+    public BuildException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -26,12 +25,11 @@ public class DeleteFromDbException extends Exception {
         return messageRes;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DeleteFromDbException that = (DeleteFromDbException) o;
+        BuildException that = (BuildException) o;
         return messageRes == that.messageRes;
     }
 
@@ -42,7 +40,7 @@ public class DeleteFromDbException extends Exception {
 
     @Override
     public String toString() {
-        return "DeleteFromDbException{" +
+        return "BuildException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.view;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.savvi.rangedatepicker.CalendarPickerView;
 import com.savvi.rangedatepicker.SubTitle;
@@ -25,7 +24,6 @@ import java.util.List;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
-import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.ProgressViewModel;
 
 public class ProgressFragment extends Fragment {

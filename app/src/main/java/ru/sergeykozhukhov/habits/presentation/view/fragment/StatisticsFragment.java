@@ -1,11 +1,10 @@
-package ru.sergeykozhukhov.habits.presentation.view;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,18 +14,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
-import java.util.List;
-
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.model.domain.Statistic;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.StatisticsViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 

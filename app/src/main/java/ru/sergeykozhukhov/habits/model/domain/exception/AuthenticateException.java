@@ -1,22 +1,22 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при ошибки внесении исправленных данных по привычкам
+ * Исключение при ошибке авторизации
  */
-public class ChangeProgressException extends Exception {
+public class  AuthenticateException extends Exception {
 
     @StringRes
     private final int messageRes;
 
-    public ChangeProgressException(int messageRes) {
+    public AuthenticateException(int messageRes) {
         this.messageRes = messageRes;
     }
 
-    public ChangeProgressException(int messageRes, Throwable cause) {
+    public AuthenticateException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -29,7 +29,7 @@ public class ChangeProgressException extends Exception {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ChangeProgressException that = (ChangeProgressException) o;
+        AuthenticateException that = (AuthenticateException) o;
         return messageRes == that.messageRes;
     }
 
@@ -40,7 +40,7 @@ public class ChangeProgressException extends Exception {
 
     @Override
     public String toString() {
-        return "ChangeProgressException{" +
+        return "AuthenticateException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

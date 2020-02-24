@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.view;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,15 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
-import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.SettingsViewModel;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -24,7 +21,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private SettingsViewModel settingsViewModel;
 
     public static Fragment newInstance() {
-
         return new SettingsFragment();
     }
 
@@ -53,7 +49,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     settingsViewModel.deleteAllHabits();
-
                     return true;
                 }
             });
@@ -64,52 +59,29 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        initData();
-        initListeners();
-        initViews();
-
         setupMvvm();
-
-
     }
 
-    private void initViews() {
-
-    }
-
-    private void initListeners(){
-        
-    }
-
-    private void initData(){
-
+    @Override
+    public void onDestroyView() {
+        settingsViewModel.cancelSubscriptions();
+        super.onDestroyView();
     }
 
     private void setupMvvm(){
 
         settingsViewModel= new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(SettingsViewModel.class);
 
+        settingsViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
-        settingsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        settingsViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        settingsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
     }
 

@@ -1,23 +1,22 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при ошибке добавления записей на сервер
+ * Исключение при ошибки внесении исправленных данных по привычкам
  */
-public class BackupException extends Exception {
+public class ChangeProgressException extends Exception {
 
     @StringRes
     private final int messageRes;
 
-    public BackupException(String message, int messageRes) {
-        super(message);
+    public ChangeProgressException(int messageRes) {
         this.messageRes = messageRes;
     }
 
-    public BackupException(int messageRes, Throwable cause) {
+    public ChangeProgressException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -30,7 +29,7 @@ public class BackupException extends Exception {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BackupException that = (BackupException) o;
+        ChangeProgressException that = (ChangeProgressException) o;
         return messageRes == that.messageRes;
     }
 
@@ -41,7 +40,7 @@ public class BackupException extends Exception {
 
     @Override
     public String toString() {
-        return "BackupException{" +
+        return "ChangeProgressException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

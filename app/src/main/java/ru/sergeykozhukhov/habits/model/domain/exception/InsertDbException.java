@@ -1,23 +1,23 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при ошибки регистрации пользователя
+ * Исключение при ошибке добавления записей в базу данных
  */
-public class RegisterException extends Exception{
+public class InsertDbException extends Exception {
 
     @StringRes
     private final int messageRes;
 
-    public RegisterException(String message, int messageRes) {
+    public InsertDbException(String message, int messageRes) {
         super(message);
         this.messageRes = messageRes;
     }
 
-    public RegisterException(int messageRes, Throwable cause) {
+    public InsertDbException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -30,7 +30,7 @@ public class RegisterException extends Exception{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RegisterException that = (RegisterException) o;
+        InsertDbException that = (InsertDbException) o;
         return messageRes == that.messageRes;
     }
 
@@ -41,7 +41,7 @@ public class RegisterException extends Exception{
 
     @Override
     public String toString() {
-        return "RegisterException{" +
+        return "InsertDbException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

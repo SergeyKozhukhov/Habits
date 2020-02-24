@@ -12,8 +12,8 @@ import io.reactivex.Single;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.data.repository.HabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
-import ru.sergeykozhukhov.habits.model.exception.InsertDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

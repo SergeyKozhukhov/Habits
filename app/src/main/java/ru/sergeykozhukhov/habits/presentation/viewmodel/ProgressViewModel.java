@@ -13,10 +13,10 @@ import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.ChangeProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.model.exception.ChangeProgressException;
-import ru.sergeykozhukhov.habits.model.exception.DeleteFromDbException;
-import ru.sergeykozhukhov.habits.model.exception.InsertDbException;
-import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.ChangeProgressException;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 
 /**
@@ -39,10 +39,6 @@ public class ProgressViewModel extends ViewModel {
     public ProgressViewModel(
             @NonNull ChangeProgressListDbInteractor changeProgressListDbInteractor) {
         this.changeProgressListDbInteractor = changeProgressListDbInteractor;
-        initData();
-    }
-
-    private void initData() {
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -100,6 +96,10 @@ public class ProgressViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
+    }
+
+    public void cancelSubscritions() {
+        compositeDisposable.clear();
     }
 }
 

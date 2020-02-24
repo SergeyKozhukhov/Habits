@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.view;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -74,6 +72,15 @@ public class AddHabitFragment extends Fragment {
         initViewListeners();
         setupMvvm();
     }
+    @Override
+    public void onDestroyView() {
+        addHabitViewModel.cancelSubscritions();
+        super.onDestroyView();
+    }
+
+
+
+
 
     private void initViewListeners(){
         add_habit_button.setOnClickListener(v -> addHabitViewModel.insertHabit(
@@ -111,21 +118,10 @@ public class AddHabitFragment extends Fragment {
 
         addHabitViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(AddHabitViewModel.class);
 
-        addHabitViewModel.getInsertedSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-        addHabitViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        addHabitViewModel.getInsertedSuccessSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
+        addHabitViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
     }
 
 

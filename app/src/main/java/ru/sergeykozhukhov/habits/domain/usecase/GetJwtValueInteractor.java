@@ -7,7 +7,7 @@ import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
-import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 
 public class GetJwtValueInteractor implements IGetJwtValueInteractor {
 

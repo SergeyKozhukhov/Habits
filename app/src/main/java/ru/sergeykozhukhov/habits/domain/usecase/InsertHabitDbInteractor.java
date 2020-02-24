@@ -8,8 +8,8 @@ import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildHabitInstance;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IInsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
-import ru.sergeykozhukhov.habits.model.exception.InsertDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
 
 public class InsertHabitDbInteractor implements IInsertHabitDbInteractor {
 

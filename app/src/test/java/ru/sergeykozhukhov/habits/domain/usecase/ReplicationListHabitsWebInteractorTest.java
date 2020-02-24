@@ -21,10 +21,10 @@ import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
-import ru.sergeykozhukhov.habits.model.exception.DeleteFromDbException;
-import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
-import ru.sergeykozhukhov.habits.model.exception.InsertDbException;
-import ru.sergeykozhukhov.habits.model.exception.ReplicationException;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.ReplicationException;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;

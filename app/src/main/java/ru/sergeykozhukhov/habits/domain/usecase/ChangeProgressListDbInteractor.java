@@ -16,10 +16,10 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IChangeProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
-import ru.sergeykozhukhov.habits.model.exception.ChangeProgressException;
-import ru.sergeykozhukhov.habits.model.exception.DeleteFromDbException;
-import ru.sergeykozhukhov.habits.model.exception.InsertDbException;
-import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.ChangeProgressException;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 public class ChangeProgressListDbInteractor implements IChangeProgressListDbInteractor {
 

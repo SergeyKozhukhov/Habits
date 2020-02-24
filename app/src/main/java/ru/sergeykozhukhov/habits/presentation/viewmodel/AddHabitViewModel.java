@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.InsertHabitDbInteractor;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 
 /**
  * ViewModel для добавления новой привычки в базу данных
@@ -26,13 +26,8 @@ public class AddHabitViewModel extends ViewModel {
 
     private CompositeDisposable compositeDisposable;
 
-    public AddHabitViewModel(
-            @NonNull InsertHabitDbInteractor insertHabitInteractor) {
+    public AddHabitViewModel(@NonNull InsertHabitDbInteractor insertHabitInteractor) {
         this.insertHabitInteractor = insertHabitInteractor;
-        initData();
-    }
-
-    private void initData() {
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -40,12 +35,9 @@ public class AddHabitViewModel extends ViewModel {
 
         compositeDisposable.add(insertHabitInteractor.insertHabit(title, description, startDate, duration)
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long id) throws Exception {
-                        insertedSuccessSingleLiveEvent.postValue(R.string.habit_success_inserted_db_message);
-                        Log.d(TAG, "insertHabitList success. id = " + id);
-                    }
+                .subscribe(id -> {
+                    insertedSuccessSingleLiveEvent.postValue(R.string.habit_success_inserted_db_message);
+                    Log.d(TAG, "insertHabitList success. id = " + id);
                 }, throwable -> {
                     if (throwable instanceof BuildException) {
                         errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
@@ -62,7 +54,7 @@ public class AddHabitViewModel extends ViewModel {
         return errorSingleLiveEvent;
     }
 
-    public void cancelSubscribe() {
+    public void cancelSubscritions() {
         compositeDisposable.clear();
     }
 }

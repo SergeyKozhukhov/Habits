@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.view.account;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
@@ -46,40 +48,33 @@ public class AuthenticationFragment extends Fragment {
         passwordAuthEditText = view.findViewById(R.id.password_auth_edit_text);
 
         requestAuthButton = view.findViewById(R.id.request_auth_button);
-
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initData();
         initViewListeners();
         setupMvvm();
     }
 
-    private void initData() {
-
+    @Override
+    public void onDestroyView() {
+        authenticationViewModel.cancelSubscritions();
+        super.onDestroyView();
     }
 
     private void initViewListeners() {
 
-        requestAuthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                authenticationViewModel.authenticateClient(
-                        loginAuthEditText.getText().toString(),
-                        passwordAuthEditText.getText().toString()
-                );
-
-            }
-        });
+        requestAuthButton.setOnClickListener(v -> authenticationViewModel.authenticateClient(
+                loginAuthEditText.getText().toString(),
+                passwordAuthEditText.getText().toString()
+        ));
     }
 
-    private void setupMvvm(){
-        authenticationViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
-                .get(AuthenticationViewModel.class);
+    private void setupMvvm() {
+        authenticationViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(AuthenticationViewModel.class);
+
         authenticationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer idRes) {
@@ -90,12 +85,8 @@ public class AuthenticationFragment extends Fragment {
                 }
             }
         });
-        authenticationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        authenticationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
     }
 
     public interface OnLoginSuccess {

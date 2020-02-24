@@ -13,9 +13,9 @@ import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
-import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
-import ru.sergeykozhukhov.habits.model.exception.BackupException;
-import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BackupException;
+import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 /**
  * ViewModel для резервного копирования всей информации
@@ -30,10 +30,6 @@ public class AccountViewModel extends ViewModel {
 
     private CompositeDisposable compositeDisposable;
 
-    private SingleLiveEvent<Boolean> isInsertedSingleLiveEvent;
-    private SingleLiveEvent<Boolean> isLoadedSingleLiveEvent;
-
-
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> logOutSuccessSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
@@ -45,36 +41,24 @@ public class AccountViewModel extends ViewModel {
         this.insertWebHabitsInteractor = insertWebHabitsInteractor;
         this.replicationListHabitsWebInteractor = replicationListHabitsWebInteractor;
         this.deleteJwtInteractor = deleteJwtInteractor;
-
-        initData();
-    }
-
-
-    private void initData() {
-        isInsertedSingleLiveEvent = new SingleLiveEvent<>();
-        isLoadedSingleLiveEvent = new SingleLiveEvent<>();
-
         compositeDisposable = new CompositeDisposable();
     }
 
-    public void LoadHabitWithProgressesList() {
-        Disposable disposable = replicationListHabitsWebInteractor.loadHabitWithProgressesList()
+    public void replication() {
+        compositeDisposable.add(replicationListHabitsWebInteractor.loadHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(() -> isLoadedSingleLiveEvent.postValue(true), throwable -> {
+                .subscribe(() -> successSingleLiveEvent.postValue(R.string.replication_success_message), throwable -> {
                     if (throwable instanceof GetJwtException) {
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
                     }
-                });
-        compositeDisposable.add(disposable);
+                }));
     }
 
-    public void insertHabitWithProgressesList() {
+    public void backup() {
         compositeDisposable.add(insertWebHabitsInteractor.insertHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(() -> {
-                    isInsertedSingleLiveEvent.postValue(true);
-                    Log.d(TAG, "insertWebHabits: success");
-                    insertWebHabitsInteractor.insertHabitWithProgressesList().subscribe();
+                    successSingleLiveEvent.postValue(R.string.backup_success_message);
                 }, throwable -> {
                     if (throwable instanceof GetJwtException) {
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
@@ -84,21 +68,11 @@ public class AccountViewModel extends ViewModel {
                         errorSingleLiveEvent.postValue(((BackupException) throwable).getMessageRes());
                     }
                 }));
-
     }
-
 
     public void logout() {
         deleteJwtInteractor.deleteJwt();
         logOutSuccessSingleLiveEvent.postValue(R.string.log_out__success_message);
-    }
-
-    public SingleLiveEvent<Boolean> getIsInsertedSingleLiveEvent() {
-        return isInsertedSingleLiveEvent;
-    }
-
-    public SingleLiveEvent<Boolean> getIsLoadedSingleLiveEvent() {
-        return isLoadedSingleLiveEvent;
     }
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
@@ -111,5 +85,8 @@ public class AccountViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getLogOutSuccessSingleLiveEvent() {
         return logOutSuccessSingleLiveEvent;
+    }
+
+    public void cancelSubscritions() { compositeDisposable.clear();
     }
 }

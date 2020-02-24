@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.view.account;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
@@ -45,50 +46,41 @@ public class RegistrationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         firsnameRegEditText = view.findViewById(R.id.firstname_registration_edit_text);
         lastnameRegEditText = view.findViewById(R.id.lastname_registration_edit_text);
         loginRegEditText = view.findViewById(R.id.login__registration_edit_text);
         passwordRegEditText = view.findViewById(R.id.password_registration_edit_text);
         passwordConfirmationEditText = view.findViewById(R.id.password_confirmation_edit_text);
 
-        requestRegButton =  view.findViewById(R.id.request_registration_button);
-
-
+        requestRegButton = view.findViewById(R.id.request_registration_button);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initData();
         setupMvvm();
         initViewListeners();
     }
 
-    private void initData() {
-
+    @Override
+    public void onDestroyView() {
+        registrationViewModel.cancelSubscritions();
+        super.onDestroyView();
     }
 
     private void initViewListeners() {
-
-        requestRegButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registrationViewModel.registerClient(
-                        firsnameRegEditText.getText().toString(),
-                        lastnameRegEditText.getText().toString(),
-                        loginRegEditText.getText().toString(),
-                        passwordRegEditText.getText().toString(),
-                        passwordConfirmationEditText.getText().toString()
-                );
-            }
-        });
+        requestRegButton.setOnClickListener(v -> registrationViewModel.registerClient(
+                firsnameRegEditText.getText().toString(),
+                lastnameRegEditText.getText().toString(),
+                loginRegEditText.getText().toString(),
+                passwordRegEditText.getText().toString(),
+                passwordConfirmationEditText.getText().toString()
+        ));
     }
 
-    private void setupMvvm(){
-        registrationViewModel = ViewModelProviders.of(this, new ViewModelFactory(requireContext()))
-                .get(RegistrationViewModel.class);
+    private void setupMvvm() {
+        registrationViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(RegistrationViewModel.class);
 
         registrationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
@@ -101,12 +93,8 @@ public class RegistrationFragment extends Fragment {
             }
         });
 
-        registrationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        registrationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
     }
 
     public interface OnRegistrationSuccess {

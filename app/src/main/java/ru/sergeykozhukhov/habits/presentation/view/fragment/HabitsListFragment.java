@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.view;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,7 +22,6 @@ import java.util.List;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.view.adapter.HabitsListAdapter;
@@ -70,13 +68,16 @@ public class HabitsListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initData();
         initListeners();
         initViews();
         setupMvvm();
+    }
 
-
+    @Override
+    public void onDestroyView() {
+        habitsListViewModel.cancelSubscritions();
+        super.onDestroyView();
     }
 
     private void initViews() {
@@ -87,22 +88,16 @@ public class HabitsListFragment extends Fragment {
 
         habitClickListener = habit -> {
             FragmentActivity activity = getActivity();
-            if (activity instanceof ProgressHolder) {
+            if (activity instanceof ProgressHolder)
                 ((ProgressHolder) activity).showProgress(habit);
-
-            }
         };
         habitsListAdapter.setHabitClickListener(habitClickListener);
 
         openAddFragmentFloatingActionButton.setOnClickListener(v -> {
-
             FragmentActivity activity = getActivity();
-            if (activity instanceof OnAddClickListener) {
+            if (activity instanceof OnAddClickListener)
                 ((OnAddClickListener) activity).onClick();
-
-            }
         });
-
     }
 
 
@@ -122,12 +117,8 @@ public class HabitsListFragment extends Fragment {
             }
         });
 
-        habitsListViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        habitsListViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
         habitsListViewModel.loadHabitList();
 

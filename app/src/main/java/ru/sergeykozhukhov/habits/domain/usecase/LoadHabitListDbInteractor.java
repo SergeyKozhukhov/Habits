@@ -9,7 +9,7 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.ILoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 public class LoadHabitListDbInteractor implements ILoadHabitListDbInteractor {
 

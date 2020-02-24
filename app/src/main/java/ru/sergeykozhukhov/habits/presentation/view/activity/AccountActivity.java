@@ -1,19 +1,18 @@
-package ru.sergeykozhukhov.habits.presentation;
+package ru.sergeykozhukhov.habits.presentation.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
-import ru.sergeykozhukhov.habits.presentation.view.account.AccountFragment;
-import ru.sergeykozhukhov.habits.presentation.view.account.AuthenticationFragment;
-import ru.sergeykozhukhov.habits.presentation.view.account.RegistrationFragment;
-import ru.sergeykozhukhov.habits.presentation.view.account.EnterAccountFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.AccountFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.AuthenticationFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.RegistrationFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.EnterAccountFragment;
 
 public class AccountActivity extends AppCompatActivity implements EnterAccountFragment.OnClientClickListener,
         AccountFragment.OnLogoutClickListener,

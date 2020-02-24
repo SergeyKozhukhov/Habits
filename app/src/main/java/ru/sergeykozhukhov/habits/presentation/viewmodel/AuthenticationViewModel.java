@@ -6,14 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.AuthenticateWebInteractor;
 
-import ru.sergeykozhukhov.habits.model.exception.AuthenticateException;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.AuthenticateException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 
 /**
  * ViewModel для входа пользователя в свой аккаунт
@@ -38,8 +37,6 @@ public class AuthenticationViewModel extends ViewModel {
     }
 
     public void authenticateClient(String email, String password) {
-
-
         compositeDisposable.add(authenticateClientInteractor.authenticateClient(email, password)
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(idRes -> {
@@ -66,7 +63,7 @@ public class AuthenticationViewModel extends ViewModel {
         return errorSingleLiveEvent;
     }
 
-    public void cancelSubscribe() {
+    public void cancelSubscritions() {
         compositeDisposable.clear();
     }
 }

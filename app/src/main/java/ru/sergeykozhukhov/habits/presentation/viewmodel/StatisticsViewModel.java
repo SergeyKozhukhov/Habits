@@ -1,7 +1,5 @@
 package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
-import android.graphics.Color;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -20,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadStatisticListInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
-import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 /**
  * ViewModel для получения статистической информации по прогрессу выполнения привычки
@@ -45,10 +43,6 @@ public class StatisticsViewModel extends ViewModel {
 
     public StatisticsViewModel(LoadStatisticListInteractor loadStatisticsListInteractor) {
         this.loadStatisticsListInteractor = loadStatisticsListInteractor;
-        initData();
-    }
-
-    private void initData() {
         compositeDisposable = new CompositeDisposable();
     }
 
@@ -126,5 +120,9 @@ public class StatisticsViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
+    }
+
+    public void cancelSubscritions() {
+        compositeDisposable.clear();
     }
 }

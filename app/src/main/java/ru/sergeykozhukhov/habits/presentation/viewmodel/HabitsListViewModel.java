@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 /**
  * ViewModel для получения списка всех привычек из базы данных
@@ -29,29 +29,30 @@ public class HabitsListViewModel extends ViewModel {
 
     public HabitsListViewModel(@NonNull LoadHabitListDbInteractor loadHabitsInteractor) {
         this.loadHabitsInteractor = loadHabitsInteractor;
-
-
         compositeDisposable = new CompositeDisposable();
     }
 
-    public void loadHabitList(){
+    public void loadHabitList() {
 
-        Disposable disposable = loadHabitsInteractor.loadHabitList()
+        compositeDisposable.add(loadHabitsInteractor.loadHabitList()
                 .subscribe(value -> habitListLiveData.postValue(value), throwable -> {
                     if (throwable instanceof LoadDbException) {
                         errorSingleLiveEvent.postValue((((LoadDbException) throwable).getMessageRes()));
                     }
-                });
-        compositeDisposable.add(disposable);
+                }));
     }
 
 
     @NonNull
-    public MutableLiveData<List<Habit>> getHabitListLiveData(){
+    public MutableLiveData<List<Habit>> getHabitListLiveData() {
         return habitListLiveData;
     }
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
+    }
+
+    public void cancelSubscritions() {
+        compositeDisposable.clear();
     }
 }

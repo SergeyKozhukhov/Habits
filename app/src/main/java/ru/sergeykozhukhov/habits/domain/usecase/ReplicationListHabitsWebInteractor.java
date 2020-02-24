@@ -14,8 +14,8 @@ import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IReplicationWebInteractor;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
-import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
-import ru.sergeykozhukhov.habits.model.exception.ReplicationException;
+import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.model.domain.exception.ReplicationException;
 
 public class ReplicationListHabitsWebInteractor implements IReplicationWebInteractor {
 
@@ -58,7 +58,7 @@ public class ReplicationListHabitsWebInteractor implements IReplicationWebIntera
         /*return habitsWebRepository.loadHabitWithProgressesList(jwt)
                 .doOnSuccess(habitWithProgresses -> {
                     habitsDatabaseRepository.deleteAllHabits().subscribe();
-                    habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgresses)
+                    habitsDatabaseRepository.backup(habitWithProgresses)
                             .subscribeOn(Schedulers.io())
                             .subscribe();
                 })

@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.view.account;
+package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -8,7 +8,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.sergeykozhukhov.habits.model.exception.ChangeProgressException;
+import ru.sergeykozhukhov.habits.model.domain.exception.ChangeProgressException;
 
 /**
  * Интерфейс интерактора по изменению дат выполнения конкретной привычки

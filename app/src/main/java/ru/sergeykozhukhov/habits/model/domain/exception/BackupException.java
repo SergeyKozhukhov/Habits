@@ -1,23 +1,23 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при ошибке добавления записей в базу данных
+ * Исключение при ошибке добавления записей на сервер
  */
-public class InsertDbException extends Exception {
+public class BackupException extends Exception {
 
     @StringRes
     private final int messageRes;
 
-    public InsertDbException(String message, int messageRes) {
+    public BackupException(String message, int messageRes) {
         super(message);
         this.messageRes = messageRes;
     }
 
-    public InsertDbException(int messageRes, Throwable cause) {
+    public BackupException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -30,7 +30,7 @@ public class InsertDbException extends Exception {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        InsertDbException that = (InsertDbException) o;
+        BackupException that = (BackupException) o;
         return messageRes == that.messageRes;
     }
 
@@ -41,7 +41,7 @@ public class InsertDbException extends Exception {
 
     @Override
     public String toString() {
-        return "InsertDbException{" +
+        return "BackupException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

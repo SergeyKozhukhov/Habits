@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;

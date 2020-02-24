@@ -1,7 +1,5 @@
 package ru.sergeykozhukhov.habits.domain.usecase;
 
-import android.util.Log;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,12 +7,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import io.reactivex.Completable;
-import io.reactivex.functions.Predicate;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.data.repository.HabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.model.exception.DeleteFromDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;

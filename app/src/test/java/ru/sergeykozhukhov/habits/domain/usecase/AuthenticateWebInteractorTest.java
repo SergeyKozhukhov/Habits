@@ -15,11 +15,10 @@ import retrofit2.Response;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IAuthenticateWebInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
-import ru.sergeykozhukhov.habits.model.exception.AuthenticateException;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.AuthenticateException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

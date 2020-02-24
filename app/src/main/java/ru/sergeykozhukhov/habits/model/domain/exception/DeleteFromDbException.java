@@ -1,22 +1,23 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при ошибке загрзуки записей из базы данных
+ * Исключение при ошибке удаления записей из базы данных
  */
-public class LoadDbException extends Exception{
+public class DeleteFromDbException extends Exception {
 
     @StringRes
     private final int messageRes;
 
-    public LoadDbException(int messageRes) {
+    public DeleteFromDbException(String message, int messageRes) {
+        super(message);
         this.messageRes = messageRes;
     }
 
-    public LoadDbException(int messageRes, Throwable cause) {
+    public DeleteFromDbException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -25,11 +26,12 @@ public class LoadDbException extends Exception{
         return messageRes;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LoadDbException that = (LoadDbException) o;
+        DeleteFromDbException that = (DeleteFromDbException) o;
         return messageRes == that.messageRes;
     }
 
@@ -40,7 +42,7 @@ public class LoadDbException extends Exception{
 
     @Override
     public String toString() {
-        return "LoadDbException{" +
+        return "DeleteFromDbException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

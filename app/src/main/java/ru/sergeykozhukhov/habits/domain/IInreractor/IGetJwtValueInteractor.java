@@ -2,9 +2,7 @@ package ru.sergeykozhukhov.habits.domain.IInreractor;
 
 import androidx.annotation.NonNull;
 
-import io.reactivex.Single;
-import ru.sergeykozhukhov.habits.model.domain.Jwt;
-import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 
 /**
  * Интерфейс получения токена сохраненного в памяти или с preferences

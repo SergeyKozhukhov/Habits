@@ -2,18 +2,14 @@ package ru.sergeykozhukhov.habits.domain.usecase;
 
 import androidx.annotation.NonNull;
 
-import com.github.mikephil.charting.data.BarEntry;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.ILoadStatisticListInteractor;
-import ru.sergeykozhukhov.habits.model.domain.Chart;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
-import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 public class LoadStatisticListInteractor implements ILoadStatisticListInteractor {
 

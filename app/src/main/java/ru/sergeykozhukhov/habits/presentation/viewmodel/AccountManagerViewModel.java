@@ -6,31 +6,22 @@ import io.reactivex.disposables.CompositeDisposable;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.model.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.domain.usecase.GetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 
 public class AccountManagerViewModel extends ViewModel {
 
     private static final String TAG = "AuthenticationViewModel";
 
-    private final IGetJwtValueInteractor getJwtValueInteractor;
-
-    private CompositeDisposable compositeDisposable;
+    private final GetJwtValueInteractor getJwtValueInteractor;
 
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
 
 
-    public AccountManagerViewModel(IGetJwtValueInteractor getJwtValueInteractor) {
+    public AccountManagerViewModel(GetJwtValueInteractor getJwtValueInteractor) {
         this.getJwtValueInteractor = getJwtValueInteractor;
-
-        initData();
     }
-
-
-    private void initData() {
-        compositeDisposable = new CompositeDisposable();
-    }
-
 
     public void isLogInClient() {
 
@@ -48,10 +39,6 @@ public class AccountManagerViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
-    }
-
-    public void cancelSubscribe() {
-        compositeDisposable.clear();
     }
 
 }

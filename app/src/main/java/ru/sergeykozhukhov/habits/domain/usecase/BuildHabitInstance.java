@@ -11,7 +11,7 @@ import java.util.Locale;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildHabitInstance;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 
 public class BuildHabitInstance implements IBuildHabitInstance {
 

@@ -1,22 +1,22 @@
-package ru.sergeykozhukhov.habits.model.exception;
+package ru.sergeykozhukhov.habits.model.domain.exception;
 
 import androidx.annotation.StringRes;
 
 import java.util.Objects;
 
 /**
- * Исключение при ошибке авторизации
+ * Исключение при ошибке загрзуки записей из базы данных
  */
-public class  AuthenticateException extends Exception {
+public class LoadDbException extends Exception{
 
     @StringRes
     private final int messageRes;
 
-    public AuthenticateException(int messageRes) {
+    public LoadDbException(int messageRes) {
         this.messageRes = messageRes;
     }
 
-    public AuthenticateException(int messageRes, Throwable cause) {
+    public LoadDbException(int messageRes, Throwable cause) {
         super(cause);
         this.messageRes = messageRes;
     }
@@ -29,7 +29,7 @@ public class  AuthenticateException extends Exception {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthenticateException that = (AuthenticateException) o;
+        LoadDbException that = (LoadDbException) o;
         return messageRes == that.messageRes;
     }
 
@@ -40,7 +40,7 @@ public class  AuthenticateException extends Exception {
 
     @Override
     public String toString() {
-        return "AuthenticateException{" +
+        return "LoadDbException{" +
                 "messageRes=" + messageRes +
                 '}';
     }

@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildConfidentialityInstance;
 import ru.sergeykozhukhov.habits.model.domain.Confidentiality;
-import ru.sergeykozhukhov.habits.model.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 
 public class BuildConfidentialityInstance implements IBuildConfidentialityInstance {
 
