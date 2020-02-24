@@ -3,7 +3,7 @@ package ru.sergeykozhukhov.habits.data.converter;
 import org.junit.Before;
 import org.junit.Test;
 
-import ru.sergeykozhukhov.habits.data.repository.GeneratorData;
+import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.model.data.HabitData;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 

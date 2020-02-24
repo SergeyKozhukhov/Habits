@@ -11,19 +11,16 @@ import ru.sergeykozhukhov.habits.model.domain.Statistic;
 
 public class StatisticListConverter implements IConverter<List<StatisticData>, List<Statistic>> {
 
-    private final StatisticConverter statisticConverter;
-
-    public StatisticListConverter(@NonNull StatisticConverter statisticConverter) {
-        this.statisticConverter = statisticConverter;
-    }
-
-
     @NonNull
     @Override
     public List<Statistic> convertTo(@NonNull List<StatisticData> statisticDataList) {
         List<Statistic> statisticList = new ArrayList<>(statisticDataList.size());
-        for (StatisticData statisticData : statisticDataList){
-            statisticList.add(statisticConverter.convertTo(statisticData));
+        for (StatisticData statisticData : statisticDataList) {
+            statisticList.add(new Statistic(
+                    statisticData.getIdHabit(),
+                    statisticData.getTitle(),
+                    statisticData.getDuration(),
+                    statisticData.getCurrentQuantity()));
         }
         return statisticList;
     }
@@ -32,8 +29,12 @@ public class StatisticListConverter implements IConverter<List<StatisticData>, L
     @Override
     public List<StatisticData> convertFrom(@NonNull List<Statistic> statisticList) {
         List<StatisticData> statisticDataList = new ArrayList<>(statisticList.size());
-        for (Statistic statistic : statisticList){
-            statisticDataList.add(statisticConverter.convertFrom(statistic));
+        for (Statistic statistic : statisticList) {
+            statisticDataList.add(new StatisticData(
+                    statistic.getIdHabit(),
+                    statistic.getTitle(),
+                    statistic.getDuration(),
+                    statistic.getCurrentQuantity()));
         }
         return statisticDataList;
     }

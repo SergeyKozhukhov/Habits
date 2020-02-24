@@ -10,12 +10,11 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.data.repository.GeneratorData;
+import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.model.exception.LoadDbException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;

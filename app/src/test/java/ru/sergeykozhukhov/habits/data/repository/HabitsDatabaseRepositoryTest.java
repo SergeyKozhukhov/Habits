@@ -11,6 +11,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.data.converter.HabitConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitListConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesConverter;

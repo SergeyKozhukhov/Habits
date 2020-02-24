@@ -8,10 +8,8 @@ import ru.sergeykozhukhov.habits.data.converter.HabitListConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesListConverter;
 import ru.sergeykozhukhov.habits.data.converter.JwtConverter;
-import ru.sergeykozhukhov.habits.data.converter.ProgressConverter;
 import ru.sergeykozhukhov.habits.data.converter.ProgressListConverter;
 import ru.sergeykozhukhov.habits.data.converter.RegistrationConverter;
-import ru.sergeykozhukhov.habits.data.converter.StatisticConverter;
 import ru.sergeykozhukhov.habits.data.converter.StatisticListConverter;
 import ru.sergeykozhukhov.habits.data.database.HabitsDatabase;
 import ru.sergeykozhukhov.habits.data.preferences.HabitsPreferences;
@@ -33,10 +31,10 @@ public class Repositories {
                 HabitsDatabase.getInstance(context).getHabitDao(),
                 new HabitConverter(),
                 new HabitListConverter(new HabitConverter()),
-                new ProgressListConverter(new ProgressConverter()),
-                new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter(new ProgressConverter())),
-                new HabitWithProgressesListConverter(new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter(new ProgressConverter()))),
-                new StatisticListConverter(new StatisticConverter()));
+                new ProgressListConverter(),
+                new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter()),
+                new HabitWithProgressesListConverter(new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter())),
+                new StatisticListConverter());
     }
 
     public static IHabitsWebRepository newWebRepository(){
@@ -45,7 +43,7 @@ public class Repositories {
                 HabitsRetrofitClient.getInstance().getApiService(),
                 new RegistrationConverter(),
                 new ConfidentialityConverter(),
-                new HabitWithProgressesListConverter(new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter(new ProgressConverter()))),
+                new HabitWithProgressesListConverter(new HabitWithProgressesConverter(new HabitConverter(), new ProgressListConverter())),
                 new JwtConverter()
         );
     }

@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.data.repository;
+package ru.sergeykozhukhov.habits;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,9 +8,11 @@ import java.util.List;
 import ru.sergeykozhukhov.habits.model.data.HabitData;
 import ru.sergeykozhukhov.habits.model.data.HabitWithProgressesData;
 import ru.sergeykozhukhov.habits.model.data.ProgressData;
+import ru.sergeykozhukhov.habits.model.data.StatisticData;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
+import ru.sergeykozhukhov.habits.model.domain.Statistic;
 
 public class GeneratorData {
 
@@ -97,5 +99,17 @@ public class GeneratorData {
         HabitWithProgressesData habitWithProgressesData2 = new HabitWithProgressesData(habitData2, createProgressDataList(4, 2, 3));
 
         return Arrays.asList(habitWithProgressesData1, habitWithProgressesData2);
+    }
+
+    public List<Statistic> createStatisticList(){
+        Statistic statistic1 = new Statistic(1,"title1",21,11);
+        Statistic statistic2 = new Statistic(2,"title2",22,12);
+        return Arrays.asList(statistic1, statistic2);
+    }
+
+    public List<StatisticData> createStatisticDataList(){
+        StatisticData statisticData1 = new StatisticData(1,"title1",21,11);
+        StatisticData statisticData2 = new StatisticData(2,"title2",22,12);
+        return Arrays.asList(statisticData1, statisticData2);
     }
 }

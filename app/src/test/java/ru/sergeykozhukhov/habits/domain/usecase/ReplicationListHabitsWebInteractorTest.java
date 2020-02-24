@@ -17,7 +17,7 @@ import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.data.repository.GeneratorData;
+import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;

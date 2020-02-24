@@ -4,22 +4,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.internal.util.reflection.FieldSetter;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.subscribers.TestSubscriber;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
+import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.data.converter.ConfidentialityConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesListConverter;
 import ru.sergeykozhukhov.habits.data.converter.JwtConverter;
