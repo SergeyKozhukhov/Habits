@@ -46,25 +46,14 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
             return Completable.error(e);
         }
 
-        /*return habitsDatabaseRepository.loadHabitWithProgressesList()
-                .onErrorResumeNext(Single::error)
-                .flatMapCompletable(habitWithProgressesList ->
-                        habitsWebRepository.insertHabitWithProgressesList(habitWithProgressesList, jwt)).onErrorResumeNext(throwable -> {
-                    if (!(throwable instanceof LoadDbException))
-                        return Completable.error(new BackupException(R.string.insert_web_exception, throwable));
-                    return Completable.error(throwable);
-                });*/
-        List<HabitWithProgresses> habitWithProgressesList;
-        try {
-            habitWithProgressesList = habitsDatabaseRepository.loadHabitWithProgressesList()
-                    .subscribeOn(Schedulers.io())
-                    .blockingGet();
-        } catch (Exception e) {
-            return Completable.error(e);
-        }
-        return habitsWebRepository.insertHabitWithProgressesList(habitWithProgressesList, jwt)
+        return habitsDatabaseRepository.loadHabitWithProgressesList()
                 .onErrorResumeNext(throwable ->
-                        Completable.error(new BackupException(R.string.insert_web_exception, throwable)));
+                        Single.error(new LoadDbException(R.string.load_db_exception)))
+                .flatMapCompletable(habitWithProgressesList ->
+                        habitsWebRepository.insertHabitWithProgressesList(habitWithProgressesList, jwt)
+                                .onErrorResumeNext(throwable ->
+                                        Completable.error(new BackupException(R.string.insert_web_exception, throwable)))
+                );
 
     }
 

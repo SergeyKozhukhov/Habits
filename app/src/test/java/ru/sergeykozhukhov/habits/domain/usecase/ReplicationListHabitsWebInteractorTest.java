@@ -20,6 +20,7 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
+import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
@@ -42,7 +43,7 @@ public class ReplicationListHabitsWebInteractorTest {
     @Mock
     private IHabitsDatabaseRepository habitsDatabaseRepository;
     @Mock
-    private GetJwtValueInteractor getJwtValue;
+    private IGetJwtValueInteractor getJwtValue;
 
 
     @Before
