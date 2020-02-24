@@ -98,7 +98,7 @@ public class ProgressViewModel extends ViewModel {
         return errorSingleLiveEvent;
     }
 
-    public void cancelSubscritions() {
+    public void cancelSubscriptions() {
         compositeDisposable.clear();
     }
 }

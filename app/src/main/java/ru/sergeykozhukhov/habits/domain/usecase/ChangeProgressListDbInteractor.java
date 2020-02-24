@@ -12,6 +12,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.functions.Consumer;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IChangeProgressListDbInteractor;
@@ -30,48 +31,45 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
     private List<Date> progressAddedList;
     private List<Date> progressDeletedList;
 
-    public ChangeProgressListDbInteractor(IHabitsDatabaseRepository habitsDatabaseRepository) {
+    public ChangeProgressListDbInteractor(@NonNull IHabitsDatabaseRepository habitsDatabaseRepository) {
         this.habitsDatabaseRepository = habitsDatabaseRepository;
-
     }
 
     @NonNull
     @Override
     public Single<List<Date>> getProgressList(long idHabit) {
-        this.idHabit = idHabit;
         return habitsDatabaseRepository.loadProgressListByIdHabit(idHabit)
-                .map(progressList -> {
+                .doOnSuccess(progressList -> {
+                    this.idHabit = idHabit;
                     progressLoadedList = progressList;
-                    List<Date> dateList  = new ArrayList<>(progressList.size());
                     progressAddedList = new LinkedList<>();
                     progressDeletedList = new LinkedList<>();
-                    for (Progress progress: progressList){
+                })
+                .map(progressList -> {
+                    List<Date> dateList = new ArrayList<>(progressList.size());
+                    for (Progress progress : progressList) {
                         dateList.add(progress.getDate());
                     }
                     return dateList;
-                }).onErrorResumeNext(throwable -> Single.error(new LoadDbException(R.string.load_db_exception, throwable)));
+                })
+                .onErrorResumeNext(throwable ->
+                        Single.error(new LoadDbException(R.string.load_db_exception, throwable)));
     }
 
     @Override
     public void addNewDate(@Nullable Date date) throws ChangeProgressException {
         if (date == null)
-        {
             throw new ChangeProgressException(R.string.change_progress_db_exception);
-        }
-        if (!progressDeletedList.remove(date)) {
+        if (!progressDeletedList.remove(date))
             progressAddedList.add(date);
-        }
     }
 
     @Override
     public void deleteDate(@Nullable Date date) throws ChangeProgressException {
         if (date == null)
-        {
             throw new ChangeProgressException(R.string.change_progress_db_exception);
-        }
-        if (!progressAddedList.remove(date)) {
+        if (!progressAddedList.remove(date))
             progressDeletedList.add(date);
-        }
     }
 
     @Nullable
@@ -80,7 +78,6 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
         Completable deleteCompletable = null;
 
         if (!progressDeletedList.isEmpty()) {
-
             List<Progress> deleteProgresses;
             Log.d(TAG, "deletedProgress:" + "\n");
             deleteProgresses = new ArrayList<>(progressDeletedList.size());
@@ -112,25 +109,16 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
                             Completable.error(new InsertDbException(R.string.insert_db_exception, throwable)));
         }
 
-        if (deleteCompletable != null && insertCompletable ==null){
+        if (deleteCompletable != null && insertCompletable == null) {
             return deleteCompletable;
-        }
-        else if (deleteCompletable == null && insertCompletable !=null)
-        {
+        } else if (deleteCompletable == null && insertCompletable != null) {
             return insertCompletable;
-        }
-        else if (deleteCompletable != null){
+        } else if (deleteCompletable != null) {
             return deleteCompletable.andThen(insertCompletable);
-        }
-        else {
+        } else {
             return null;
         }
     }
-
-
-
-
-
 
 
 }
