@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import java.util.Objects;
 
+import ru.sergeykozhukhov.habits.model.domain.Habit;
+import ru.sergeykozhukhov.habits.model.domain.Progress;
+
 /**
  * Класс, содержащий информация о привычке и список дат ее выполнения (data слой)
  */
@@ -44,6 +47,14 @@ public class HabitWithProgressesData {
 
     public void setProgressDataList(List<ProgressData> progressDataList) {
         this.progressDataList = progressDataList;
+    }
+
+    public void setIdHabitForProgressList(long idHabit){
+        if (progressDataList.size()>1){
+            for(ProgressData progressData : progressDataList){
+                progressData.setIdHabit(idHabit);
+            }
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
@@ -30,6 +31,7 @@ public class SettingsViewModel extends ViewModel {
     }
 
     public void deleteAllHabits(){
+
         compositeDisposable.add(deleteAllHabitsInteractor.deleteAllHabits()
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(() -> {
