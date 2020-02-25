@@ -27,7 +27,7 @@ public class AccountManagerViewModel extends ViewModel {
 
         try {
             getJwtValueInteractor.getValue();
-            successSingleLiveEvent.postValue(R.string.authentication_success_message);
+            successSingleLiveEvent.postValue(R.string.get_jwt_success_message);
         } catch (GetJwtException e) {
             errorSingleLiveEvent.postValue((e.getMessageRes()));
         }

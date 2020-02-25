@@ -104,7 +104,7 @@ public class ReplicationListHabitsWebInteractorTest {
     }
 
     @Test
-    public void loadHabitWithProgressesListErrorLoadList() throws GetJwtException {
+    public void loadHabitWithProgressesListErrorLoadFromWeb() throws GetJwtException {
 
         String jwt = "token";
 
@@ -137,7 +137,7 @@ public class ReplicationListHabitsWebInteractorTest {
         String msg = "error";
         Exception exception = new Exception(msg);
 
-        DeleteFromDbException deleteFromDbException = new DeleteFromDbException(R.string.delete_from_db_exception, exception);
+        DeleteFromDbException deleteFromDbException = new DeleteFromDbException(R.string.cleanup_db_exception, exception);
 
         List<HabitWithProgresses> habitWithProgressesList = generatorData.createHabitWithProgressesList();
         Single<List<HabitWithProgresses>> single = Single.just(habitWithProgressesList);
@@ -171,13 +171,13 @@ public class ReplicationListHabitsWebInteractorTest {
         String msg = "error";
         Exception exception = new Exception(msg);
 
-        InsertDbException insertDbException = new InsertDbException(R.string.delete_from_db_exception, exception);
+        InsertDbException insertDbException = new InsertDbException(R.string.insert_db_exception, exception);
 
         List<HabitWithProgresses> habitWithProgressesList = generatorData.createHabitWithProgressesList();
         Single<List<HabitWithProgresses>> single = Single.just(habitWithProgressesList);
 
         Completable completableDelete = Completable.complete();
-        Completable completableInsert = Completable.error(insertDbException);
+        Completable completableInsert = Completable.error(exception);
         when(getJwtValue.getValue()).thenReturn(jwt);
         when(habitsWebRepository.loadHabitWithProgressesList(jwt)).thenReturn(single);
         when(habitsDatabaseRepository.deleteAllHabits()).thenReturn(completableDelete);
@@ -207,13 +207,13 @@ public class ReplicationListHabitsWebInteractorTest {
         String msgInput = "errorInput";
         Exception exceptionInput= new Exception(msgInput);
 
-        DeleteFromDbException deleteFromDbException = new DeleteFromDbException(R.string.delete_from_db_exception, exceptionDelete);
+        DeleteFromDbException deleteFromDbException = new DeleteFromDbException(R.string.cleanup_db_exception, exceptionDelete);
         InsertDbException insertDbException = new InsertDbException(R.string.insert_db_exception, exceptionInput);
 
         List<HabitWithProgresses> habitWithProgressesList = generatorData.createHabitWithProgressesList();
         Single<List<HabitWithProgresses>> single = Single.just(habitWithProgressesList);
 
-        Completable completableDelete = Completable.error(deleteFromDbException);
+        Completable completableDelete = Completable.error(exceptionDelete);
         Completable completableInsert = Completable.error(insertDbException);
         when(getJwtValue.getValue()).thenReturn(jwt);
         when(habitsWebRepository.loadHabitWithProgressesList(jwt)).thenReturn(single);

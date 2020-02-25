@@ -38,24 +38,12 @@ public class RegistrationViewModel extends ViewModel {
 
         compositeDisposable.add(registerWebInteractor.registerClient(firstname, lastname, email, password, passwodConfirmation)
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Action() {
-                               @Override
-                               public void run() throws Exception {
-                                   successSingleLiveEvent.postValue(R.string.registration_success_message);
-                               }
-                           },
-                        new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                if (throwable instanceof RegisterException) {
-                                    errorSingleLiveEvent.postValue((((RegisterException) throwable).getMessageRes()));
-                                    Log.d(TAG, "registration build error");
-                                }
-                                if (throwable instanceof BuildException) {
-                                    errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
-                                    Log.d(TAG, "registration build error");
-                                }
-                            }
+                .subscribe(() -> successSingleLiveEvent.postValue(R.string.registration_success_message),
+                        throwable -> {
+                            if (throwable instanceof RegisterException)
+                                errorSingleLiveEvent.postValue((((RegisterException) throwable).getMessageRes()));
+                            else if (throwable instanceof BuildException)
+                                errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
                         }));
 
 

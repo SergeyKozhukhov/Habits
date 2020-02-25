@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
@@ -34,8 +35,11 @@ public class SettingsViewModel extends ViewModel {
 
         compositeDisposable.add(deleteAllHabitsInteractor.deleteAllHabits()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(() -> {
-                    successSingleLiveEvent.postValue(R.string.delete_from_db_success_message);
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        successSingleLiveEvent.postValue(R.string.delete_from_db_success_message);
+                    }
                 }, throwable -> {
                     if (throwable instanceof DeleteFromDbException) {
                         errorSingleLiveEvent.postValue((((DeleteFromDbException) throwable).getMessageRes()));
@@ -50,6 +54,11 @@ public class SettingsViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {
         return successSingleLiveEvent;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 
     public void cancelSubscriptions() {

@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
@@ -29,28 +31,19 @@ public class AuthenticationViewModel extends ViewModel {
     public AuthenticationViewModel(@NonNull AuthenticateWebInteractor authenticateClientInteractor) {
 
         this.authenticateClientInteractor = authenticateClientInteractor;
-        initData();
-    }
-
-    private void initData() {
         compositeDisposable = new CompositeDisposable();
     }
 
     public void authenticateClient(String email, String password) {
         compositeDisposable.add(authenticateClientInteractor.authenticateClient(email, password)
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(idRes -> {
-                    successSingleLiveEvent.postValue(R.string.authentication_success_message);
-                    Log.d(TAG, "authenticateClient: success");
-                }, throwable -> {
+                .subscribe(() -> successSingleLiveEvent.postValue(R.string.authentication_success_message), throwable -> {
                     if (throwable instanceof BuildException) {
                         errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
                     }
                     if (throwable instanceof AuthenticateException) {
                         errorSingleLiveEvent.postValue((((AuthenticateException) throwable).getMessageRes()));
-                        Log.d(TAG, "authenticateClient: error");
                     }
-
                 }));
 
     }

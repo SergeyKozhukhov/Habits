@@ -12,6 +12,7 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
 
 /**
  * ViewModel для добавления новой привычки в базу данных
@@ -35,14 +36,14 @@ public class AddHabitViewModel extends ViewModel {
 
         compositeDisposable.add(insertHabitInteractor.insertHabit(title, description, startDate, duration)
                 .subscribeOn(Schedulers.io())
-                .subscribe(id -> {
-                    insertedSuccessSingleLiveEvent.postValue(R.string.habit_success_inserted_db_message);
-                    Log.d(TAG, "insertHabitList success. id = " + id);
-                }, throwable -> {
-                    if (throwable instanceof BuildException) {
-                        errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
+                .subscribe(id -> insertedSuccessSingleLiveEvent.postValue(R.string.habit_success_inserted_db_message), new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        if (throwable instanceof BuildException)
+                            errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
+                        else if (throwable instanceof InsertDbException)
+                            errorSingleLiveEvent.postValue((((InsertDbException) throwable).getMessageRes()));
                     }
-                    Log.d(TAG, "insertHabitList error");
                 }));
     }
 

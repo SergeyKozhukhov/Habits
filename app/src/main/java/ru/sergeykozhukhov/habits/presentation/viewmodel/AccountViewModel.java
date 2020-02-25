@@ -1,21 +1,21 @@
 package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 import ru.sergeykozhukhov.habits.model.domain.exception.BackupException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
+import ru.sergeykozhukhov.habits.model.domain.exception.ReplicationException;
 
 /**
  * ViewModel для резервного копирования всей информации
@@ -48,9 +48,14 @@ public class AccountViewModel extends ViewModel {
         compositeDisposable.add(replicationListHabitsWebInteractor.loadHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(() -> successSingleLiveEvent.postValue(R.string.replication_success_message), throwable -> {
-                    if (throwable instanceof GetJwtException) {
+                    if (throwable instanceof GetJwtException)
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
-                    }
+                    else if (throwable instanceof ReplicationException)
+                        errorSingleLiveEvent.postValue(((ReplicationException) throwable).getMessageRes());
+                    else if (throwable instanceof DeleteFromDbException)
+                        errorSingleLiveEvent.postValue(((DeleteFromDbException) throwable).getMessageRes());
+                    else if (throwable instanceof InsertDbException)
+                        errorSingleLiveEvent.postValue(((InsertDbException) throwable).getMessageRes());
                 }));
     }
 
@@ -72,7 +77,7 @@ public class AccountViewModel extends ViewModel {
 
     public void logout() {
         deleteJwtInteractor.deleteJwt();
-        logOutSuccessSingleLiveEvent.postValue(R.string.log_out__success_message);
+        logOutSuccessSingleLiveEvent.postValue(R.string.log_out_success_message);
     }
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
@@ -87,6 +92,7 @@ public class AccountViewModel extends ViewModel {
         return logOutSuccessSingleLiveEvent;
     }
 
-    public void cancelSubscritions() { compositeDisposable.clear();
+    public void cancelSubscritions() {
+        compositeDisposable.clear();
     }
 }

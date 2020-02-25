@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.presentation.viewmodel;
+package ru.sergeykozhukhov.habits;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -14,15 +14,7 @@ import io.reactivex.schedulers.Schedulers;
 // https://medium.com/@boonkeat/android-test-driven-design-using-mvvm-rxjava-and-livedata-d7a38dc25913
 // https://github.com/SPHTech/TestDrivenMVVM/blob/master/app/src/test/java/sg/com/sph/testdrivenmvvm/RxImmediateSchedulerRule.kt
 // https://www.aanandshekharroy.com/articles/2018-01/rxjava-schedulers
-public class TestSchedulerRule implements TestRule {
-
-    //private final TestScheduler testScheduler = new TestScheduler();
-    private final Scheduler testScheduler = Schedulers.trampoline();
-
-    public Scheduler getTestScheduler() {
-        return testScheduler;
-    }
-
+public class RxImmediateSchedulerRule implements TestRule {
 
     @Override
     public Statement apply(Statement base, Description description) {
@@ -30,10 +22,10 @@ public class TestSchedulerRule implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                RxJavaPlugins.setIoSchedulerHandler(scheduler -> testScheduler);
-                RxJavaPlugins.setComputationSchedulerHandler(scheduler -> testScheduler);
-                RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> testScheduler);
-                RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> testScheduler);
+                RxJavaPlugins.setIoSchedulerHandler(scheduler -> Schedulers.trampoline());
+                RxJavaPlugins.setComputationSchedulerHandler(scheduler -> Schedulers.trampoline());
+                RxJavaPlugins.setNewThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
+                RxAndroidPlugins.setInitMainThreadSchedulerHandler(schedulerCallable -> Schedulers.trampoline());
 
                 try {
                     base.evaluate();

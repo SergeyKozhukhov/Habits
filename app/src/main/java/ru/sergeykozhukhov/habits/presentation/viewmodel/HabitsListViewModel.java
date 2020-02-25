@@ -35,7 +35,7 @@ public class HabitsListViewModel extends ViewModel {
     public void loadHabitList() {
 
         compositeDisposable.add(loadHabitsInteractor.loadHabitList()
-                .subscribe(value -> habitListLiveData.postValue(value), throwable -> {
+                .subscribe(habitListLiveData::postValue, throwable -> {
                     if (throwable instanceof LoadDbException) {
                         errorSingleLiveEvent.postValue((((LoadDbException) throwable).getMessageRes()));
                     }

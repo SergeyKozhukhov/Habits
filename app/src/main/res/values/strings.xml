@@ -10,9 +10,8 @@
     <string name="insert_db_success_message">"Успешно добавлено"</string>
     <string name="backup_success_message">"Успешно произведено резервено копирование на сервер"</string>
     <string name="change_progress_db_success_message">"Данные успешно модифицированы"</string>
-    <string name="log_out__success_message">"Вы вышли из аккаунта"</string>
-    <string name="connect_network_error_message">"Отсутствует подключение к сети"</string>
-
+    <string name="log_out_success_message">"Вы вышли из аккаунта"</string>
+    <string name="get_jwt_success_message">"Пользователь идентифицирован"</string>
 
 
 </resources>

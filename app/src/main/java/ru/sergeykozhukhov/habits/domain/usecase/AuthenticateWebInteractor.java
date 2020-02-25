@@ -3,7 +3,11 @@ package ru.sergeykozhukhov.habits.domain.usecase;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.reactivex.Completable;
+import io.reactivex.CompletableSource;
 import io.reactivex.Single;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
@@ -33,27 +37,23 @@ public class AuthenticateWebInteractor implements IAuthenticateWebInteractor {
 
     @NonNull
     @Override
-    public Single<Jwt> authenticateClient(@Nullable String email, @Nullable String password) {
+    public Completable authenticateClient(@Nullable String email, @Nullable String password) {
 
         Confidentiality confidentiality;
         try {
             confidentiality = buildConfidentialityInstance.build(email, password);
         } catch (BuildException e) {
-            return Single.error(e);
+            return Completable.error(e);
         }
         return habitsWebRepository.authenticateClient(confidentiality)
                 .doOnSuccess(jwt -> {
                     habitsWebRepository.setJwt(jwt);
                     habitsPreferencesRepository.saveJwt(jwt);
                 })
+                .ignoreElement()
                 .onErrorResumeNext(throwable ->
-                        Single.error(new AuthenticateException(R.string.authenticate_exception, throwable)));
+                        Completable.error(new AuthenticateException(R.string.authenticate_exception, throwable)));
     }
-
-
-
-
-
 
 
 }

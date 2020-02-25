@@ -6,39 +6,32 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import io.reactivex.Completable;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.TestObserver;
-import io.reactivex.schedulers.Schedulers;
-import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
+import ru.sergeykozhukhov.habitData.R;
+import ru.sergeykozhukhov.habits.RxImmediateSchedulerRule;
 import ru.sergeykozhukhov.habits.domain.usecase.DeleteAllHabitsDbInteractor;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SettingsViewModelTest {
 
     @Rule
-    public final TestSchedulerRule testSchedulerRule = new TestSchedulerRule();
-
+    public final RxImmediateSchedulerRule rxImmediateSchedulerRule = new RxImmediateSchedulerRule();
     @Rule
-    public InstantTaskExecutorRule mInstantTaskExecutorRule = new InstantTaskExecutorRule();
+    public final InstantTaskExecutorRule mInstantTaskExecutorRule = new InstantTaskExecutorRule();
 
     private SettingsViewModel settingsViewModel;
 
     @Mock
     private DeleteAllHabitsDbInteractor deleteAllHabitsInteractor;
-    //@Mock
-    //private CompositeDisposable compositeDisposable;
-    @Mock
-    private SingleLiveEvent<Integer> successSingleLiveEvent;
-    @Mock
-    private SingleLiveEvent<Integer> errorSingleLiveEvent;
 
     @Before
     public void setUp() {
@@ -47,23 +40,47 @@ public class SettingsViewModelTest {
 
     @Test
     public void deleteAllHabitsSuccess() {
-        TestObserver testObserver = new TestObserver();
 
-        Completable completable = Completable.complete();
-        when(deleteAllHabitsInteractor.deleteAllHabits()).thenReturn(completable);
+        when(deleteAllHabitsInteractor.deleteAllHabits()).thenReturn(Completable.complete());
 
-        deleteAllHabitsInteractor.deleteAllHabits()
+        settingsViewModel.deleteAllHabits();
+
+        assertThat(settingsViewModel.getSuccessSingleLiveEvent().getValue(), is(R.string.delete_from_db_success_message));
+        verify(deleteAllHabitsInteractor).deleteAllHabits();
+    }
+
+    @Test
+    public void deleteAllHabitsError() {
+
+        DeleteFromDbException deleteFromDbException = new DeleteFromDbException(R.string.delete_from_db_exception, new Exception());
+        when(deleteAllHabitsInteractor.deleteAllHabits()).thenReturn(Completable.error(deleteFromDbException));
+
+        settingsViewModel.deleteAllHabits();
+
+        assertThat(settingsViewModel.getErrorSingleLiveEvent().getValue(), is(R.string.delete_from_db_exception));
+        verify(deleteAllHabitsInteractor).deleteAllHabits();
+    }
+
+    //TestObserver testObserver = new TestObserver();
+
+        /*deleteAllHabitsInteractor.deleteAllHabits()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(testObserver);
+                .subscribe();
+*/
+
+    //testObserver.assertComplete();
 
         /*when(deleteAllHabitsInteractor.deleteAllHabits()
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(testObserver)).thenReturn(completable);*/
 
-        //testObserver.assertError(Exception.class);
+    //testObserver.assertError(Exception.class);
 
-        //settingsViewModel.deleteAllHabits();
+    //settingsViewModel.deleteAllHabits();
 
-        settingsViewModel.deleteAllHabits();
-    }
+    //Log.d("gg", ""+successSingleLiveEvent.getValue());
+
+    //Assert.assertEquals(successSingleLiveEvent.getValue(), java.util.Optional.of(R.string.delete_from_db_success_message));
+
+    //Assert.assertEquals((long)successSingleLiveEvent.getValue(), (long)R.string.delete_from_db_exception);
 }

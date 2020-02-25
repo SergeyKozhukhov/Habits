@@ -21,7 +21,7 @@
     <string name="duration_min_build_instance_exception">"Продолжительность дожна быть больше"</string>
     <string name="duration_max_build_instance_exception">"Продолжительность должна быть меньше"</string>
 
-
+    <string name="test_build_instance_exception">"exception"</string>
 
     <string name="get_jwt_exception">"Вы не авторизованы"</string>
     <string name="authenticate_exception">"Ошибка авторизации"</string>
@@ -32,5 +32,6 @@
     <string name="insert_db_exception">"Ошибка добавления"</string>
     <string name="insert_web_exception">"Ошибка загрузки данных на сервер"</string>
     <string name="change_progress_db_exception">"Ошибка изменения прогресса"</string>
+    <string name="cleanup_db_exception">"Ошибка подготовки данных"</string>
 
 </resources>

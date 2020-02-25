@@ -47,7 +47,7 @@ public class ProgressViewModel extends ViewModel {
                 changeProgressListDbInteractor.getProgressList(idHabit)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(value -> dateListLoadedSingleLiveEvent.postValue(value), throwable -> {
+                        .subscribe(dateListLoadedSingleLiveEvent::postValue, throwable -> {
                             if (throwable instanceof LoadDbException) {
                                 errorSingleLiveEvent.postValue((((LoadDbException) throwable).getMessageRes()));
                             }

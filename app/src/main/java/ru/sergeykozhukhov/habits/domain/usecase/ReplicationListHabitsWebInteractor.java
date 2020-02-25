@@ -14,7 +14,9 @@ import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IReplicationWebInteractor;
 import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
+import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.ReplicationException;
 
 public class ReplicationListHabitsWebInteractor implements IReplicationWebInteractor {
@@ -47,21 +49,12 @@ public class ReplicationListHabitsWebInteractor implements IReplicationWebIntera
         return habitsWebRepository.loadHabitWithProgressesList(jwt)
                 .onErrorResumeNext(throwable -> Single.error(new ReplicationException(R.string.load_web_exception, throwable)))
                 .flatMapCompletable(
-                        new Function<List<HabitWithProgresses>, CompletableSource>() {
-                            @Override
-                            public CompletableSource apply(List<HabitWithProgresses> habitWithProgresses) {
-                                return habitsDatabaseRepository.deleteAllHabits()
-                                        .andThen(habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgresses));
-                            }
-                        });
+                        habitWithProgresses -> habitsDatabaseRepository.deleteAllHabits()
+                                .onErrorResumeNext(throwable ->
+                                        Completable.error(new DeleteFromDbException(R.string.cleanup_db_exception, throwable)))
+                                .andThen(habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgresses)
+                                        .onErrorResumeNext(throwable ->
+                                                Completable.error(new InsertDbException(R.string.insert_db_exception, throwable)))));
 
-        /*return habitsWebRepository.loadHabitWithProgressesList(jwt)
-                .doOnSuccess(habitWithProgresses -> {
-                    habitsDatabaseRepository.deleteAllHabits().subscribe();
-                    habitsDatabaseRepository.backup(habitWithProgresses)
-                            .subscribeOn(Schedulers.io())
-                            .subscribe();
-                })
-                .onErrorResumeNext(throwable -> Single.error(new ReplicationException(R.string.load_web_exception, throwable)));*/
     }
 }

@@ -3,6 +3,7 @@ package ru.sergeykozhukhov.habits.domain.IInreractor;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
 
@@ -12,7 +13,7 @@ import ru.sergeykozhukhov.habits.model.domain.Jwt;
 public interface IAuthenticateWebInteractor {
 
     @NonNull
-    Single<Jwt> authenticateClient(@Nullable String email,
+    Completable authenticateClient(@Nullable String email,
                                    @Nullable String password);
 
 }

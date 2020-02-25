@@ -63,8 +63,8 @@ public class AuthenticateWebInteractorTest {
 
         inOrder.verify(buildConfidentialityInstance).build(email, password);
         inOrder.verify(habitsWebRepository).authenticateClient(confidentiality);
-        inOrder.verify(habitsWebRepository).setJwt(jwtSingle.blockingGet());
-        inOrder.verify(habitsPreferencesRepository).saveJwt(jwtSingle.blockingGet());
+        inOrder.verify(habitsWebRepository).setJwt(jwt);
+        inOrder.verify(habitsPreferencesRepository).saveJwt(jwt);
         inOrder.verifyNoMoreInteractions();
     }
 
