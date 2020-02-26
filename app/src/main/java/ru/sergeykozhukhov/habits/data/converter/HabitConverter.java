@@ -6,8 +6,17 @@ import ru.sergeykozhukhov.habits.model.data.HabitData;
 import ru.sergeykozhukhov.habits.domain.IConverter;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 
+/**
+ * Конвертер Habit модели между data и domain слоями
+ */
 public class HabitConverter implements IConverter<HabitData, Habit> {
 
+    /**
+     * Конвертирование в модель domain слоя
+     *
+     * @param habitData Habit модель data слоя
+     * @return Habit модель domain слоя
+     */
     @NonNull
     @Override
     public Habit convertTo(@NonNull HabitData habitData) {
@@ -21,6 +30,12 @@ public class HabitConverter implements IConverter<HabitData, Habit> {
         );
     }
 
+    /**
+     * Конвертирование в модель data слоя
+     *
+     * @param habit Habit модель domain слоя
+     * @return Habit модель data слоя
+     */
     @NonNull
     @Override
     public HabitData convertFrom(@NonNull Habit habit) {

@@ -6,10 +6,20 @@ import ru.sergeykozhukhov.habits.domain.IConverter;
 import ru.sergeykozhukhov.habits.model.data.HabitWithProgressesData;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 
+/**
+ * Конвертер HabitWithProgresses модели между data и domain слоями
+ */
 public class HabitWithProgressesConverter implements IConverter<HabitWithProgressesData, HabitWithProgresses> {
 
 
+    /**
+     * Конвертер Habit модели между data и domain слоями
+     */
     private final HabitConverter habitConverter;
+
+    /**
+     * Конвертер списка Progresses моделей между data и domain слоями
+     */
     private final ProgressListConverter progressListConverter;
 
     public HabitWithProgressesConverter(@NonNull HabitConverter habitConverter,
@@ -18,6 +28,12 @@ public class HabitWithProgressesConverter implements IConverter<HabitWithProgres
         this.progressListConverter = progressListConverter;
     }
 
+    /**
+     * Конвертирование в модель domain слоя
+     *
+     * @param habitWithProgressesData HabitWithProgresses модель data слоя
+     * @return HabitWithProgresses модель domain слоя
+     */
     @NonNull
     @Override
     public HabitWithProgresses convertTo(@NonNull HabitWithProgressesData habitWithProgressesData) {
@@ -29,6 +45,12 @@ public class HabitWithProgressesConverter implements IConverter<HabitWithProgres
 
     }
 
+    /**
+     * Конвертирование в модель data слоя
+     *
+     * @param habitWithProgresses HabitWithProgresses модель domain слоя
+     * @return HabitWithProgresses модель data слоя
+     */
     @NonNull
     @Override
     public HabitWithProgressesData convertFrom(@NonNull HabitWithProgresses habitWithProgresses) {

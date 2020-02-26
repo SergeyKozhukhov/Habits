@@ -9,8 +9,17 @@ import ru.sergeykozhukhov.habits.domain.IConverter;
 import ru.sergeykozhukhov.habits.model.data.StatisticData;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
 
+/**
+ * Конвертер списка Statistic моделей между data и domain слоями
+ */
 public class StatisticListConverter implements IConverter<List<StatisticData>, List<Statistic>> {
 
+    /**
+     * Конвертирование в список моделей domain слоя
+     *
+     * @param statisticDataList список Statistic моделей data слоя
+     * @return список Statistic моделей domain слоя
+     */
     @NonNull
     @Override
     public List<Statistic> convertTo(@NonNull List<StatisticData> statisticDataList) {
@@ -25,6 +34,12 @@ public class StatisticListConverter implements IConverter<List<StatisticData>, L
         return statisticList;
     }
 
+    /**
+     * Конвертирование в список моделей data слоя
+     *
+     * @param statisticList список Statistic моделей domain слоя
+     * @return список Statistic моделей data слоя
+     */
     @NonNull
     @Override
     public List<StatisticData> convertFrom(@NonNull List<Statistic> statisticList) {

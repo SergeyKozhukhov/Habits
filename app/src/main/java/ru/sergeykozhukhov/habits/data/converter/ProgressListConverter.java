@@ -9,8 +9,17 @@ import ru.sergeykozhukhov.habits.domain.IConverter;
 import ru.sergeykozhukhov.habits.model.data.ProgressData;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
 
+/**
+ * Конвертер списка Progresses моделей между data и domain слоями
+ */
 public class ProgressListConverter implements IConverter<List<ProgressData>, List<Progress>> {
 
+    /**
+     * Конвертирование в список моделей domain слоя
+     *
+     * @param progressDataList список Progresses моделей data слоя
+     * @return список Progresses моделей domain слоя
+     */
     @NonNull
     @Override
     public List<Progress> convertTo(@NonNull List<ProgressData> progressDataList) {
@@ -27,6 +36,12 @@ public class ProgressListConverter implements IConverter<List<ProgressData>, Lis
 
     }
 
+    /**
+     * Конвертирование в список моделей data слоя
+     *
+     * @param progressList список Progresses моделей domain слоя
+     * @return список Progresses моделей data слоя
+     */
     @NonNull
     @Override
     public List<ProgressData> convertFrom(@NonNull List<Progress> progressList) {
