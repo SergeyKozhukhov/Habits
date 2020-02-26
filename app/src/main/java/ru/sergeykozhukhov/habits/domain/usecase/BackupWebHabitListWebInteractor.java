@@ -40,7 +40,7 @@ public class BackupWebHabitListWebInteractor implements IBackupWebInteractor {
 
         return habitsDatabaseRepository.loadHabitWithProgressesList()
                 .onErrorResumeNext(throwable ->
-                        Single.error(new LoadDbException(R.string.load_db_exception)))
+                        Single.error(new LoadDbException(R.string.load_db_exception, throwable)))
                 .flatMapCompletable(habitWithProgressesList ->
                         habitsWebRepository.insertHabitWithProgressesList(habitWithProgressesList, jwt)
                                 .onErrorResumeNext(throwable ->

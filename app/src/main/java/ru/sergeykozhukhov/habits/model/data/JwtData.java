@@ -10,6 +10,9 @@ import java.util.Objects;
  */
 public class JwtData {
 
+    /**
+     * Token (jwt)
+     */
     @SerializedName("jwt")
     @Expose
     private String jwt;

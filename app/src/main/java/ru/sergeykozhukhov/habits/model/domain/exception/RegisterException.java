@@ -5,17 +5,15 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибки регистрации пользователя
+ * Исключение при ошибки регистрации пользователя (domain слой)
  */
-public class RegisterException extends Exception{
+public class RegisterException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
-
-    public RegisterException(String message, int messageRes) {
-        super(message);
-        this.messageRes = messageRes;
-    }
 
     public RegisterException(int messageRes, Throwable cause) {
         super(cause);

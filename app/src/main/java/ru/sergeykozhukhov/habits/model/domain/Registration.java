@@ -7,9 +7,24 @@ import java.util.Objects;
  */
 public class Registration {
 
+    /**
+     * Имя
+     */
     private String firstName;
+
+    /**
+     * Фамилия
+     */
     private String lastName;
+
+    /**
+     * Почта
+     */
     private String email;
+
+    /**
+     * Пароль
+     */
     private String password;
 
     public Registration(String firstName, String lastName, String email, String password) {

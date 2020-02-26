@@ -8,7 +8,14 @@ import java.util.Objects;
  */
 public class HabitWithProgresses {
 
+    /**
+     * Привычка
+     */
     private Habit habit;
+
+    /**
+     * Список дней выполнения
+     */
     private List<Progress> progressList;
 
     public HabitWithProgresses(Habit habit, List<Progress> progressList) {

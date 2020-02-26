@@ -10,9 +10,16 @@ import java.util.Objects;
  */
 public class ConfidentialityData {
 
+    /**
+     * Почта
+     */
     @SerializedName("email")
     @Expose
     private String email;
+
+    /**
+     * Пароль
+     */
     @SerializedName("password")
     @Expose
     private String password;

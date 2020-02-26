@@ -5,17 +5,15 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибке удаления записей из базы данных
+ * Исключение при ошибке удаления записей из базы данных (domain слой)
  */
 public class DeleteFromDbException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
-
-    public DeleteFromDbException(String message, int messageRes) {
-        super(message);
-        this.messageRes = messageRes;
-    }
 
     public DeleteFromDbException(int messageRes, Throwable cause) {
         super(cause);
@@ -25,7 +23,6 @@ public class DeleteFromDbException extends Exception {
     public int getMessageRes() {
         return messageRes;
     }
-
 
     @Override
     public boolean equals(Object o) {

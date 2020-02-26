@@ -5,17 +5,15 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибке добавления записей в базу данных
+ * Исключение при ошибке добавления записей в базу данных (domain слой)
  */
 public class InsertDbException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
-
-    public InsertDbException(String message, int messageRes) {
-        super(message);
-        this.messageRes = messageRes;
-    }
 
     public InsertDbException(int messageRes, Throwable cause) {
         super(cause);

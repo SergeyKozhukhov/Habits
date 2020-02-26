@@ -5,16 +5,15 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибке загрзуки записей из базы данных
+ * Исключение при ошибке загрзуки записей из базы данных (domain слой)
  */
-public class LoadDbException extends Exception{
+public class LoadDbException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
-
-    public LoadDbException(int messageRes) {
-        this.messageRes = messageRes;
-    }
 
     public LoadDbException(int messageRes, Throwable cause) {
         super(cause);

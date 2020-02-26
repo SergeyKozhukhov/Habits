@@ -8,9 +8,24 @@ import java.util.Objects;
  */
 public class Progress {
 
+    /**
+     * id даты выполнения в базе данных
+     */
     private long idProgress;
+
+    /**
+     * id даты выполения на сервере
+     */
     private long idProgressServer;
+
+    /**
+     * id привычки, к которой относиться эта дата
+     */
     private long idHabit;
+
+    /**
+     * Дата выполнения
+     */
     private Date date;
 
     public Progress(long idHabit, Date date) {

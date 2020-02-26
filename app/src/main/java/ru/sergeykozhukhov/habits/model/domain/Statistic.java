@@ -7,9 +7,24 @@ import java.util.Objects;
  */
 public class Statistic {
 
+    /**
+     * id привычки
+     */
     private long idHabit;
+
+    /**
+     * Название привычки
+     */
     private String title;
+
+    /**
+     * Продолжительность привычки
+     */
     private int duration;
+
+    /**
+     * Колличество дней выполения
+     */
     private int currentQuantity;
 
     public Statistic(String title, int duration, int currentQuantity) {

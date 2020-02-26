@@ -7,7 +7,14 @@ import java.util.Objects;
  */
 public class Confidentiality {
 
+    /**
+     * Почта
+     */
     private String email;
+
+    /**
+     * Пароль
+     */
     private String password;
 
     public Confidentiality(String email, String password) {
@@ -43,5 +50,13 @@ public class Confidentiality {
     @Override
     public int hashCode() {
         return Objects.hash(email, password);
+    }
+
+    @Override
+    public String toString() {
+        return "Confidentiality{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

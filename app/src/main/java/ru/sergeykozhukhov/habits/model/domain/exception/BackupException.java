@@ -5,17 +5,15 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибке добавления записей на сервер
+ * Исключение при ошибке добавления записей на сервер (domain слой)
  */
 public class BackupException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
-
-    public BackupException(String message, int messageRes) {
-        super(message);
-        this.messageRes = messageRes;
-    }
 
     public BackupException(int messageRes, Throwable cause) {
         super(cause);

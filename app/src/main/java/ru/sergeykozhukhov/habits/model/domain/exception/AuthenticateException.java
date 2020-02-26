@@ -5,16 +5,15 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибке авторизации
+ * Исключение при ошибке авторизации (domain слой)
  */
-public class  AuthenticateException extends Exception {
+public class AuthenticateException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
-
-    public AuthenticateException(int messageRes) {
-        this.messageRes = messageRes;
-    }
 
     public AuthenticateException(int messageRes, Throwable cause) {
         super(cause);

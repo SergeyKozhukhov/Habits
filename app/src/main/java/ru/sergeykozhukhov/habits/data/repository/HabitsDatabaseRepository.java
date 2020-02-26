@@ -98,7 +98,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
             for (HabitWithProgresses habitWithProgresses : habitWithProgressesList) {
                 habitWithProgressesData = habitWithProgressesConverter.convertFrom(habitWithProgresses);
                 long idHabit = habitDao.insertHabit(habitWithProgressesData.getHabitData()).blockingGet();
-                habitWithProgressesData.setIdHabitForProgressList(idHabit);
                 for (ProgressData progressData : habitWithProgressesData.getProgressDataList()) {
                     progressData.setIdHabit(idHabit);
                     Log.d(TAG, progressData.toString());

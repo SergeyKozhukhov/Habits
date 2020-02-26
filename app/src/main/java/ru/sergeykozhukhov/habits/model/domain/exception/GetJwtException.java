@@ -5,9 +5,13 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибке получения токена (jwt)
+ * Исключение при ошибке получения токена (jwt) (domain слой)
  */
 public class GetJwtException extends Exception {
+
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
 

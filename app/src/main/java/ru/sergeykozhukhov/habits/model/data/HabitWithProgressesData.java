@@ -1,7 +1,6 @@
 package ru.sergeykozhukhov.habits.model.data;
 
 import androidx.room.Embedded;
-import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import com.google.gson.annotations.Expose;
@@ -10,19 +9,22 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import java.util.Objects;
 
-import ru.sergeykozhukhov.habits.model.domain.Habit;
-import ru.sergeykozhukhov.habits.model.domain.Progress;
-
 /**
  * Класс, содержащий информация о привычке и список дат ее выполнения (data слой)
  */
 public class HabitWithProgressesData {
 
+    /**
+     * Привычка
+     */
     @SerializedName("habit")
     @Expose
     @Embedded
     private HabitData habitData;
 
+    /**
+     * Список дней выполнения
+     */
     @SerializedName("progresses")
     @Expose
     @Relation(parentColumn = "id_habit", entityColumn = "id_habit")
@@ -45,18 +47,6 @@ public class HabitWithProgressesData {
         return progressDataList;
     }
 
-    public void setProgressDataList(List<ProgressData> progressDataList) {
-        this.progressDataList = progressDataList;
-    }
-
-    public void setIdHabitForProgressList(long idHabit){
-        if (progressDataList.size()>1){
-            for(ProgressData progressData : progressDataList){
-                progressData.setIdHabit(idHabit);
-            }
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,9 +61,9 @@ public class HabitWithProgressesData {
         return Objects.hash(habitData, progressDataList);
     }
 
-    private String getDescr(){
+    private String getProgressListString() {
         StringBuilder s = new StringBuilder();
-        for (ProgressData progressData : progressDataList){
+        for (ProgressData progressData : progressDataList) {
             s.append(progressData.toString());
         }
         return s.toString();
@@ -83,7 +73,7 @@ public class HabitWithProgressesData {
     public String toString() {
         return "HabitWithProgressesData{" +
                 "habitData=" + habitData.toString() +
-                ", progressDataList=" + getDescr() +
+                ", progressDataList=" + getProgressListString() +
                 '}';
     }
 }

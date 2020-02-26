@@ -7,6 +7,9 @@ import java.util.Objects;
  */
 public class Jwt {
 
+    /**
+     * Token (jwt)
+     */
     private String jwt;
 
     public Jwt(String jwt) {

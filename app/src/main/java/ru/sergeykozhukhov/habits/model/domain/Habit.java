@@ -12,11 +12,34 @@ import java.util.Objects;
  */
 public class Habit implements Parcelable {
 
+    /**
+     * id привычки в базе данных
+     */
     private long idHabit;
+
+    /**
+     * id привычки на сервере
+     */
     private long idHabitServer;
+
+    /**
+     * Название
+     */
     private String title;
+
+    /**
+     * Описание
+     */
     private String description;
+
+    /**
+     * Дана начала выполнения
+     */
     private Date startDate;
+
+    /**
+     * Продолжительность в днях
+     */
     private int duration;
 
     public Habit() {
@@ -46,24 +69,23 @@ public class Habit implements Parcelable {
         this.duration = duration;
     }
 
-    public Habit copy(){
-        return new Habit(
-                this.idHabit,
-                this.idHabitServer,
-                this.title,
-                this.description,
-                this.startDate,
-                this.duration
-        );
-    }
-
-    public Calendar getStartDateCalendar(){
+    /**
+     * Получение даты начала в виде Calendar
+     *
+     * @return Calendat представление даты начала
+     */
+    public Calendar getStartDateCalendar() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
         return calendar;
     }
 
-    public Calendar getEndDateCalendar(){
+    /**
+     * Получение даты окончания в виде Calendar
+     *
+     * @return Calendat представление даты начала
+     */
+    public Calendar getEndDateCalendar() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
         calendar.add(Calendar.DATE, duration);
@@ -118,7 +140,7 @@ public class Habit implements Parcelable {
         this.duration = duration;
     }
 
-    public Date getEndDate(){
+    public Date getEndDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
         calendar.add(Calendar.DATE, duration);

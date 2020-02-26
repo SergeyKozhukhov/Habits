@@ -5,10 +5,14 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при создании экземляра.
+ * Исключение при создании экземляра (domain слой).
  * В данном случае применяется к созданию habit, confidentiality, registration
  */
 public class BuildException extends Exception {
+
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
 

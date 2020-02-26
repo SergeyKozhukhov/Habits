@@ -5,19 +5,17 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибки внесении исправленных данных по привычкам
+ * Исключение при ошибки внесении исправленных данных по привычкам (domain слой)
  */
 public class ChangeProgressException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
 
     public ChangeProgressException(int messageRes) {
-        this.messageRes = messageRes;
-    }
-
-    public ChangeProgressException(int messageRes, Throwable cause) {
-        super(cause);
         this.messageRes = messageRes;
     }
 

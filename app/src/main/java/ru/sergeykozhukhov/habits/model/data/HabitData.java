@@ -21,31 +21,49 @@ import ru.sergeykozhukhov.habits.data.converter.DateConverter;
 @Entity (tableName = "habits")
 public class HabitData {
 
+    /**
+     * id привычки в базе данных
+     */
     @ColumnInfo(name = "id_habit")
     @PrimaryKey(autoGenerate = true)
     private long idHabit;
 
+    /**
+     * id привычки на сервере
+     */
     @ColumnInfo(name = "id_habit_server")
     @SerializedName("id_habit")
     @Expose
     private long idHabitServer;
 
+    /**
+     * Название
+     */
     @ColumnInfo(name = "title")
     @SerializedName("title")
     @Expose
     private String title;
 
+    /**
+     * Описание
+     */
     @ColumnInfo(name = "description")
     @SerializedName("description")
     @Expose
     private String description;
 
+    /**
+     * Дана начала выполнения
+     */
     @ColumnInfo(name = "start_date")
     @TypeConverters({DateConverter.class})
     @SerializedName("date_start")
     @Expose
     private Date startDate;
 
+    /**
+     * Продолжительность в днях
+     */
     @ColumnInfo(name = "duration")
     @SerializedName("duration")
     @Expose

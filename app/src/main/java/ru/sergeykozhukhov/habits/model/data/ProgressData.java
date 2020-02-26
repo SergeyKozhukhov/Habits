@@ -23,19 +23,31 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = "progresses", foreignKeys = @ForeignKey(entity = HabitData.class, parentColumns = "id_habit", childColumns = "id_habit", onDelete = CASCADE))
 public class ProgressData {
 
+    /**
+     * id даты выполнения в базе данных
+     */
     @ColumnInfo(name = "id_progress")
     @PrimaryKey(autoGenerate = true)
     @Expose
     private long idProgress;
 
+    /**
+     * id даты выполения на сервере
+     */
     @ColumnInfo(name = "id_progress_server")
     @SerializedName("id_progress")
     @Expose
     private long idProgressServer;
 
-    @ColumnInfo(name = "id_habit" , index = true)
+    /**
+     * id привычки, к которой относиться эта дата
+     */
+    @ColumnInfo(name = "id_habit", index = true)
     private long idHabit;
 
+    /**
+     * Дата выполнения
+     */
     @ColumnInfo(name = "date")
     @TypeConverters({DateConverter.class})
     @SerializedName("date")

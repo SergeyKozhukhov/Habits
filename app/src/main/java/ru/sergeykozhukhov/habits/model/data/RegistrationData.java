@@ -10,9 +10,16 @@ import java.util.Objects;
  */
 public class RegistrationData extends ConfidentialityData {
 
+    /**
+     * Имя
+     */
     @SerializedName("firstname")
     @Expose
     private String firstName;
+
+    /**
+     * Фамилия
+     */
     @SerializedName("lastname")
     @Expose
     private String lastName;

@@ -11,15 +11,27 @@ import java.util.Objects;
  */
 public class StatisticData {
 
+    /**
+     * id привычки
+     */
     @ColumnInfo(name = "id_habit")
     private long idHabit;
 
+    /**
+     * Название привычки
+     */
     @ColumnInfo(name = "title")
     private String title;
 
+    /**
+     * Продолжительность привычки
+     */
     @ColumnInfo(name = "duration")
     private int duration;
 
+    /**
+     * Колличество дней выполения
+     */
     @ColumnInfo(name = "current_quantity")
     private int currentQuantity;
 

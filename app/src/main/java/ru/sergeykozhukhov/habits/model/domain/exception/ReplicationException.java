@@ -5,17 +5,15 @@ import androidx.annotation.StringRes;
 import java.util.Objects;
 
 /**
- * Исключение при ошибке загрузки записей с сервера
+ * Исключение при ошибке загрузки записей с сервера (domain слой)
  */
 public class ReplicationException extends Exception {
 
+    /**
+     * Идентификтор строкового представления сообщения
+     */
     @StringRes
     private final int messageRes;
-
-    public ReplicationException(String message, int messageRes) {
-        super(message);
-        this.messageRes = messageRes;
-    }
 
     public ReplicationException(int messageRes, Throwable cause) {
         super(cause);
@@ -25,7 +23,6 @@ public class ReplicationException extends Exception {
     public int getMessageRes() {
         return messageRes;
     }
-
 
     @Override
     public boolean equals(Object o) {
