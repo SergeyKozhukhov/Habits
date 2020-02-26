@@ -1,12 +1,8 @@
-package ru.sergeykozhukhov.habits.domain.IInreractor;
+package ru.sergeykozhukhov.habits.domain.iusecase;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
-
 import io.reactivex.Completable;
-import io.reactivex.Single;
-import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 
 /**
  * Интерейс интерактора сохранения в базу данных всех записей с сервера

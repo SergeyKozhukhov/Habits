@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,11 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
-public class AccountFragment extends Fragment{
+public class AccountFragment extends Fragment {
 
     private AccountViewModel accountViewModel;
+
+    private FrameLayout loadingViewFrameLayout;
 
     private Button backupButton;
     private Button replicationButton;
@@ -42,6 +45,7 @@ public class AccountFragment extends Fragment{
         backupButton = view.findViewById(R.id.account_backup_button);
         replicationButton = view.findViewById(R.id.account_replication_button);
         logOut = view.findViewById(R.id.account_log_out_button);
+        loadingViewFrameLayout = view.findViewById(R.id.account_loading_view_frame_layout);
     }
 
     @Override
@@ -57,14 +61,14 @@ public class AccountFragment extends Fragment{
         super.onDestroyView();
     }
 
-    private void initListeners(){
+    private void initListeners() {
         backupButton.setOnClickListener(v -> accountViewModel.backup());
         replicationButton.setOnClickListener(v -> accountViewModel.replication());
         logOut.setOnClickListener(v -> accountViewModel.logout());
     }
 
-    private void setupMvvm(){
-        accountViewModel= new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(AccountViewModel.class);
+    private void setupMvvm() {
+        accountViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(AccountViewModel.class);
         accountViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
         accountViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
@@ -76,8 +80,15 @@ public class AccountFragment extends Fragment{
                 ((OnLogoutClickListener) activity).onClick();
             }
         });
+        accountViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isLoading) {
+                loadingViewFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
+        });
 
     }
+
     public interface OnLogoutClickListener {
         void onClick();
     }

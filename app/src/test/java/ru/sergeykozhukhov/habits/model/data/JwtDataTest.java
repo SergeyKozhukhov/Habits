@@ -3,6 +3,7 @@ package ru.sergeykozhukhov.habits.model.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
@@ -10,21 +11,27 @@ import static org.junit.Assert.*;
 
 public class JwtDataTest {
 
-    @Test
-    public void deserializeJwtJsonSuccess() {
+    private static final String PATTERN = "yyyy-MM-dd";
 
+    private Gson gson;
+
+    @Before
+    public void setUp() {
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithoutExposeAnnotation();
-        builder.setDateFormat("yyyy-MM-dd");
-        Gson gson = builder.create();
+        builder.setDateFormat(PATTERN);
+        gson = builder.create();
+    }
 
-        String jwtString = "token";
+    @Test
+    public void deserializeJwtDataJsonSuccess() {
 
-        String jsonInput = "{\"jwt\":\"" + jwtString + "\"}";
+        String jsonInput = "{\"jwt\":\"token\"}";
+        JwtData jwtDataExpected = new JwtData("token");
 
-        JwtData targetObject = gson.fromJson(jsonInput, JwtData.class);
+        JwtData jwtDataOutput = gson.fromJson(jsonInput, JwtData.class);
 
-        assertThat(targetObject.getJwt(), is(jwtString));
+        assertThat(jwtDataOutput, is(jwtDataExpected));
     }
 
 }

@@ -26,6 +26,7 @@ public class HabitsListViewModel extends ViewModel {
 
     private final MutableLiveData<List<Habit>> habitListLiveData = new MutableLiveData<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+    private final MutableLiveData<Boolean> isLoadingMutableLiveData = new MutableLiveData<>();
 
     public HabitsListViewModel(@NonNull LoadHabitListDbInteractor loadHabitsInteractor) {
         this.loadHabitsInteractor = loadHabitsInteractor;
@@ -33,8 +34,9 @@ public class HabitsListViewModel extends ViewModel {
     }
 
     public void loadHabitList() {
-
+        isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(loadHabitsInteractor.loadHabitList()
+                .doOnTerminate(() -> isLoadingMutableLiveData.postValue(false))
                 .subscribe(habitListLiveData::postValue, throwable -> {
                     if (throwable instanceof LoadDbException) {
                         errorSingleLiveEvent.postValue((((LoadDbException) throwable).getMessageRes()));
@@ -50,6 +52,10 @@ public class HabitsListViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
+    }
+
+    public MutableLiveData<Boolean> getIsLoadingMutableLiveData() {
+        return isLoadingMutableLiveData;
     }
 
     public void cancelSubscritions() {

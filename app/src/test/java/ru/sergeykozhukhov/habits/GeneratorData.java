@@ -16,9 +16,9 @@ import ru.sergeykozhukhov.habits.model.domain.Statistic;
 
 public class GeneratorData {
 
-    private static long startIdServer = 100L;
-    private static long startMilliseconds = 10L;
-    private static int startDuration = 10;
+    private static final long startIdServer = 100L;
+    private static final long startMilliseconds = 10L;
+    private static final int startDuration = 10;
 
 
     public Habit createHabit(long idHabit) {

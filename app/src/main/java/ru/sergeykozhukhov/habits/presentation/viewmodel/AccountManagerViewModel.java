@@ -2,9 +2,7 @@ package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-import io.reactivex.disposables.CompositeDisposable;
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecase.GetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;

@@ -4,17 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
-import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IAuthenticateWebInteractor;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildConfidentialityInstance;
+import ru.sergeykozhukhov.habits.domain.iusecase.IAuthenticateWebInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.IBuildConfidentialityInstance;
 import ru.sergeykozhukhov.habits.model.domain.Confidentiality;
-import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.domain.exception.AuthenticateException;
 import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 

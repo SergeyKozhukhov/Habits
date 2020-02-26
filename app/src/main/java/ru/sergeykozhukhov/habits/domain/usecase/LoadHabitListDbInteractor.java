@@ -7,7 +7,7 @@ import java.util.List;
 import io.reactivex.Flowable;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.ILoadHabitListDbInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.ILoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 

@@ -22,23 +22,30 @@ import static org.junit.Assert.*;
 // https://www.baeldung.com/gson-deserialization-guide
 public class ConfidentialityDataTest {
 
+    private static final String PATTERN = "yyyy-MM-dd";
+
+    private Gson gson;
+
+    @Before
+    public void setUp() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithoutExposeAnnotation();
+        builder.setDateFormat(PATTERN);
+        gson = builder.create();
+    }
+
     @Test
     public void serializeConfidentialityJsonSuccess() {
 
-        String email = "ivanov@gmail.com";
-        String password = "workhardplayhard";
-        ConfidentialityData confidentialityData = new ConfidentialityData(email, password);
+        String email = "mail@gmail.com";
+        String password = "password";
+        ConfidentialityData confidentialityDataInput = new ConfidentialityData(email, password);
+        String jsonExpected = "{\"email\":\"mail@gmail.com\",\"password\":\"password\"}";
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.excludeFieldsWithoutExposeAnnotation();
-        builder.setDateFormat("yyyy-MM-dd");
-        Gson gson = builder.create();
-
-        String jsonExpected = "{\"email\":\"" + email + "\",\"password\":\"" + confidentialityData.getPassword() + "\"}";
-
-        String jsonOutput = gson.toJson(confidentialityData);
+        String jsonOutput = gson.toJson(confidentialityDataInput);
 
         assertThat(jsonOutput, is(jsonExpected));
     }
+
 
 }

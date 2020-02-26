@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,8 +106,8 @@ public class AddHabitFragment extends Fragment {
             calendar.set(year, monthOfYear, dayOfMonth);
 
             SimpleDateFormat dateFormat = new SimpleDateFormat(
-                    "dd-MM-yyyy", // шаблон форматирования
-                    Locale.getDefault() // язык отображения (получение языка по-умолчанию)
+                    "dd-MM-yyyy",
+                    Locale.getDefault()
             );
 
             String dateString = dateFormat.format(calendar.getTime());

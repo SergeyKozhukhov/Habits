@@ -6,10 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildConfidentialityInstance;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildHabitInstance;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildRegistrationInstance;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.LoadStatisticListInteractor;
 import ru.sergeykozhukhov.habits.domain.usecase.RegisterWebInteractor;

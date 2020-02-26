@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,16 +15,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
 public class AuthenticationFragment extends Fragment {
 
     private AuthenticationViewModel authenticationViewModel;
+
+    private FrameLayout loadingViewFrameLayout;
 
     private EditText loginAuthEditText;
     private EditText passwordAuthEditText;
@@ -48,6 +49,8 @@ public class AuthenticationFragment extends Fragment {
         passwordAuthEditText = view.findViewById(R.id.password_auth_edit_text);
 
         requestAuthButton = view.findViewById(R.id.request_auth_button);
+
+        loadingViewFrameLayout = view.findViewById(R.id.authentication_loading_view_frame_layout);
     }
 
     @Override
@@ -75,18 +78,22 @@ public class AuthenticationFragment extends Fragment {
     private void setupMvvm() {
         authenticationViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(AuthenticationViewModel.class);
 
-        authenticationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-                FragmentActivity activity = getActivity();
-                if (activity instanceof AuthenticationFragment.OnLoginSuccess) {
-                    ((AuthenticationFragment.OnLoginSuccess) activity).openAccount();
-                }
+        authenticationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), idRes -> {
+            Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
+            FragmentActivity activity = getActivity();
+            if (activity instanceof OnLoginSuccess) {
+                ((OnLoginSuccess) activity).openAccount();
             }
         });
         authenticationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
+        authenticationViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isLoading) {
+                loadingViewFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
+        });
+
     }
 
     public interface OnLoginSuccess {

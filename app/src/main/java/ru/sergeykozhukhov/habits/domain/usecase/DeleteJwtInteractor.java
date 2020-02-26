@@ -2,7 +2,7 @@ package ru.sergeykozhukhov.habits.domain.usecase;
 
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IDeleteJwtInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.IDeleteJwtInteractor;
 
 public class DeleteJwtInteractor implements IDeleteJwtInteractor {
 

@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 

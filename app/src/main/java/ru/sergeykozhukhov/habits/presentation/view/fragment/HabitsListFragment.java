@@ -53,10 +53,11 @@ public class HabitsListFragment extends Fragment {
 
         habitsListRecyclerView = view.findViewById(R.id.habits_recycler_view);
         habitsListRecyclerView.setLayoutManager(
-                new CarouselLayoutManager.Builder(requireContext(), 300)
-                        .setMaxVisibleItemCount(5)
+                new CarouselLayoutManager.Builder(requireContext(), 100)
+                        .setMaxVisibleItemCount(3)
                         .setOrientation(CarouselLayoutManager.VERTICAL)
-                        .setMinScale(0.5f)
+                        .setMinScale(0.001f)
+                        .setMoveSpeed(0.25f)
                         .build()
 
         );

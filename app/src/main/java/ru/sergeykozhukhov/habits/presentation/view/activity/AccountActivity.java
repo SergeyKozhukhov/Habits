@@ -29,7 +29,7 @@ public class AccountActivity extends AppCompatActivity implements EnterAccountFr
 
 
 
-        setMvvm();
+        setupMvvm();
         /*if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.account_host, EnterAccountFragment.newInstance())
@@ -44,16 +44,17 @@ public class AccountActivity extends AppCompatActivity implements EnterAccountFr
         super.onDestroy();
     }
 
-    private void setMvvm(){
+    private void setupMvvm(){
         accountManagerViewModel = new ViewModelProvider(this, new ViewModelFactory(this))
                 .get(AccountManagerViewModel.class);
 
         accountManagerViewModel.getSuccessSingleLiveEvent().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer idRes) {
-                getSupportFragmentManager().beginTransaction()
+                getSupportFragmentManager()
+                        .beginTransaction()
                         .replace(R.id.account_host, AccountFragment.newInstance())
-                        .addToBackStack(null)
+                        //.addToBackStack(null)
                         .commit();
             }
         });
@@ -63,7 +64,7 @@ public class AccountActivity extends AppCompatActivity implements EnterAccountFr
             public void onChanged(Integer idRes) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.account_host, EnterAccountFragment.newInstance())
-                        .addToBackStack(null)
+                        //.addToBackStack(null)
                         .commit();
             }
         });

@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildConfidentialityInstance;
+import ru.sergeykozhukhov.habits.domain.iusecase.IBuildConfidentialityInstance;
 import ru.sergeykozhukhov.habits.model.domain.Confidentiality;
 import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 

@@ -3,6 +3,7 @@ package ru.sergeykozhukhov.habits.presentation.viewmodel;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -26,6 +27,7 @@ public class AuthenticationViewModel extends ViewModel {
     private final AuthenticateWebInteractor authenticateClientInteractor;
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+    private final MutableLiveData<Boolean> isLoadingMutableLiveData = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable;
 
     public AuthenticationViewModel(@NonNull AuthenticateWebInteractor authenticateClientInteractor) {
@@ -35,8 +37,10 @@ public class AuthenticationViewModel extends ViewModel {
     }
 
     public void authenticateClient(String email, String password) {
+        isLoadingMutableLiveData.setValue(false);
         compositeDisposable.add(authenticateClientInteractor.authenticateClient(email, password)
                 .subscribeOn(Schedulers.newThread())
+                .doOnTerminate(() -> isLoadingMutableLiveData.postValue(false))
                 .subscribe(() -> successSingleLiveEvent.postValue(R.string.authentication_success_message), throwable -> {
                     if (throwable instanceof BuildException) {
                         errorSingleLiveEvent.postValue((((BuildException) throwable).getMessageRes()));
@@ -54,6 +58,10 @@ public class AuthenticationViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
+    }
+
+    public MutableLiveData<Boolean> getIsLoadingMutableLiveData() {
+        return isLoadingMutableLiveData;
     }
 
     public void cancelSubscritions() {

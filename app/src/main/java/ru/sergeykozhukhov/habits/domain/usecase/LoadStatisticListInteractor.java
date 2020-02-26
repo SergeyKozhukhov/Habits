@@ -7,7 +7,7 @@ import java.util.List;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.ILoadStatisticListInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.ILoadStatisticListInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
 import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 

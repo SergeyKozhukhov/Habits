@@ -4,4 +4,8 @@
     <string name="pref_account_key" translatable="false">account_key</string>
     <string name="pref_delete_all_key" translatable="false">delete_all_key</string>
 
+    <string name="pref_replication_key" translatable="false">replication_key</string>
+    <string name="pref_backup_key" translatable="false">backup_key</string>
+    <string name="pref_log_out_key" translatable="false">log_out_key</string>
+
 </resources>

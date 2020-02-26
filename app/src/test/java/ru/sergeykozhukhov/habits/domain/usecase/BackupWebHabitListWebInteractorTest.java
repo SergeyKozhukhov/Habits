@@ -12,18 +12,16 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.Predicate;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.domain.exception.BackupException;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

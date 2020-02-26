@@ -1,6 +1,7 @@
 package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -33,6 +34,7 @@ public class AccountViewModel extends ViewModel {
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> logOutSuccessSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+    private final MutableLiveData<Boolean> isLoadingMutableLiveData = new MutableLiveData<>();
 
     public AccountViewModel(
             @NonNull BackupWebHabitListWebInteractor insertWebHabitsInteractor,
@@ -45,8 +47,10 @@ public class AccountViewModel extends ViewModel {
     }
 
     public void replication() {
+        isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(replicationListHabitsWebInteractor.loadHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
+                .doOnTerminate(() -> isLoadingMutableLiveData.postValue(false))
                 .subscribe(() -> successSingleLiveEvent.postValue(R.string.replication_success_message), throwable -> {
                     if (throwable instanceof GetJwtException)
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
@@ -60,11 +64,11 @@ public class AccountViewModel extends ViewModel {
     }
 
     public void backup() {
+        isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(insertWebHabitsInteractor.insertHabitWithProgressesList()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(() -> {
-                    successSingleLiveEvent.postValue(R.string.backup_success_message);
-                }, throwable -> {
+                .doOnTerminate(() -> isLoadingMutableLiveData.postValue(false))
+                .subscribe(() -> successSingleLiveEvent.postValue(R.string.backup_success_message), throwable -> {
                     if (throwable instanceof GetJwtException) {
                         errorSingleLiveEvent.postValue((((GetJwtException) throwable).getMessageRes()));
                     } else if (throwable instanceof LoadDbException) {
@@ -73,6 +77,7 @@ public class AccountViewModel extends ViewModel {
                         errorSingleLiveEvent.postValue(((BackupException) throwable).getMessageRes());
                     }
                 }));
+
     }
 
     public void logout() {
@@ -90,6 +95,10 @@ public class AccountViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getLogOutSuccessSingleLiveEvent() {
         return logOutSuccessSingleLiveEvent;
+    }
+
+    public MutableLiveData<Boolean> getIsLoadingMutableLiveData() {
+        return isLoadingMutableLiveData;
     }
 
     public void cancelSubscritions() {

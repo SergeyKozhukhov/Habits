@@ -2,6 +2,7 @@ package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -27,6 +28,7 @@ public class RegistrationViewModel extends ViewModel {
 
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+    private final MutableLiveData<Boolean> isLoadingMutableLiveData = new MutableLiveData<>();
 
 
     public RegistrationViewModel(RegisterWebInteractor registerWebInteractor) {
@@ -36,8 +38,10 @@ public class RegistrationViewModel extends ViewModel {
 
     public void registerClient(String firstname, String lastname, String email, String password, String passwodConfirmation) {
 
+        isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(registerWebInteractor.registerClient(firstname, lastname, email, password, passwodConfirmation)
                 .subscribeOn(Schedulers.newThread())
+                .doOnTerminate(() -> isLoadingMutableLiveData.postValue(false))
                 .subscribe(() -> successSingleLiveEvent.postValue(R.string.registration_success_message),
                         throwable -> {
                             if (throwable instanceof RegisterException)
@@ -55,6 +59,10 @@ public class RegistrationViewModel extends ViewModel {
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
+    }
+
+    public MutableLiveData<Boolean> getIsLoadingMutableLiveData() {
+        return isLoadingMutableLiveData;
     }
 
     public void cancelSubscritions() {

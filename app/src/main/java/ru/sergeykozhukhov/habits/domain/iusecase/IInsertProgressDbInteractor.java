@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.domain.IInreractor;
+package ru.sergeykozhukhov.habits.domain.iusecase;
 
 import io.reactivex.Completable;
 import ru.sergeykozhukhov.habits.model.domain.Progress;

@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.domain.IInreractor;
+package ru.sergeykozhukhov.habits.domain.iusecase;
 
 public interface IDeleteJwtInteractor {
     void deleteJwt();

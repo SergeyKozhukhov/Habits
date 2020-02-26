@@ -1,4 +1,4 @@
-package ru.sergeykozhukhov.habits.domain.IInreractor;
+package ru.sergeykozhukhov.habits.domain.iusecase;
 
 import androidx.annotation.NonNull;
 

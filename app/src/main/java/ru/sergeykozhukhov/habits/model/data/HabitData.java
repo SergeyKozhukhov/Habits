@@ -2,6 +2,7 @@ package ru.sergeykozhukhov.habits.model.data;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -49,6 +50,15 @@ public class HabitData {
     @SerializedName("duration")
     @Expose
     private int duration;
+
+    @Ignore
+    public HabitData(long idHabitServer, String title, String description, Date startDate, int duration) {
+        this.idHabitServer = idHabitServer;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.duration = duration;
+    }
 
     public HabitData(long idHabit, long idHabitServer, String title, String description, Date startDate, int duration) {
         this.idHabit = idHabit;

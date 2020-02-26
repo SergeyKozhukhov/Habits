@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IBuildRegistrationInstance;
+import ru.sergeykozhukhov.habits.domain.iusecase.IBuildRegistrationInstance;
 import ru.sergeykozhukhov.habits.model.domain.Registration;
 import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 

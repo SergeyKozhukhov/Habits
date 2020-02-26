@@ -2,21 +2,13 @@ package ru.sergeykozhukhov.habits.domain.usecase;
 
 import androidx.annotation.NonNull;
 
-import java.util.List;
-
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IBackupWebInteractor;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IGetJwtValueInteractor;
-import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
+import ru.sergeykozhukhov.habits.domain.iusecase.IBackupWebInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.IGetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 import ru.sergeykozhukhov.habits.model.domain.exception.BackupException;
 import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;

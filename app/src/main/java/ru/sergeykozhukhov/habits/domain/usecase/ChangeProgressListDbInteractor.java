@@ -12,10 +12,9 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
-import ru.sergeykozhukhov.habits.domain.IInreractor.IChangeProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.domain.iusecase.IChangeProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
 import ru.sergeykozhukhov.habits.model.domain.exception.ChangeProgressException;
 import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
