@@ -1,10 +1,8 @@
 package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -16,6 +14,9 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.SettingsViewModel;
 
+/**
+ * Fragment для настроек приложения и существенными операциями с данными
+ */
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     private SettingsViewModel settingsViewModel;
@@ -27,38 +28,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.prefs, null);
-
-        Preference accountPreference = findPreference(getString(R.string.pref_account_key));
-        if (accountPreference != null){
-            accountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    FragmentActivity activity = getActivity();
-                    if (activity instanceof OnAccountClickListener){
-                        ((OnAccountClickListener)activity).onAccountClick();
-
-                    }
-                    return true;
-                }
-            });
-        }
-
-        Preference deleteAllPreference = findPreference(getString(R.string.pref_delete_all_key));
-        if (deleteAllPreference != null){
-            deleteAllPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    settingsViewModel.deleteAllHabits();
-                    return true;
-                }
-            });
-        }
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        initListeners();
     }
 
     @Override
@@ -67,21 +37,44 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setupMvvm();
     }
 
-    private void setupMvvm(){
+    private void initListeners() {
+        Preference accountPreference = findPreference(getString(R.string.pref_account_key));
+        if (accountPreference != null) {
+            accountPreference.setOnPreferenceClickListener(preference -> {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof OnViewsClickListener)
+                    ((OnViewsClickListener) activity).onOpenAccountClick();
+                return true;
+            });
+        }
 
-        settingsViewModel= new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(SettingsViewModel.class);
+        Preference deleteAllPreference = findPreference(getString(R.string.pref_delete_all_key));
+        if (deleteAllPreference != null) {
+            deleteAllPreference.setOnPreferenceClickListener(preference -> {
+                settingsViewModel.deleteAllHabits();
+                return true;
+            });
+        }
+    }
+
+    private void setupMvvm() {
+        settingsViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(SettingsViewModel.class);
 
         settingsViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
         settingsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
-
     }
 
-    public interface OnAccountClickListener{
-        void onAccountClick();
+    /**
+     * Слушатель нажатия на элементы настроек
+     */
+    public interface OnViewsClickListener {
+
+        /**
+         * Обработчик нажатия на кнопку входа в аккаунт
+         */
+        void onOpenAccountClick();
     }
-
-
 }

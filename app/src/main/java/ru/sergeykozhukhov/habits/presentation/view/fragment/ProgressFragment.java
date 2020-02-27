@@ -26,9 +26,10 @@ import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.ProgressViewModel;
 
+/**
+ * Fragment для изменения списка дат выполнения конкретной привычки
+ */
 public class ProgressFragment extends Fragment {
-
-    private static final String TAG = "ProgressFragment";
 
     private static final String ARG_HABIT = "ARG_HABIT";
 
@@ -40,7 +41,6 @@ public class ProgressFragment extends Fragment {
     private TextView startDateHabitTextView;
     private TextView durationHabitTextView;
     private TextView descriptionHabitTextView;
-
 
     public static ProgressFragment newInstance() {
         return new ProgressFragment();
@@ -81,8 +81,6 @@ public class ProgressFragment extends Fragment {
         initData();
         setupMvvm();
         initListeners();
-
-
     }
 
     @Override
@@ -91,11 +89,6 @@ public class ProgressFragment extends Fragment {
         super.onStop();
     }
 
-    @Override
-    public void onDestroy() {
-
-        super.onDestroy();
-    }
     private void initData() {
 
         Date min = getHabitFromArgs().getStartDate();
@@ -109,53 +102,40 @@ public class ProgressFragment extends Fragment {
         startDateHabitTextView.setText(habit.getStartDate().toString());
         durationHabitTextView.setText("Продолжительность: " + String.valueOf(habit.getDuration()));
         descriptionHabitTextView.setText(habit.getDescription());
-
-
     }
 
     private void setupMvvm() {
 
         progressViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(ProgressViewModel.class);
 
-        progressViewModel.getDateListLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<List<Date>>() {
-            @Override
-            public void onChanged(List<Date> dateList) {
+        progressViewModel.getDateListLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), dateList -> {
 
-                Habit habit = getHabitFromArgs();
+            Habit habit = getHabitFromArgs();
 
-                Calendar min = habit.getStartDateCalendar();
-                Calendar max = habit.getEndDateCalendar();
-                max.add(Calendar.DATE, -1);
+            Calendar min = habit.getStartDateCalendar();
+            Calendar max = habit.getEndDateCalendar();
+            max.add(Calendar.DATE, -1);
 
-                SubTitle startDateSubTitle = new SubTitle(min.getTime(), "Старт");
-                SubTitle endDateSubTitle = new SubTitle(max.getTime(), "Финиш");
+            SubTitle startDateSubTitle = new SubTitle(min.getTime(), "Старт");
+            SubTitle endDateSubTitle = new SubTitle(max.getTime(), "Финиш");
 
-                ArrayList<SubTitle> subTitleArrayList = new ArrayList<>(2);
-                subTitleArrayList.add(startDateSubTitle);
-                subTitleArrayList.add(endDateSubTitle);
+            ArrayList<SubTitle> subTitleArrayList = new ArrayList<>(2);
+            subTitleArrayList.add(startDateSubTitle);
+            subTitleArrayList.add(endDateSubTitle);
 
-                calendarProgressPickerView.init(min.getTime(), habit.getEndDate()) //
-                        .inMode(CalendarPickerView.SelectionMode.MULTIPLE)
-                        .withSelectedDates(dateList)
-                        .withSubTitles(subTitleArrayList);
-            }
+            calendarProgressPickerView.init(min.getTime(), habit.getEndDate()) //
+                    .inMode(CalendarPickerView.SelectionMode.MULTIPLE)
+                    .withSelectedDates(dateList)
+                    .withSubTitles(subTitleArrayList);
         });
 
         progressViewModel.initChangeProgressList(getHabitFromArgs().getIdHabit());
 
-        progressViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(getContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        progressViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(getContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
-        progressViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(getContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        progressViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(getContext(), getString(idRes), Toast.LENGTH_SHORT).show());
     }
 
     private void initListeners() {
@@ -173,7 +153,7 @@ public class ProgressFragment extends Fragment {
         });
     }
 
-    private Habit getHabitFromArgs(){
+    private Habit getHabitFromArgs() {
         Bundle arguments = getArguments();
         if (arguments == null)
             throw new IllegalStateException("Arguments must be set");

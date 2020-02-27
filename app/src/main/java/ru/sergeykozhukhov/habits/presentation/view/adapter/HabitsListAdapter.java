@@ -102,8 +102,6 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
         GregorianCalendar calendar;
 
 
-
-
         public ViewHolder(@NonNull final View itemView, IHabitClickListener habitClickListener) {
             super(itemView);
 
@@ -141,19 +139,8 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
             durationHabitTextView.setText("Продолжительность: " + String.valueOf(habit.getDuration()));
             descriptionHabitTextView.setText(habit.getDescription());
 
-
-
-
-
-            //relativeLayout.setBackground(R.drawable.ic_2);
-
-
-
         }
     }
-
-
-
 
     public interface IHabitClickListener {
         void onItemClick(Habit habit);

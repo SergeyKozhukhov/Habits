@@ -54,7 +54,7 @@
             android:text="Ivanov" />
 
         <EditText
-            android:id="@+id/login__registration_edit_text"
+            android:id="@+id/login_registration_edit_text"
             style="@style/account_edit_text_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

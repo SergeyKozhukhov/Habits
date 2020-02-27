@@ -13,26 +13,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.RegistrationViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
+/**
+ * Fragment для регистрации нового пользователя
+ */
 public class RegistrationFragment extends Fragment {
 
     private RegistrationViewModel registrationViewModel;
 
-    private FrameLayout loadingViewFrameLayout;
+    private FrameLayout loadingFrameLayout;
 
-    private EditText firsnameRegEditText;
-    private EditText lastnameRegEditText;
-    private EditText loginRegEditText;
-    private EditText passwordRegEditText;
+    private EditText firsnameRegistrationEditText;
+    private EditText lastnameRegistrationEditText;
+    private EditText loginRegistrationEditText;
+    private EditText passwordRegistrationEditText;
     private EditText passwordConfirmationEditText;
 
-    private Button requestRegButton;
+    private Button requestRegistrationButton;
 
     public static Fragment newInstance() {
         return new RegistrationFragment();
@@ -48,31 +50,30 @@ public class RegistrationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        firsnameRegEditText = view.findViewById(R.id.firstname_registration_edit_text);
-        lastnameRegEditText = view.findViewById(R.id.lastname_registration_edit_text);
-        loginRegEditText = view.findViewById(R.id.login__registration_edit_text);
-        passwordRegEditText = view.findViewById(R.id.password_registration_edit_text);
+        firsnameRegistrationEditText = view.findViewById(R.id.firstname_registration_edit_text);
+        lastnameRegistrationEditText = view.findViewById(R.id.lastname_registration_edit_text);
+        loginRegistrationEditText = view.findViewById(R.id.login_registration_edit_text);
+        passwordRegistrationEditText = view.findViewById(R.id.password_registration_edit_text);
         passwordConfirmationEditText = view.findViewById(R.id.password_confirmation_edit_text);
 
-        requestRegButton = view.findViewById(R.id.request_registration_button);
+        requestRegistrationButton = view.findViewById(R.id.request_registration_button);
 
-        loadingViewFrameLayout = view.findViewById(R.id.registration_loading_view_frame_layout);
+        loadingFrameLayout = view.findViewById(R.id.registration_loading_view_frame_layout);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         setupMvvm();
         initViewListeners();
     }
 
     private void initViewListeners() {
-        requestRegButton.setOnClickListener(v -> registrationViewModel.registerClient(
-                firsnameRegEditText.getText().toString(),
-                lastnameRegEditText.getText().toString(),
-                loginRegEditText.getText().toString(),
-                passwordRegEditText.getText().toString(),
+        requestRegistrationButton.setOnClickListener(v -> registrationViewModel.registerClient(
+                firsnameRegistrationEditText.getText().toString(),
+                lastnameRegistrationEditText.getText().toString(),
+                loginRegistrationEditText.getText().toString(),
+                passwordRegistrationEditText.getText().toString(),
                 passwordConfirmationEditText.getText().toString()
         ));
     }
@@ -80,31 +81,28 @@ public class RegistrationFragment extends Fragment {
     private void setupMvvm() {
         registrationViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(RegistrationViewModel.class);
 
-        registrationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-                FragmentActivity activity = getActivity();
-                if (activity instanceof RegistrationFragment.OnRegistrationSuccess) {
-                    ((RegistrationFragment.OnRegistrationSuccess) activity).openAuthentication();
-                }
-            }
+        registrationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), idRes -> {
+            Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
+            FragmentActivity activity = getActivity();
+            if (activity instanceof OnRegistrationSuccessListener)
+                ((OnRegistrationSuccessListener) activity).onRegistrationSuccess();
         });
 
         registrationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
-        registrationViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isLoading) {
-                loadingViewFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            }
-        });
+        registrationViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(),
+                isLoading -> loadingFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE));
     }
 
-    public interface OnRegistrationSuccess {
-        void openAuthentication();
+    /**
+     * Слушатеть успешной регистрации нового пользователя
+     */
+    public interface OnRegistrationSuccessListener {
+
+        /**
+         * Обработчик регистрации нового пользователя
+         */
+        void onRegistrationSuccess();
     }
-
-
 }

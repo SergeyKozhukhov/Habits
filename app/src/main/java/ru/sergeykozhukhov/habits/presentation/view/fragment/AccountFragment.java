@@ -12,22 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
+/**
+ * Fragment для операций доступных в аккаунте (резервное копирования, восстановление информации)
+ */
 public class AccountFragment extends Fragment {
 
     private AccountViewModel accountViewModel;
 
-    private FrameLayout loadingViewFrameLayout;
+    private FrameLayout loadingFrameLayout;
 
     private Button backupButton;
     private Button replicationButton;
-    private Button logOut;
+    private Button logoutButton;
 
     public static Fragment newInstance() {
         return new AccountFragment();
@@ -42,10 +44,10 @@ public class AccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        backupButton = view.findViewById(R.id.account_backup_button);
-        replicationButton = view.findViewById(R.id.account_replication_button);
-        logOut = view.findViewById(R.id.account_log_out_button);
-        loadingViewFrameLayout = view.findViewById(R.id.account_loading_view_frame_layout);
+        backupButton = view.findViewById(R.id.backup_button);
+        replicationButton = view.findViewById(R.id.replication_button);
+        logoutButton = view.findViewById(R.id.logout_button);
+        loadingFrameLayout = view.findViewById(R.id.account_loading_frame_layout);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class AccountFragment extends Fragment {
     private void initListeners() {
         backupButton.setOnClickListener(v -> accountViewModel.backup());
         replicationButton.setOnClickListener(v -> accountViewModel.replication());
-        logOut.setOnClickListener(v -> accountViewModel.logout());
+        logoutButton.setOnClickListener(v -> accountViewModel.logout());
     }
 
     private void setupMvvm() {
@@ -70,22 +72,20 @@ public class AccountFragment extends Fragment {
         accountViewModel.getLogOutSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), idRes -> {
             Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             FragmentActivity activity = getActivity();
-            if (activity instanceof OnLogoutClickListener) {
-                ((OnLogoutClickListener) activity).onClick();
-            }
+            if (activity instanceof OnViewsClickListener)
+                ((OnViewsClickListener) activity).onLogoutClick();
         });
-        accountViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isLoading) {
-                loadingViewFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            }
-        });
-
+        accountViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(),
+                isLoading -> loadingFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE));
     }
 
-    public interface OnLogoutClickListener {
-        void onClick();
+    /**
+     * Слушатель нажатия на элементы fragment
+     */
+    public interface OnViewsClickListener {
+        /**
+         * Обработчик нажатия на кнопку выхода из аккаунта
+         */
+        void onLogoutClick();
     }
-
-
 }

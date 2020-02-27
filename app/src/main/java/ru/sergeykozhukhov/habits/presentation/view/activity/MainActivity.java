@@ -2,26 +2,30 @@ package ru.sergeykozhukhov.habits.presentation.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ru.sergeykozhukhov.habitData.R;
+import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.AddHabitFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.HabitsListFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.ProgressFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.SettingsFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.StatisticsFragment;
 
-// https://www.flaticon.com/packs/landscapes-collection
-public class MainActivity extends AppCompatActivity implements HabitsListFragment.ProgressHolder,
-        HabitsListFragment.OnAddClickListener, SettingsFragment.OnAccountClickListener {
+/**
+ * Activity - контейнер для Fragments работы с привычками и настройками
+ */
+public class MainActivity extends AppCompatActivity implements
+        HabitsListFragment.OnViewsClickListener,
+        SettingsFragment.OnViewsClickListener {
 
     private BottomNavigationView bottomNavigationView;
 
@@ -30,61 +34,15 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null){
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.host_fragment_frame_layout, HabitsListFragment.newInstance())
                     .commit();
         }
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                //bottomNavigationView.setVisibility(View.VISIBLE);
-            }
-        });
-        getSupportFragmentManager().removeOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                bottomNavigationView.setVisibility(View.VISIBLE);
-            }
-        });
 
-
-        initViews();
         initListeners();
-    }
-
-    private void initViews(){
-
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
-    }
-
-    public void initListeners(){
-
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.open_habit_list_item_menu:
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
-                            .replace(R.id.host_fragment_frame_layout, HabitsListFragment.newInstance())
-                            .commit();
-                    break;
-                case R.id.open_statistics_item_menu:
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
-                            .replace(R.id.host_fragment_frame_layout, StatisticsFragment.newInstance())
-                            .commit();
-                    break;
-                case R.id.open_settings_item_menu:
-                    getSupportFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
-                            .replace(R.id.host_fragment_frame_layout, SettingsFragment.newInstance())
-                            .commit();
-                    break;
-            }
-            return true;
-        });
-
     }
 
     @Override
@@ -93,6 +51,26 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void initListeners() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.open_habit_list_item_menu:
+                    replaceFragment(HabitsListFragment.newInstance(), false);
+                    break;
+                case R.id.open_statistics_item_menu:
+                    replaceFragment(StatisticsFragment.newInstance(), false);
+                    break;
+                case R.id.open_settings_item_menu:
+                    replaceFragment(SettingsFragment.newInstance(), false);
+                    break;
+            }
+            return true;
+        });
+    }
+
+    /**
+     * Обработчик нажатия на элементы menu
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.open_account) {
@@ -102,27 +80,47 @@ public class MainActivity extends AppCompatActivity implements HabitsListFragmen
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Обработчик нажатия на кнопку перехода к добавлению новой привычки
+     */
     @Override
-    public void showProgress(@NonNull ru.sergeykozhukhov.habits.model.domain.Habit habit) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.host_fragment_frame_layout, ProgressFragment.newInstance(habit))
-                .addToBackStack(null)
-                .commit();
+    public void onAddHabitClick() {
+        replaceFragment(AddHabitFragment.newInstance(), true);
     }
 
+    /**
+     * Обработчик нажатия на элемента списка привычек
+     *
+     * @param habit привычка
+     */
     @Override
-    public void onClick() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.host_fragment_frame_layout, AddHabitFragment.newInstance())
-                .addToBackStack(null)
-                .commit();
-        //bottomNavigationView.setVisibility(View.GONE);
+    public void onItemHabitListClick(@NonNull Habit habit) {
+        replaceFragment(ProgressFragment.newInstance(habit), true);
     }
 
-
+    /**
+     * Обработчик нажатия на кнопку входа в аккаунт
+     */
     @Override
-    public void onAccountClick() {
+    public void onOpenAccountClick() {
         Intent intent = new Intent(MainActivity.this, AccountActivity.class);
         startActivity(intent);
+    }
+
+    private void replaceFragment(@NonNull Fragment newFragment, boolean addToBackStack) {
+        if (addToBackStack) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+                    .replace(R.id.host_fragment_frame_layout, newFragment)
+                    .addToBackStack(null)
+                    .commit();
+            return;
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+                .replace(R.id.host_fragment_frame_layout, newFragment)
+                .commit();
     }
 }

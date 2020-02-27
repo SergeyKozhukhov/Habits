@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,14 +17,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leochuan.CarouselLayoutManager;
 import com.leochuan.CenterSnapHelper;
 
-import java.util.List;
-
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.view.adapter.HabitsListAdapter;
 
+/**
+ * Fragment для получения списка всех привычек из базы данных
+ */
 public class HabitsListFragment extends Fragment {
 
     private HabitsListViewModel habitsListViewModel;
@@ -83,48 +83,53 @@ public class HabitsListFragment extends Fragment {
 
         habitClickListener = habit -> {
             FragmentActivity activity = getActivity();
-            if (activity instanceof ProgressHolder)
-                ((ProgressHolder) activity).showProgress(habit);
+            if (activity instanceof OnViewsClickListener)
+                ((OnViewsClickListener) activity).onItemHabitListClick(habit);
         };
         habitsListAdapter.setHabitClickListener(habitClickListener);
 
         openAddFragmentFloatingActionButton.setOnClickListener(v -> {
             FragmentActivity activity = getActivity();
-            if (activity instanceof OnAddClickListener)
-                ((OnAddClickListener) activity).onClick();
+            if (activity instanceof OnViewsClickListener)
+                ((OnViewsClickListener) activity).onAddHabitClick();
         });
     }
 
-
     private void initData() {
         habitsListAdapter = new HabitsListAdapter();
-
         habitsListRecyclerView.setAdapter(habitsListAdapter);
     }
 
     private void setupMvvm() {
         habitsListViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(HabitsListViewModel.class);
 
-        habitsListViewModel.getHabitListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Habit>>() {
-            @Override
-            public void onChanged(List<Habit> habitList) {
+        habitsListViewModel.getHabitListLiveData().observe(getViewLifecycleOwner(), habitList -> {
+            if (habitsListRecyclerView.getAdapter() != null)
                 ((HabitsListAdapter) habitsListRecyclerView.getAdapter()).setHabitList(habitList);
-            }
         });
 
         habitsListViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
         habitsListViewModel.loadHabitList();
-
     }
 
-    public interface ProgressHolder {
-        void showProgress(@NonNull Habit habit);
-    }
+    /**
+     * Слушатель нажатий на элементы фрагмента
+     */
+    public interface OnViewsClickListener {
 
-    public interface OnAddClickListener {
-        void onClick();
+        /**
+         * Обработчик нажатия на кнопку добавления новой привычки
+         */
+        void onAddHabitClick();
+
+        /**
+         * Обработчик нажатия на элемент из списка привычек
+         *
+         * @param habit привычка
+         */
+        void onItemHabitListClick(@NonNull Habit habit);
     }
 
 }

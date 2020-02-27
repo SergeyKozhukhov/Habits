@@ -13,8 +13,10 @@ import androidx.fragment.app.FragmentActivity;
 
 import ru.sergeykozhukhov.habitData.R;
 
-public class EnterAccountFragment extends Fragment{
-
+/**
+ * Fragment для выбора регистрации нового пользователя или входа в существующий аккаунт
+ */
+public class EnterAccountFragment extends Fragment {
 
     private Button openRegistrationButton;
     private Button openAuthenticationButton;
@@ -32,46 +34,42 @@ public class EnterAccountFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         openRegistrationButton = view.findViewById(R.id.registration_account_button);
         openAuthenticationButton = view.findViewById(R.id.authentication_account_button);
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initListeners();
-       }
+    }
 
-
-    private void initListeners(){
-        openRegistrationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentActivity activity = getActivity();
-                if (activity instanceof EnterAccountFragment.OnClientClickListener) {
-                    ((EnterAccountFragment.OnClientClickListener)activity).onRegistrationClick();
-
-                }
-            }
+    private void initListeners() {
+        openRegistrationButton.setOnClickListener(v -> {
+            FragmentActivity activity = getActivity();
+            if (activity instanceof OnViewsClickListener)
+                ((OnViewsClickListener) activity).onRegistrationClick();
         });
-
-        openAuthenticationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentActivity activity = getActivity();
-                if (activity instanceof EnterAccountFragment.OnClientClickListener) {
-                    ((EnterAccountFragment.OnClientClickListener)activity).onAuthenticationClick();
-
-                }
-            }
+        openAuthenticationButton.setOnClickListener(v -> {
+            FragmentActivity activity = getActivity();
+            if (activity instanceof OnViewsClickListener)
+                ((OnViewsClickListener) activity).onAuthenticationClick();
         });
     }
 
-    public interface OnClientClickListener{
+    /**
+     * Интерфейс обработки нажатий на кнопки
+     */
+    public interface OnViewsClickListener {
+
+        /**
+         * Обработка нажатия на кнопку регистрации
+         */
         void onRegistrationClick();
+
+        /**
+         * Обработка нажатия на кнопку авторизации
+         */
         void onAuthenticationClick();
     }
 

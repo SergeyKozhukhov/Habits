@@ -25,6 +25,9 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
+/**
+ * Fragment для добавления новой привычки в базу данных
+ */
 public class AddHabitFragment extends Fragment {
 
     private AddHabitViewModel addHabitViewModel;
@@ -38,7 +41,6 @@ public class AddHabitFragment extends Fragment {
 
     private Button add_habit_button;
     private ImageButton date_start_image_button;
-
 
     public static Fragment newInstance() {
         return new AddHabitFragment();
@@ -61,7 +63,6 @@ public class AddHabitFragment extends Fragment {
 
         add_habit_button = view.findViewById(R.id.add_habit_button);
         date_start_image_button = view.findViewById(R.id.date_start_habit_image_button);
-
     }
 
     @Override
@@ -100,7 +101,6 @@ public class AddHabitFragment extends Fragment {
 
             String dateString = dateFormat.format(calendar.getTime());
             date_start_edit_text.setText(dateString);
-
         };
     }
 
@@ -113,6 +113,4 @@ public class AddHabitFragment extends Fragment {
         addHabitViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
     }
-
-
 }

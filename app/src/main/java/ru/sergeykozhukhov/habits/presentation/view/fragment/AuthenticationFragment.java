@@ -13,23 +13,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 
+/**
+ * Fragment для входа пользователя в свой аккаунт
+ */
 public class AuthenticationFragment extends Fragment {
 
     private AuthenticationViewModel authenticationViewModel;
 
-    private FrameLayout loadingViewFrameLayout;
+    private FrameLayout loadingFrameLayout;
 
-    private EditText loginAuthEditText;
-    private EditText passwordAuthEditText;
+    private EditText loginAuthenticationEditText;
+    private EditText passwordAuthenticationEditText;
 
-    private Button requestAuthButton;
+    private Button requestAuthenticationButton;
 
     public static Fragment newInstance() {
         return new AuthenticationFragment();
@@ -45,12 +47,12 @@ public class AuthenticationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loginAuthEditText = view.findViewById(R.id.login_auth_edit_text);
-        passwordAuthEditText = view.findViewById(R.id.password_auth_edit_text);
+        loginAuthenticationEditText = view.findViewById(R.id.login_auth_edit_text);
+        passwordAuthenticationEditText = view.findViewById(R.id.password_auth_edit_text);
 
-        requestAuthButton = view.findViewById(R.id.request_auth_button);
+        requestAuthenticationButton = view.findViewById(R.id.request_auth_button);
 
-        loadingViewFrameLayout = view.findViewById(R.id.authentication_loading_view_frame_layout);
+        loadingFrameLayout = view.findViewById(R.id.authentication_loading_view_frame_layout);
     }
 
     @Override
@@ -62,10 +64,9 @@ public class AuthenticationFragment extends Fragment {
     }
 
     private void initViewListeners() {
-
-        requestAuthButton.setOnClickListener(v -> authenticationViewModel.authenticateClient(
-                loginAuthEditText.getText().toString(),
-                passwordAuthEditText.getText().toString()
+        requestAuthenticationButton.setOnClickListener(v -> authenticationViewModel.authenticateClient(
+                loginAuthenticationEditText.getText().toString(),
+                passwordAuthenticationEditText.getText().toString()
         ));
     }
 
@@ -75,22 +76,23 @@ public class AuthenticationFragment extends Fragment {
         authenticationViewModel.getSuccessSingleLiveEvent().observe(getViewLifecycleOwner(), idRes -> {
             Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
             FragmentActivity activity = getActivity();
-            if (activity instanceof OnLoginSuccess) {
-                ((OnLoginSuccess) activity).openAccount();
-            }
+            if (activity instanceof OnIsLoginListener)
+                ((OnIsLoginListener) activity).onIsLogin();
         });
         authenticationViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
-        authenticationViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isLoading) {
-                loadingViewFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-            }
-        });
-
+        authenticationViewModel.getIsLoadingMutableLiveData().observe(getViewLifecycleOwner(),
+                isLoading -> loadingFrameLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE));
     }
 
-    public interface OnLoginSuccess {
-        void openAccount();
+    /**
+     * Слушатель проверки наличия сохраненного аккаунта на устройстве
+     */
+    public interface OnIsLoginListener {
+
+        /**
+         * Обработчик проверки наличия сохраненного аккаунта на устройстве
+         */
+        void onIsLogin();
     }
 }
