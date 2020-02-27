@@ -5,48 +5,52 @@ import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
-import io.reactivex.observers.TestObserver;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.domain.usecase.DeleteAllHabitsDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.DeleteAllHabitsDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 
 /**
- * ViewModel для резервного копирования всей информации
+ * ViewModel для настроек приложения и существенными операциями с данными
  */
 public class SettingsViewModel extends ViewModel {
 
-    private static final String TAG = "SettingsViewModel";
-
+    /**
+     * Реализация интерактора удаления всех привычек (и дат выполнения) из базы данных
+     */
     private final DeleteAllHabitsDbInteractor deleteAllHabitsInteractor;
 
-    private CompositeDisposable compositeDisposable;
-
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений о успешном выполненнии операции
+     */
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений об ошибках
+     */
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+
+    private CompositeDisposable compositeDisposable;
 
     public SettingsViewModel(@NonNull DeleteAllHabitsDbInteractor deleteAllHabitsInteractor) {
         this.deleteAllHabitsInteractor = deleteAllHabitsInteractor;
         compositeDisposable = new CompositeDisposable();
     }
 
-    public void deleteAllHabits(){
+    /**
+     * Удаление всех привычек
+     */
+    public void deleteAllHabits() {
 
         compositeDisposable.add(deleteAllHabitsInteractor.deleteAllHabits()
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        successSingleLiveEvent.postValue(R.string.delete_from_db_success_message);
-                    }
-                }, throwable -> {
+                .subscribe(() -> successSingleLiveEvent.postValue(R.string.delete_from_db_success_message), throwable -> {
                     if (throwable instanceof DeleteFromDbException) {
                         errorSingleLiveEvent.postValue((((DeleteFromDbException) throwable).getMessageRes()));
                     }
                 }));
     }
-
 
     public SingleLiveEvent<Integer> getErrorSingleLiveEvent() {
         return errorSingleLiveEvent;
@@ -58,11 +62,6 @@ public class SettingsViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        super.onCleared();
-    }
-
-    public void cancelSubscriptions() {
         compositeDisposable.clear();
     }
-
 }

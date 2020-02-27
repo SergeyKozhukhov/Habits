@@ -21,14 +21,31 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit тесты на {@link HabitWithProgressesConverter}
+ **/
 @RunWith(MockitoJUnitRunner.class)
 public class HabitWithProgressesConverterTest {
 
+    /**
+     * Генератор данных для тестирования
+     */
     private GeneratorData generatorData;
 
+    /**
+     * Конвертер HabitWithProgresses модели между data и domain слоями
+     */
     private HabitWithProgressesConverter habitWithProgressesConverter;
+
+    /**
+     * Конвертер Habit модели между data и domain слоями
+     */
     @Mock
     private HabitConverter habitConverter;
+
+    /**
+     * Конвертер списка Progresses моделей между data и domain слоями
+     */
     @Mock
     private ProgressListConverter progressListConverter;
 
@@ -38,12 +55,15 @@ public class HabitWithProgressesConverterTest {
         generatorData = new GeneratorData();
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр domain слоя
+     */
     @Test
     public void convertTo() {
         HabitData habitData = generatorData.createHabitData(1);
         Habit habit = generatorData.createHabit(1);
-        List<ProgressData> progressDataList = generatorData.createProgressDataList(1,1,2);
-        List<Progress> progressList = generatorData.createProgressList(1,1,2);
+        List<ProgressData> progressDataList = generatorData.createProgressDataList(1, 1, 2);
+        List<Progress> progressList = generatorData.createProgressList(1, 1, 2);
         HabitWithProgressesData habitWithProgressesDataInput = new HabitWithProgressesData(habitData, progressDataList);
         HabitWithProgresses habitWithProgressesExpected = new HabitWithProgresses(habit, progressList);
 
@@ -58,12 +78,15 @@ public class HabitWithProgressesConverterTest {
         verify(progressListConverter).convertTo(progressDataList);
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр data слоя
+     */
     @Test
     public void convertFrom() {
         Habit habit = generatorData.createHabit(1);
         HabitData habitData = generatorData.createHabitData(1);
-        List<Progress> progressList = generatorData.createProgressList(1,1,2);
-        List<ProgressData> progressDataList = generatorData.createProgressDataList(1,1,2);
+        List<Progress> progressList = generatorData.createProgressList(1, 1, 2);
+        List<ProgressData> progressDataList = generatorData.createProgressDataList(1, 1, 2);
         HabitWithProgresses habitWithProgressesInput = new HabitWithProgresses(habit, progressList);
         HabitWithProgressesData habitWithProgressesDataExpected = new HabitWithProgressesData(habitData, progressDataList);
 

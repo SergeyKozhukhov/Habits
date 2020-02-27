@@ -1,18 +1,14 @@
 package ru.sergeykozhukhov.habits.presentation.viewmodel;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.domain.usecase.AuthenticateWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.AuthenticateWebInteractor;
 
 import ru.sergeykozhukhov.habits.model.domain.exception.AuthenticateException;
 import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
@@ -22,12 +18,26 @@ import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
  */
 public class AuthenticationViewModel extends ViewModel {
 
-    private static final String TAG = "AuthenticationViewModel";
-
+    /**
+     * Интерктор входа пользователя в свой аккаунт
+     */
     private final AuthenticateWebInteractor authenticateClientInteractor;
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений о успешном выполненнии операции
+     */
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений об ошибках
+     */
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с состоянием выполнения операции входа в аккаунт (true - операция выполняется, false - операция закончена)
+     */
     private final MutableLiveData<Boolean> isLoadingMutableLiveData = new MutableLiveData<>();
+
     private CompositeDisposable compositeDisposable;
 
     public AuthenticationViewModel(@NonNull AuthenticateWebInteractor authenticateClientInteractor) {
@@ -36,6 +46,12 @@ public class AuthenticationViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
+    /**
+     * Вход пользователя в свой аккаунт
+     *
+     * @param email    почта
+     * @param password пароль
+     */
     public void authenticateClient(String email, String password) {
         isLoadingMutableLiveData.setValue(false);
         compositeDisposable.add(authenticateClientInteractor.authenticateClient(email, password)
@@ -49,7 +65,6 @@ public class AuthenticationViewModel extends ViewModel {
                         errorSingleLiveEvent.postValue((((AuthenticateException) throwable).getMessageRes()));
                     }
                 }));
-
     }
 
     public SingleLiveEvent<Integer> getSuccessSingleLiveEvent() {
@@ -64,7 +79,8 @@ public class AuthenticationViewModel extends ViewModel {
         return isLoadingMutableLiveData;
     }
 
-    public void cancelSubscritions() {
+    @Override
+    protected void onCleared() {
         compositeDisposable.clear();
     }
 }

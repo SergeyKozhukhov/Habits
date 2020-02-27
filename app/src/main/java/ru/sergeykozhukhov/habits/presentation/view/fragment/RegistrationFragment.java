@@ -67,12 +67,6 @@ public class RegistrationFragment extends Fragment {
         initViewListeners();
     }
 
-    @Override
-    public void onDestroyView() {
-        registrationViewModel.cancelSubscritions();
-        super.onDestroyView();
-    }
-
     private void initViewListeners() {
         requestRegButton.setOnClickListener(v -> registrationViewModel.registerClient(
                 firsnameRegEditText.getText().toString(),

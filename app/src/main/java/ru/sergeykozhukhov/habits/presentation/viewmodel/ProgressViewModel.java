@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.domain.usecase.ChangeProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.ChangeProgressListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.ChangeProgressException;
 import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
@@ -24,17 +24,27 @@ import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
  */
 public class ProgressViewModel extends ViewModel {
 
-    private static final String TAG = "ProgressViewModel";
-
+    /**
+     * Интерактор по изменению дат выполнения привычки
+     */
     private final ChangeProgressListDbInteractor changeProgressListDbInteractor;
 
-
-    private CompositeDisposable compositeDisposable;
-
+    /**
+     * LiveData со списком дат выполнения привычки
+     */
     private final SingleLiveEvent<List<Date>> dateListLoadedSingleLiveEvent = new SingleLiveEvent<>();
 
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений о успешном выполненнии операции
+     */
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений об ошибках
+     */
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+
+    private CompositeDisposable compositeDisposable;
 
     public ProgressViewModel(
             @NonNull ChangeProgressListDbInteractor changeProgressListDbInteractor) {
@@ -72,17 +82,17 @@ public class ProgressViewModel extends ViewModel {
 
     public void saveProgressList() {
         Completable completable = changeProgressListDbInteractor.saveProgressList();
-        if (completable!=null) {
-                compositeDisposable.add(completable.subscribeOn(Schedulers.newThread())
+        if (completable != null) {
+            compositeDisposable.add(completable.subscribeOn(Schedulers.newThread())
                     .subscribe(() ->
                             successSingleLiveEvent.postValue(R.string.change_progress_db_success_message), throwable -> {
-                                if (throwable instanceof DeleteFromDbException) {
-                                    errorSingleLiveEvent.postValue((((DeleteFromDbException) throwable).getMessageRes()));
-                                }
-                                if (throwable instanceof InsertDbException) {
-                                    errorSingleLiveEvent.postValue((((InsertDbException)throwable).getMessageRes()));
-                                }
-                            }));
+                        if (throwable instanceof DeleteFromDbException) {
+                            errorSingleLiveEvent.postValue((((DeleteFromDbException) throwable).getMessageRes()));
+                        }
+                        if (throwable instanceof InsertDbException) {
+                            errorSingleLiveEvent.postValue((((InsertDbException) throwable).getMessageRes()));
+                        }
+                    }));
         }
     }
 
@@ -98,7 +108,8 @@ public class ProgressViewModel extends ViewModel {
         return errorSingleLiveEvent;
     }
 
-    public void cancelSubscriptions() {
+    @Override
+    protected void onCleared() {
         compositeDisposable.clear();
     }
 }

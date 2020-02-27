@@ -26,6 +26,9 @@ import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
  */
 public class Repositories {
 
+    /**
+     * Создание экземпляра репозитория (база данных)
+     */
     public static IHabitsDatabaseRepository newDatabaseRepository(Context context){
         return new HabitsDatabaseRepository(
                 HabitsDatabase.getInstance(context).getHabitDao(),
@@ -37,6 +40,9 @@ public class Repositories {
                 new StatisticListConverter());
     }
 
+    /**
+     * Создание экземпляра репозитория (сервер)
+     */
     public static IHabitsWebRepository newWebRepository(){
         return new HabitsWebRepository(
                 HabitsRetrofitClient.getInstance(),
@@ -48,6 +54,9 @@ public class Repositories {
         );
     }
 
+    /**
+     * Создание экземпляра репозитория (preferences)
+     */
     public static IHabitsPreferencesRepository newPreferencesRepository(Context context){
         return new HabitsPreferencesRepository(
                 HabitsPreferences.getInstance(context),

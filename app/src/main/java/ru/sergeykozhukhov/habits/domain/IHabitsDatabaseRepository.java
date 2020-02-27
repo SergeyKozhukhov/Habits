@@ -12,66 +12,82 @@ import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
 
+/**
+ * Итерфейс репозитория (база данных)
+ */
 public interface IHabitsDatabaseRepository {
 
     /**
-     * Добавление привычки
-     * @param habit
-     * @return
+     * Добавление записи о привычки
+     *
+     * @param habit - привычка (domain слой)
+     * @return single с id добавленной привычки
      */
-    @NonNull Single<Long> insertHabit(@NonNull Habit habit);
+    @NonNull
+    Single<Long> insertHabit(@NonNull Habit habit);
 
     /**
-     * Добавление списка дат выполнения
-     * @param progressList
-     * @return
+     * Добавление списка записей дат выполнения
+     *
+     * @param progressList список записей дат выполнения (domain слой)
      */
-    @NonNull Completable insertProgressList(@NonNull List<Progress> progressList);
+    @NonNull
+    Completable insertProgressList(@NonNull List<Progress> progressList);
 
     /**
-     * Добавление списка привычек с соответствующими датами выполнения
-     * @param habitWithProgressesList
-     * @return
+     * Добаление списка привычек с соответствующими датами выполнения
+     *
+     * @param habitWithProgressesList список привычек с соответствующими датами выполнения (domain слой)
      */
-    @NonNull Completable insertHabitWithProgressesList(@NonNull List<HabitWithProgresses> habitWithProgressesList);
+    @NonNull
+    Completable insertHabitWithProgressesList(@NonNull List<HabitWithProgresses> habitWithProgressesList);
 
     /**
      * Загрузка списка привычек
+     *
      * @return
      */
-    @NonNull Flowable<List<Habit>> loadHabitList();
+    @NonNull
+    Flowable<List<Habit>> loadHabitList();
 
     /**
-     * Загрузка дат выполнения определенной привычки
-     * @param idHabit
-     * @return
+     * Получение записей всех дат выполнения опредленной привычки
+     *
+     * @param idHabit id привычки
+     * @return single со списком дат выполнения (domain слой)
      */
-    @NonNull Single<List<Progress>> loadProgressListByIdHabit(long idHabit);
+    @NonNull
+    Single<List<Progress>> loadProgressListByIdHabit(long idHabit);
 
     /**
-     * Загрузка списка привычек с колличетсвом выполнныех дней
-     * @return
+     * Получение списка данных по привычкам с указанием количества выполненных дней
+     *
+     * @return single со списком данных по привычкам и указанием количества выполненных дней (domain слой)
      */
-    @NonNull Single<List<Statistic>> loadStatisticList();
+    @NonNull
+    Single<List<Statistic>> loadStatisticList();
 
     /**
-     * Загрузка списка всех привычек с соответствующими списками дат выполнения
-     * @return
+     * Получение списка всех привычек с соответствующими датами выполнения
+     *
+     * @return single со списком всех привычек и соответствующих дат выполнения (domain слой)
      */
-    @NonNull Single<List<HabitWithProgresses>> loadHabitWithProgressesList();
+    @NonNull
+    Single<List<HabitWithProgresses>> loadHabitWithProgressesList();
 
     /**
      * Удаление всех привычек
-     * @return
      */
-    @NonNull Completable deleteAllHabits();
+    @NonNull
+    Completable deleteAllHabits();
 
     /**
-     * Удаление списка привычек
-     * @param progressList
-     * @return
+     * Удаление указанного списка дат выполнения
+     *
+     * @param progressList список дат выполнения (domain слой)
      */
-    @NonNull Completable deleteProgressList(@NonNull List<Progress> progressList);
+    @NonNull
+    Completable deleteProgressList(@NonNull List<Progress> progressList);
 
 }
 

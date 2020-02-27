@@ -12,7 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import io.reactivex.Completable;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.RxImmediateSchedulerRule;
-import ru.sergeykozhukhov.habits.domain.usecase.RegisterWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.RegisterWebInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 import ru.sergeykozhukhov.habits.model.domain.exception.RegisterException;
 

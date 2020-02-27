@@ -12,7 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import io.reactivex.Single;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.RxImmediateSchedulerRule;
-import ru.sergeykozhukhov.habits.domain.usecase.InsertHabitDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.InsertHabitDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.BuildException;
 import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
 
@@ -50,7 +50,7 @@ public class AddHabitViewModelTest {
 
         addHabitViewModel.insertHabit(title, description, startDate, duration);
 
-        assertThat(addHabitViewModel.getInsertedSuccessSingleLiveEvent().getValue(), is(R.string.habit_success_inserted_db_message));
+        assertThat(addHabitViewModel.getSuccessSingleLiveEvent().getValue(), is(R.string.habit_success_inserted_db_message));
         verify(insertHabitDbInteractor).insertHabit(title, description, startDate, duration);
     }
 

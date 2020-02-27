@@ -55,12 +55,6 @@ public class AccountFragment extends Fragment {
         setupMvvm();
     }
 
-    @Override
-    public void onDestroyView() {
-        accountViewModel.cancelSubscritions();
-        super.onDestroyView();
-    }
-
     private void initListeners() {
         backupButton.setOnClickListener(v -> accountViewModel.backup());
         replicationButton.setOnClickListener(v -> accountViewModel.replication());

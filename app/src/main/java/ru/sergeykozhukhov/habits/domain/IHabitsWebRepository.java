@@ -13,50 +13,65 @@ import ru.sergeykozhukhov.habits.model.domain.Jwt;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
 import ru.sergeykozhukhov.habits.model.domain.Registration;
 
+/**
+ * Итерфейс репозитория (сервер)
+ */
 public interface IHabitsWebRepository {
 
     /**
-     * Регистрирование нового пользователя
-     * @param registration
-     * @return
+     * Регистрация нового клиента
+     *
+     * @param registration данные регистрации (имя, фамилия, email, пароль) (domain слой)
      */
-    @NonNull Completable registerClient(@NonNull Registration registration);
+    @NonNull
+    Completable registerClient(@NonNull Registration registration);
 
     /**
-     * Вход пользователя в свой аккаунт
-     * @param confidentiality
-     * @return
+     * Аутентификация пользователя
+     *
+     * @param confidentiality данные, подвергающиеся проверке (email, пароль) (domain слой)
+     * @return single с token (jwt) (domain слой)
      */
-    @NonNull Single<Jwt> authenticateClient(@NonNull Confidentiality confidentiality);
-
-
-    /**
-     * Добавление списка привычек с соответствующими списками дат выполнения
-     * @param habitWithProgressesList
-     * @param jwt
-     * @return
-     */
-    @NonNull Completable insertHabitWithProgressesList(List<HabitWithProgresses> habitWithProgressesList, @NonNull String jwt);
+    @NonNull
+    Single<Jwt> authenticateClient(@NonNull Confidentiality confidentiality);
 
 
     /**
-     * Получение списка всех привычек с соответствующими списками дат выполнения
-     * @param jwt
-     * @return
+     * Добавление списка привычек с датами выполнения на сервер
+     *
+     * @param habitWithProgressesList список привычек с датами выполнения (domain слой)
+     * @param jwt                     строковое представление token (jwt)
      */
-    @NonNull Single<List<HabitWithProgresses>> loadHabitWithProgressesList(@NonNull String jwt);
+    @NonNull
+    Completable insertHabitWithProgressesList(List<HabitWithProgresses> habitWithProgressesList, @NonNull String jwt);
 
     /**
-     * Сохранение в памяти токена
-     * @param jwt
+     * Загрузка списка привычек с датами выполнениям с сервера
+     *
+     * @param jwt строковое представление token (jwt)
+     * @return single со списком привычек и датами их выполнения (domain слой)
+     */
+    @NonNull
+    Single<List<HabitWithProgresses>> loadHabitWithProgressesList(@NonNull String jwt);
+
+    /**
+     * Сохранение token (jwt) в памяти
+     *
+     * @param jwt token (jwt) (domain слой)
      */
     void setJwt(@NonNull Jwt jwt);
 
     /**
-     * Получение из памяти токена
-     * @return
+     * Получение сохранненого в памяти token (jwt)
+     *
+     * @return token (jwt) (domain слой)
+     * @throws NullPointerException token (jwt) является null
      */
+    @NonNull
     Jwt getJwt() throws NullPointerException;
 
+    /**
+     * Обнуление token (jwt) в памяти (= null)
+     */
     void deleteJwt();
 }

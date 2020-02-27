@@ -31,20 +31,46 @@ import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
 
+/**
+ * Реализация репозитория (база данных)
+ */
 public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
 
     private static final String TAG = "DatabaseRepository";
 
+    /**
+     * Интерфейс определяющий возможные операции с базой данных
+     */
     private HabitDao habitDao;
 
+    /**
+     * Конвертер Habit модели между data и domain слоями
+     */
     private HabitConverter habitConverter;
+
+    /**
+     * Конвертер списка Habit моделей между data и domain слоями
+     */
     private HabitListConverter habitListConverter;
 
+    /**
+     * Конвертер списка Progresses моделей между data и domain слоями
+     */
     private ProgressListConverter progressListConverter;
 
+    /**
+     * Конвертер HabitWithProgresses модели между data и domain слоями
+     */
     private HabitWithProgressesConverter habitWithProgressesConverter;
+
+    /**
+     * Конвертер списка HabitWithProgresses моделей между data и domain слоями
+     */
     private HabitWithProgressesListConverter habitWithProgressesListConverter;
 
+    /**
+     * Конвертер списка Statistic моделей между data и domain слоями
+     */
     private StatisticListConverter statisticListConverter;
 
     public HabitsDatabaseRepository(@NonNull HabitDao habitDao,
@@ -54,7 +80,6 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
                                     @NonNull HabitWithProgressesConverter habitWithProgressesConverter,
                                     @NonNull HabitWithProgressesListConverter habitWithProgressesListConverter,
                                     @NonNull StatisticListConverter statisticListConverter) {
-
         this.habitDao = habitDao;
         this.habitConverter = habitConverter;
         this.habitListConverter = habitListConverter;
@@ -65,18 +90,34 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     }
 
 
+    /**
+     * Добавление записи о привычки
+     *
+     * @param habit - привычка (domain слой)
+     * @return single с id добавленной привычки
+     */
     @NonNull
     @Override
     public Single<Long> insertHabit(@NonNull Habit habit) {
         return habitDao.insertHabit(habitConverter.convertFrom(habit));
     }
 
+    /**
+     * Добавление списка записей дат выполнения
+     *
+     * @param progressList список записей дат выполнения (domain слой)
+     */
     @NonNull
     @Override
     public Completable insertProgressList(@NonNull List<Progress> progressList) {
         return habitDao.insertProgressList(progressListConverter.convertFrom(progressList));
     }
 
+    /**
+     * Добаление списка привычек с соответствующими датами выполнения
+     *
+     * @param habitWithProgressesList список привычек с соответствующими датами выполнения (domain слой)
+     */
     @NonNull
     @Override
     public Completable insertHabitWithProgressesList(@NonNull List<HabitWithProgresses> habitWithProgressesList) {
@@ -107,6 +148,11 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         });
     }
 
+    /**
+     * Получение записей всех привычек
+     *
+     * @return
+     */
     @NonNull
     @Override
     public Flowable<List<Habit>> loadHabitList() {
@@ -115,6 +161,13 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
                         habitListConverter.convertTo(habitDataList));
     }
 
+
+    /**
+     * Получение записей всех дат выполнения опредленной привычки
+     *
+     * @param idHabit id привычки
+     * @return single со списком дат выполнения (domain слой)
+     */
     @NonNull
     @Override
     public Single<List<Progress>> loadProgressListByIdHabit(long idHabit) {
@@ -123,6 +176,11 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     }
 
 
+    /**
+     * Получение списка данных по привычкам с указанием количества выполненных дней
+     *
+     * @return single со списком данных по привычкам и указанием количества выполненных дней (domain слой)
+     */
     @NonNull
     @Override
     public Single<List<Statistic>> loadStatisticList() {
@@ -131,6 +189,11 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
                         statisticListConverter.convertTo(statisticDataList));
     }
 
+    /**
+     * Получение списка всех привычек с соответствующими датами выполнения
+     *
+     * @return single со списком всех привычек и соответствующих дат выполнения (domain слой)
+     */
     @NonNull
     @Override
     public Single<List<HabitWithProgresses>> loadHabitWithProgressesList() {
@@ -139,12 +202,20 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
                         habitWithProgressesListConverter.convertTo(habitWithProgressesDataList));
     }
 
+    /**
+     * Удаление всех привычек
+     */
     @NonNull
     @Override
     public Completable deleteAllHabits() {
         return habitDao.deleteAll();
     }
 
+    /**
+     * Удаление указанного списка дат выполнения
+     *
+     * @param progressList список дат выполнения (domain слой)
+     */
     @NonNull
     @Override
     public Completable deleteProgressList(@NonNull List<Progress> progressList) {

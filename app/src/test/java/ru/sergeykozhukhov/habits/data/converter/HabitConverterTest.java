@@ -10,10 +10,19 @@ import ru.sergeykozhukhov.habits.model.domain.Habit;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
+/**
+ * Unit тесты на {@link HabitConverter}
+ **/
 public class HabitConverterTest {
 
+    /**
+     * Генератор данных для тестирования
+     */
     private GeneratorData generatorData;
 
+    /**
+     * Конвертер Habit модели между data и domain слоями
+     */
     private HabitConverter habitConverter;
 
     @Before
@@ -22,6 +31,9 @@ public class HabitConverterTest {
         generatorData = new GeneratorData();
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр domain слоя
+     */
     @Test
     public void convertTo() {
         HabitData habitDataInput = generatorData.createHabitData(1);
@@ -32,6 +44,9 @@ public class HabitConverterTest {
         assertThat(habitOutput, is(habitExpected));
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр data слоя
+     */
     @Test
     public void convertFrom() {
         Habit habitInput = generatorData.createHabit(1);

@@ -17,12 +17,25 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit тесты на {@link HabitWithProgressesListConverter}
+ **/
 @RunWith(MockitoJUnitRunner.class)
 public class HabitWithProgressesListConverterTest {
 
+    /**
+     * Генератор данных для тестирования
+     */
     private GeneratorData generatorData;
 
+    /**
+     * Конвертер списка HabitWithProgresses моделей между data и domain слоями
+     */
     private HabitWithProgressesListConverter habitWithProgressesListConverter;
+
+    /**
+     * Конвертер HabitWithProgresses модели между data и domain слоями
+     */
     @Mock
     private HabitWithProgressesConverter habitWithProgressesConverter;
 
@@ -32,6 +45,9 @@ public class HabitWithProgressesListConverterTest {
         generatorData = new GeneratorData();
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр domain слоя
+     */
     @Test
     public void convertTo() {
         List<HabitWithProgressesData> habitWithProgressesDataList = generatorData.createHabitWithProgressesDataList();
@@ -42,12 +58,15 @@ public class HabitWithProgressesListConverterTest {
 
         List<HabitWithProgresses> habitWithProgressesListOutput = habitWithProgressesListConverter.convertTo(habitWithProgressesDataList);
 
-        assertThat(habitWithProgressesListOutput, is (habitWithProgressesListExpected));
+        assertThat(habitWithProgressesListOutput, is(habitWithProgressesListExpected));
 
         verify(habitWithProgressesConverter).convertTo(habitWithProgressesDataList.get(0));
         verify(habitWithProgressesConverter).convertTo(habitWithProgressesDataList.get(1));
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр data слоя
+     */
     @Test
     public void convertFrom() {
         List<HabitWithProgresses> habitWithProgressesList = generatorData.createHabitWithProgressesList();
@@ -58,7 +77,7 @@ public class HabitWithProgressesListConverterTest {
 
         List<HabitWithProgressesData> habitWithProgressesDataListOutput = habitWithProgressesListConverter.convertFrom(habitWithProgressesList);
 
-        assertThat(habitWithProgressesDataListOutput, is (habitWithProgressesDataListExpected));
+        assertThat(habitWithProgressesDataListOutput, is(habitWithProgressesDataListExpected));
 
         verify(habitWithProgressesConverter).convertFrom(habitWithProgressesList.get(0));
         verify(habitWithProgressesConverter).convertFrom(habitWithProgressesList.get(1));

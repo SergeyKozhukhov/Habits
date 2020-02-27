@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import ru.sergeykozhukhov.habitData.R;
-import ru.sergeykozhukhov.habits.domain.usecase.GetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.GetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 
 import static org.hamcrest.Matchers.is;

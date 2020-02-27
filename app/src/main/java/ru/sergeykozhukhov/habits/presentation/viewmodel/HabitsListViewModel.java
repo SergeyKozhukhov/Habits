@@ -7,9 +7,8 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.domain.usecase.LoadHabitListDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.LoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
@@ -18,21 +17,36 @@ import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
  */
 public class HabitsListViewModel extends ViewModel {
 
-    private static final String TAG = "HabitsListViewModel";
-
+    /**
+     * Интерактор получения списка привычек из базы данных
+     */
     private final LoadHabitListDbInteractor loadHabitsInteractor;
 
-    private CompositeDisposable compositeDisposable;
-
+    /**
+     * LiveData со списком привычек
+     */
     private final MutableLiveData<List<Habit>> habitListLiveData = new MutableLiveData<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений о успешном выполненнии операции
+     */
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений об ошибках
+     */
     private final MutableLiveData<Boolean> isLoadingMutableLiveData = new MutableLiveData<>();
+
+    private CompositeDisposable compositeDisposable;
 
     public HabitsListViewModel(@NonNull LoadHabitListDbInteractor loadHabitsInteractor) {
         this.loadHabitsInteractor = loadHabitsInteractor;
         compositeDisposable = new CompositeDisposable();
     }
 
+    /**
+     * Загрузка всех привычек из базы данных
+     */
     public void loadHabitList() {
         isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(loadHabitsInteractor.loadHabitList()
@@ -58,7 +72,8 @@ public class HabitsListViewModel extends ViewModel {
         return isLoadingMutableLiveData;
     }
 
-    public void cancelSubscritions() {
+    @Override
+    protected void onCleared() {
         compositeDisposable.clear();
     }
 }

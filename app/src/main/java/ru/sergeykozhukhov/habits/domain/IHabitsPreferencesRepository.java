@@ -5,6 +5,9 @@ import androidx.annotation.Nullable;
 
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
 
+/**
+ * Итерфейс репозитория (preferences)
+ */
 public interface IHabitsPreferencesRepository {
 
     /**

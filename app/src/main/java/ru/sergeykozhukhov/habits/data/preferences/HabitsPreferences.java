@@ -3,12 +3,23 @@ package ru.sergeykozhukhov.habits.data.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+
+/**
+ * Singleton класс, подготавливающий и настраивающий работу с preferences
+ */
 public class HabitsPreferences {
 
     private static HabitsPreferences habitsPreferences;
     private SharedPreferences sharedPreferences;
 
-    public static final String PREFERENCES_NAME = "settings";
+    /**
+     * Наименование preferences файла
+     */
+    private static final String PREFERENCES_NAME = "settings";
+
+    /**
+     * Строковый идентификатор для получения token (jwt)
+     */
     public static final String JWT_PREFERENCES = "JWT_PREFERENCES";
 
 
@@ -32,14 +43,5 @@ public class HabitsPreferences {
     public SharedPreferences getSharedPreferences() {
         return sharedPreferences;
     }
-
-
-    public void cleanUp(){
-        sharedPreferences = null;
-    }
-
-
-
-
 
 }

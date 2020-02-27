@@ -67,12 +67,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setupMvvm();
     }
 
-    @Override
-    public void onDestroyView() {
-        settingsViewModel.cancelSubscriptions();
-        super.onDestroyView();
-    }
-
     private void setupMvvm(){
 
         settingsViewModel= new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(SettingsViewModel.class);

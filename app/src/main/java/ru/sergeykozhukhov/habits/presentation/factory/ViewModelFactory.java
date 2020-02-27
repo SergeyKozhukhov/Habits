@@ -6,23 +6,23 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.LoadStatisticListInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.RegisterWebInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.BuildConfidentialityInstance;
-import ru.sergeykozhukhov.habits.domain.usecase.BuildHabitInstance;
-import ru.sergeykozhukhov.habits.domain.usecase.ChangeProgressListDbInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.BuildRegistrationInstance;
-import ru.sergeykozhukhov.habits.domain.usecase.GetJwtValueInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.DeleteJwtInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.LoadStatisticListInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.RegisterWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.BuildConfidentialityInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.BuildHabitInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.ChangeProgressListDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.BuildRegistrationInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.GetJwtValueInteractor;
 import ru.sergeykozhukhov.habits.domain.IHabitsDatabaseRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.domain.IHabitsWebRepository;
-import ru.sergeykozhukhov.habits.domain.usecase.AuthenticateWebInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.DeleteAllHabitsDbInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.InsertHabitDbInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.LoadHabitListDbInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.AuthenticateWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.DeleteAllHabitsDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.InsertHabitDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.BackupWebHabitListWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.LoadHabitListDbInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.ReplicationListHabitsWebInteractor;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AddHabitViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AuthenticationViewModel;
@@ -57,7 +57,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         } else if (RegistrationViewModel.class.equals(modelClass)) {
             IHabitsWebRepository habitsWebRepository = Repositories.newWebRepository();
 
-            BuildRegistrationInstance buildRegistrationInstance = new BuildRegistrationInstance();
+            BuildRegistrationInteractor buildRegistrationInstance = new BuildRegistrationInteractor();
             RegisterWebInteractor registerWebInteractor = new RegisterWebInteractor(habitsWebRepository, buildRegistrationInstance);
             // noinspection unchecked
             return (T) new RegistrationViewModel(registerWebInteractor);
@@ -65,7 +65,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             IHabitsWebRepository habitsWebRepository = Repositories.newWebRepository();
             IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(context);
 
-            BuildConfidentialityInstance buildConfidentialityInstance = new BuildConfidentialityInstance();
+            BuildConfidentialityInteractor buildConfidentialityInstance = new BuildConfidentialityInteractor();
             AuthenticateWebInteractor authenticateClientInteractor = new AuthenticateWebInteractor(
                     habitsWebRepository,
                     habitsPreferencesRepository,
@@ -75,7 +75,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         } else if (AddHabitViewModel.class.equals(modelClass)) {
             IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
 
-            BuildHabitInstance buildHabitInstance = new BuildHabitInstance();
+            BuildHabitInteractor buildHabitInstance = new BuildHabitInteractor();
 
             InsertHabitDbInteractor insertHabitInteractor = new InsertHabitDbInteractor(habitsDatabaseRepository, buildHabitInstance);
             // noinspection unchecked

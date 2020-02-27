@@ -61,12 +61,6 @@ public class AuthenticationFragment extends Fragment {
         setupMvvm();
     }
 
-    @Override
-    public void onDestroyView() {
-        authenticationViewModel.cancelSubscritions();
-        super.onDestroyView();
-    }
-
     private void initViewListeners() {
 
         requestAuthButton.setOnClickListener(v -> authenticationViewModel.authenticateClient(

@@ -12,15 +12,30 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.sergeykozhukhov.habits.model.data.JwtData;
 
+/**
+ * Singleton класс, подготавливающий и настраивающий работу с сервером
+ */
 public class HabitsRetrofitClient {
 
     private static HabitsRetrofitClient habitsRetrofitClient;
 
+    /**
+     * Базовый адрес сервера
+     */
     private static final String ROOT_URL = "https://testx0123test.000webhostapp.com/";
 
+    /**
+     * Объект retrofit для совершения http операций с сервером
+     */
     private Retrofit retrofit;
+    /**
+     * web-api для работы с сервером
+     */
     private IHabitsService habitsService;
 
+    /**
+     * token (jwt) клиента
+     */
     private JwtData jwtData;
 
 
@@ -31,13 +46,18 @@ public class HabitsRetrofitClient {
 
     public static HabitsRetrofitClient getInstance() {
 
-        if (habitsRetrofitClient == null){
+        if (habitsRetrofitClient == null) {
             habitsRetrofitClient = new HabitsRetrofitClient();
         }
         return habitsRetrofitClient;
     }
 
-    private Retrofit buildRetrofit(){
+    /**
+     * Настройка и создание объектра retrofit (настройка конвертера json, возвращение rx источников, логирование запросов и ответов сервера)
+     *
+     * @return объект retrofit
+     */
+    private Retrofit buildRetrofit() {
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -66,20 +86,16 @@ public class HabitsRetrofitClient {
         return habitsService;
     }
 
-    public void setJwtData(JwtData jwt){
+    public void setJwtData(JwtData jwt) {
         jwtData = jwt;
     }
 
-    public void clearJwtData(){
+    public void clearJwtData() {
         jwtData = null;
     }
 
     public JwtData getJwtData() {
         return jwtData;
-    }
-
-    public void cleanUp(){
-        retrofit = null;
     }
 
 

@@ -18,13 +18,25 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit тесты на {@link HabitListConverter}
+ **/
 @RunWith(MockitoJUnitRunner.class)
 public class HabitListConverterTest {
 
+    /**
+     * Генератор данных для тестирования
+     */
     private GeneratorData generatorData;
 
+    /**
+     * Конвертер списка Habit моделей между data и domain слоями
+     */
     private HabitListConverter habitListConverter;
 
+    /**
+     * Конвертер Habit модели между data и domain слоями
+     */
     @Mock
     private HabitConverter habitConverter;
 
@@ -34,10 +46,13 @@ public class HabitListConverterTest {
         generatorData = new GeneratorData();
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр domain слоя
+     */
     @Test
     public void convertTo() {
-        List<HabitData> habitDataListInput = generatorData.createHabitDataList(1,2);
-        List<Habit> habitListExpected = generatorData.createHabitList(1,2);
+        List<HabitData> habitDataListInput = generatorData.createHabitDataList(1, 2);
+        List<Habit> habitListExpected = generatorData.createHabitList(1, 2);
 
         when(habitConverter.convertTo(habitDataListInput.get(0))).thenReturn(habitListExpected.get(0));
         when(habitConverter.convertTo(habitDataListInput.get(1))).thenReturn(habitListExpected.get(1));
@@ -51,10 +66,13 @@ public class HabitListConverterTest {
         verifyNoMoreInteractions(habitConverter);
     }
 
+    /**
+     * Тестирование на правильность конвертации в соответствующий экземпляр data слоя
+     */
     @Test
     public void convertFrom() {
-        List<Habit> habitListInput = generatorData.createHabitList(1,2);
-        List<HabitData> habitDataListExpected= generatorData.createHabitDataList(1,2);
+        List<Habit> habitListInput = generatorData.createHabitList(1, 2);
+        List<HabitData> habitDataListExpected = generatorData.createHabitDataList(1, 2);
 
         when(habitConverter.convertFrom(habitListInput.get(0))).thenReturn(habitDataListExpected.get(0));
         when(habitConverter.convertFrom(habitListInput.get(1))).thenReturn(habitDataListExpected.get(1));

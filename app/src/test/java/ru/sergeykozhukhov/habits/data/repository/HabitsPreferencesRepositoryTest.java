@@ -16,6 +16,9 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+/**
+ * Unit тесты на {@link HabitsPreferencesRepository}
+ **/
 @RunWith(MockitoJUnitRunner.class)
 public class HabitsPreferencesRepositoryTest {
 

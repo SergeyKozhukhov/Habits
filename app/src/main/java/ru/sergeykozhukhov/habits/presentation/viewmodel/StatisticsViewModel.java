@@ -16,30 +16,33 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.domain.usecase.LoadStatisticListInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.LoadStatisticListInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Statistic;
 import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 
 /**
- * ViewModel для получения статистической информации по прогрессу выполнения привычки
+ * ViewModel для отображения общего графика выполнения привычек
  */
 public class StatisticsViewModel extends ViewModel {
-
-    private static final String TAG = "StatiscticsViewModel";
 
     private static final int COLOR_YELLOW = 0xFFFFFF00;
     private static final int COLOR_GOLD = 0xFFFFD700;
     private static final int COLOR_ORANGE = 0xFFFFA500;
 
+    /**
+     * Интерактора получения списка минимальной информации о привычках с соответствующим количеством выполненных дней
+     */
     private final LoadStatisticListInteractor loadStatisticsListInteractor;
 
     private final MutableLiveData<BarData> loadBarDataSuccessMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<ValueFormatter> loadValueFormatterSuccessMutableLiveData = new MutableLiveData<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений об ошибках
+     */
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
 
-
     private CompositeDisposable compositeDisposable;
-
 
     public StatisticsViewModel(LoadStatisticListInteractor loadStatisticsListInteractor) {
         this.loadStatisticsListInteractor = loadStatisticsListInteractor;
@@ -70,7 +73,7 @@ public class StatisticsViewModel extends ViewModel {
                                 color = COLOR_GOLD;
                             }
                             listColor.add(color);
-                            strings[(int)indexX] = String.valueOf(statistic.getTitle());
+                            strings[(int) indexX] = String.valueOf(statistic.getTitle());
                             stringList.add(String.valueOf(statistic.getIdHabit()));
                             indexX = indexX + 1.0f;
                         }
@@ -99,8 +102,8 @@ public class StatisticsViewModel extends ViewModel {
                             }*/
                         };
 
-                       loadBarDataSuccessMutableLiveData.postValue(data);
-                       loadValueFormatterSuccessMutableLiveData.postValue(valueFormatter);
+                        loadBarDataSuccessMutableLiveData.postValue(data);
+                        loadValueFormatterSuccessMutableLiveData.postValue(valueFormatter);
                     }
                 }, throwable -> {
                     if (throwable instanceof LoadDbException) {
@@ -122,7 +125,8 @@ public class StatisticsViewModel extends ViewModel {
         return errorSingleLiveEvent;
     }
 
-    public void cancelSubscritions() {
+    @Override
+    protected void onCleared() {
         compositeDisposable.clear();
     }
 }

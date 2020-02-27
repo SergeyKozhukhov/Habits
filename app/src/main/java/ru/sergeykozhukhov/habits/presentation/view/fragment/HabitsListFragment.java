@@ -75,12 +75,6 @@ public class HabitsListFragment extends Fragment {
         setupMvvm();
     }
 
-    @Override
-    public void onDestroyView() {
-        habitsListViewModel.cancelSubscritions();
-        super.onDestroyView();
-    }
-
     private void initViews() {
         habitsListAdapter = new HabitsListAdapter();
     }

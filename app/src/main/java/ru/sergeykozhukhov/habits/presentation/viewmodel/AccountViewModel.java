@@ -8,9 +8,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
-import ru.sergeykozhukhov.habits.domain.usecase.BackupWebHabitListWebInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.DeleteJwtInteractor;
-import ru.sergeykozhukhov.habits.domain.usecase.ReplicationListHabitsWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.BackupWebHabitListWebInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.DeleteJwtInteractor;
+import ru.sergeykozhukhov.habits.domain.usecaseimpl.ReplicationListHabitsWebInteractor;
 import ru.sergeykozhukhov.habits.model.domain.exception.DeleteFromDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.GetJwtException;
 import ru.sergeykozhukhov.habits.model.domain.exception.BackupException;
@@ -19,22 +19,46 @@ import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
 import ru.sergeykozhukhov.habits.model.domain.exception.ReplicationException;
 
 /**
- * ViewModel для резервного копирования всей информации
+ * ViewModel для операций доступных в аккаунте (резервное копирования, восстановление информации)
  */
 public class AccountViewModel extends ViewModel {
 
-    private static final String TAG = "HabitsListViewModel";
-
+    /**
+     * Интерактор создания резервной копии данных о привычках на сервере
+     */
     private final BackupWebHabitListWebInteractor insertWebHabitsInteractor;
+
+    /**
+     * Интерактор восстановления данных о привычках с сервера
+     */
     private final ReplicationListHabitsWebInteractor replicationListHabitsWebInteractor;
+
+    /**
+     * Интерактор выхода пользователя из аккаунта
+     */
     private final DeleteJwtInteractor deleteJwtInteractor;
 
-    private CompositeDisposable compositeDisposable;
-
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений о успешном выполненнии операций (резервное копирование, восстановение данных)
+     */
     private final SingleLiveEvent<Integer> successSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений о успешном выполненнии операции выхода из аккаунта
+     */
     private final SingleLiveEvent<Integer> logOutSuccessSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с идентификаторами строковых ресурсов сообщений об ошибках
+     */
     private final SingleLiveEvent<Integer> errorSingleLiveEvent = new SingleLiveEvent<>();
+
+    /**
+     * LiveData с состоянием выполнения операций (true - операция выполняется, false - операция закончена)
+     */
     private final MutableLiveData<Boolean> isLoadingMutableLiveData = new MutableLiveData<>();
+
+    private CompositeDisposable compositeDisposable;
 
     public AccountViewModel(
             @NonNull BackupWebHabitListWebInteractor insertWebHabitsInteractor,
@@ -46,6 +70,9 @@ public class AccountViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
+    /**
+     * Восстановление данных с сервера
+     */
     public void replication() {
         isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(replicationListHabitsWebInteractor.loadHabitWithProgressesList()
@@ -63,6 +90,9 @@ public class AccountViewModel extends ViewModel {
                 }));
     }
 
+    /**
+     * Создание резервной копии данных на сервере
+     */
     public void backup() {
         isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(insertWebHabitsInteractor.insertHabitWithProgressesList()
@@ -80,6 +110,9 @@ public class AccountViewModel extends ViewModel {
 
     }
 
+    /**
+     * Выход пользователя из аккаунта
+     */
     public void logout() {
         deleteJwtInteractor.deleteJwt();
         logOutSuccessSingleLiveEvent.postValue(R.string.log_out_success_message);
@@ -101,7 +134,8 @@ public class AccountViewModel extends ViewModel {
         return isLoadingMutableLiveData;
     }
 
-    public void cancelSubscritions() {
+    @Override
+    protected void onCleared() {
         compositeDisposable.clear();
     }
 }

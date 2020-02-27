@@ -1,7 +1,5 @@
 package ru.sergeykozhukhov.habits.data.repository;
 
-import android.content.SharedPreferences;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -11,6 +9,9 @@ import ru.sergeykozhukhov.habits.data.preferences.HabitsPreferences;
 import ru.sergeykozhukhov.habits.domain.IHabitsPreferencesRepository;
 import ru.sergeykozhukhov.habits.model.domain.Jwt;
 
+/**
+ * Реализация репозитория (preferences)
+ */
 public class HabitsPreferencesRepository implements IHabitsPreferencesRepository {
 
     private HabitsPreferences habitsPreferences;

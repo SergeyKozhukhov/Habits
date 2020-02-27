@@ -30,25 +30,61 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit тесты на {@link HabitsDatabaseRepository}
+ **/
 @RunWith(MockitoJUnitRunner.class)
 public class HabitsDatabaseRepositoryTest {
 
+    /**
+     * Генератор данных для тестирования
+     */
     private GeneratorData generatorData;
 
+    /**
+     * Репозиторий (база данных)
+     */
     private HabitsDatabaseRepository habitsDatabaseRepository;
 
+    /**
+     * Интерфейс определяющий возможные операции с базой данных
+     */
     @Mock
     private HabitDao habitDao;
+
+    /**
+     * Конвертер Habit модели между data и domain слоями
+     */
     @Mock
     private HabitConverter habitConverter;
+
+    /**
+     * Конвертер списка Habit моделей между data и domain слоями
+     */
     @Mock
     private HabitListConverter habitListConverter;
+
+    /**
+     * Конвертер списка Progresses моделей между data и domain слоями
+     */
     @Mock
     private ProgressListConverter progressListConverter;
+
+    /**
+     * Конвертер HabitWithProgresses модели между data и domain слоями
+     */
     @Mock
     private HabitWithProgressesConverter habitWithProgressesConverter;
+
+    /**
+     * Конвертер списка HabitWithProgresses моделей между data и domain слоями
+     */
     @Mock
     private HabitWithProgressesListConverter habitWithProgressesListConverter;
+
+    /**
+     * Конвертер списка Statistic моделей между data и domain слоями
+     */
     @Mock
     private StatisticListConverter statisticListConverter;
 
@@ -66,6 +102,9 @@ public class HabitsDatabaseRepositoryTest {
         generatorData = new GeneratorData();
     }
 
+    /**
+     * Тестирование успешного добавления записи о привычки
+     */
     @Test
     public void insertHabitSuccess() {
 
@@ -88,14 +127,16 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование на получение ошибки при добавлении записи о привычки
+     */
     @Test
     public void insertHabitError() {
 
         Habit habit = generatorData.createHabit(1);
         HabitData habitData = generatorData.createHabitData(1);
 
-        String msg = "error";
-        Exception exception = new Exception(msg);
+        Exception exception = new Exception();
         Single<Long> single = Single.error(exception);
 
         when(habitConverter.convertFrom(habit)).thenReturn(habitData);
@@ -110,6 +151,9 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование успешного добавления списка записей дат выполнения
+     */
     @Test
     public void insertProgressListSuccess() {
 
@@ -130,14 +174,16 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование на получение ошибки при добавлении списка записей дат выполнения
+     */
     @Test
     public void insertProgressListError() {
 
         List<Progress> progressList = generatorData.createProgressList(1, 1, 2);
         List<ProgressData> progressDataList = generatorData.createProgressDataList(1, 1, 2);
 
-        String msg = "error";
-        Exception exception = new Exception(msg);
+        Exception exception = new Exception();
         Completable completable = Completable.error(exception);
 
         when(progressListConverter.convertFrom(progressList)).thenReturn(progressDataList);
@@ -152,6 +198,9 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование успешного добавления списка привычек с соответствующими датами выполнения
+     */
     // test
     @Test
     public void insertHabitWithProgressesListSuccess() {
@@ -159,6 +208,9 @@ public class HabitsDatabaseRepositoryTest {
         List<HabitWithProgressesData> habitWithProgressesDataList = generatorData.createHabitWithProgressesDataList();
     }
 
+    /**
+     * Тестирование успешной загрузка списка привычек
+     */
     @Test
     public void loadHabitListSuccess() {
 
@@ -189,11 +241,13 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование на получение ошибки при загрузки списка привычек
+     */
     @Test
     public void loadHabitListError() {
 
-        String msg = "error";
-        Exception exception = new Exception(msg);
+        Exception exception = new Exception();
         Flowable<List<HabitData>> flowable = Flowable.error(exception);
 
         when(habitDao.getHabitList()).thenReturn(flowable);
@@ -207,6 +261,9 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование успешного получения записей всех дат выполнения опредленной привычки
+     */
     @Test
     public void loadProgressListByIdHabitSuccess() {
         List<Progress> progressList = generatorData.createProgressList(1, 1, 2);
@@ -228,12 +285,14 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование на получение ошибки при получении записей всех дат выполнения опредленной привычки
+     */
     @Test
     public void loadProgressListByIdHabitError() {
 
         long idHabit = 1L;
-        String msg = "error";
-        Exception exception = new Exception(msg);
+        Exception exception = new Exception();
         Single<List<ProgressData>> single = Single.error(exception);
 
         when(habitDao.getProgressByHabit(idHabit)).thenReturn(single);
@@ -246,6 +305,9 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование успешного получение списка всех привычек с соответствующими датами выполнения
+     */
     @Test
     public void loadHabitWithProgressesListSuccess() {
 
@@ -268,11 +330,13 @@ public class HabitsDatabaseRepositoryTest {
 
     }
 
+    /**
+     * Тестирование на получение ошибки при получении списка всех привычек с соответствующими датами выполнения
+     */
     @Test
     public void loadHabitWithProgressesListError() {
 
-        String msg = "error";
-        Exception exception = new Exception(msg);
+        Exception exception = new Exception();
         Single<List<HabitWithProgressesData>> single = Single.error(exception);
 
         when(habitDao.getHabitWithProgressesList()).thenReturn(single);
@@ -283,14 +347,19 @@ public class HabitsDatabaseRepositoryTest {
 
         verify(habitDao).getHabitWithProgressesList();
         verifyNoMoreInteractions(habitDao);
-
     }
 
+    /**
+     * Тестирование успешного получения списка данных по привычкам с указанием количества выполненных дней
+     */
     // test
     @Test
     public void loadStatisticListSuccess() {
     }
 
+    /**
+     * Тестирование успешного удаления всех привычек
+     */
     @Test
     public void deleteAllHabitsSuccess() {
         Completable completable = Completable.complete();
@@ -306,10 +375,12 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование на получение ошибки при удалении всех привычек
+     */
     @Test
     public void deleteAllHabitsError() {
-        String msg = "error";
-        Exception exception = new Exception(msg);
+        Exception exception = new Exception();
         Completable completable = Completable.error(exception);
 
         when(habitDao.deleteAll()).thenReturn(completable);
@@ -322,6 +393,9 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование успешного удаления указанного списка дат выполнения
+     */
     @Test
     public void deleteProgressListSuccess() {
 
@@ -343,14 +417,16 @@ public class HabitsDatabaseRepositoryTest {
         verifyNoMoreInteractions(habitDao);
     }
 
+    /**
+     * Тестирование на получение ошибки при удалении указанного списка дат выполнения
+     */
     @Test
     public void deleteProgressListError() {
 
         List<Progress> progressList = generatorData.createProgressList(1, 1, 2);
         List<ProgressData> progressDataList = generatorData.createProgressDataList(1, 1, 2);
 
-        String msg = "error";
-        Exception exception = new Exception(msg);
+        Exception exception = new Exception();
 
         Completable completable = Completable.error(exception);
 
@@ -365,6 +441,4 @@ public class HabitsDatabaseRepositoryTest {
         verify(habitDao).deleteProgressList(progressDataList);
         verifyNoMoreInteractions(habitDao);
     }
-
-
 }
