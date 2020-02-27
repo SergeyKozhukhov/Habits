@@ -3,8 +3,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/victory">
+    android:background="@color/colorPrimary">
 
+    <ImageView
+        android:layout_marginTop="32dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/victory"/>
     <Button
         android:id="@+id/registration_account_button"
         android:layout_width="match_parent"
@@ -13,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@android:color/holo_orange_light"
-        style="@style/account_button_item"
+        style="@style/style_button"
         android:text="Регистрация" />
 
     <!--android:background="@android:color/transparent"-->
@@ -25,7 +31,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
-        style="@style/account_button_item"
+        style="@style/style_button"
         android:backgroundTint="@android:color/holo_orange_light"
         android:text="Авторизация" />
 

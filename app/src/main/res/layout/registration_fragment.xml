@@ -21,10 +21,6 @@
         android:layout_height="wrap_content"/>
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_fire" />
 
 
     <LinearLayout
@@ -37,7 +33,7 @@
 
         <EditText
             android:id="@+id/firstname_registration_edit_text"
-            style="@style/account_edit_text_item"
+            style="@style/style_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/account_edit_text_fill"
@@ -46,7 +42,7 @@
 
         <EditText
             android:id="@+id/lastname_registration_edit_text"
-            style="@style/account_edit_text_item"
+            style="@style/style_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/account_edit_text_fill"
@@ -55,7 +51,7 @@
 
         <EditText
             android:id="@+id/login_registration_edit_text"
-            style="@style/account_edit_text_item"
+            style="@style/style_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/account_edit_text_fill"
@@ -65,7 +61,7 @@
 
         <EditText
             android:id="@+id/password_registration_edit_text"
-            style="@style/account_edit_text_item"
+            style="@style/style_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/account_edit_text_fill"
@@ -74,7 +70,7 @@
 
         <EditText
             android:id="@+id/password_confirmation_edit_text"
-            style="@style/account_edit_text_item"
+            style="@style/style_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/account_edit_text_fill"
@@ -86,7 +82,7 @@
             android:id="@+id/request_registration_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/account_button_item"
+            style="@style/style_button"
             android:text="Регистрация" />
 
     </LinearLayout>

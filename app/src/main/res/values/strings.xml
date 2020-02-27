@@ -12,6 +12,10 @@
     <string name="change_progress_db_success_message">"Данные успешно модифицированы"</string>
     <string name="log_out_success_message">"Вы вышли из аккаунта"</string>
     <string name="get_jwt_success_message">"Пользователь идентифицирован"</string>
+    <string name="pref_account_title">Аккаунт</string>
+    <string name="pref_account_summary">Резервное копирование и восстановление данных</string>
+    <string name="pref_delete_all_title">Удаление всех записей</string>
+    <string name="pref_delete_all_summary">Удаление всей информации о привычках из базы данных</string>
 
 
 </resources>

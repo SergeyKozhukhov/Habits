@@ -18,8 +18,6 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 
-// https://github.com/eugenp/tutorials/tree/master/gson/src/test/java/com/baeldung/gson/serialization
-// https://www.baeldung.com/gson-deserialization-guide
 public class ConfidentialityDataTest {
 
     private static final String PATTERN = "yyyy-MM-dd";

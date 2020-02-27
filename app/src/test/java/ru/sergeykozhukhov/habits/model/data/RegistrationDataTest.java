@@ -26,7 +26,8 @@ public class RegistrationDataTest {
     @Test
     public void serializeRegistrationDataJsonSuccess() {
 
-        RegistrationData registrationDataInput = new RegistrationData("firstname", "lastname", "email@gmail.com", "password");
+        RegistrationData registrationDataInput =
+                new RegistrationData("firstname", "lastname", "email@gmail.com", "password");
 
         String jsonExpected = "{\"firstname\":\"firstname\"," +
                 "\"lastname\":\"lastname\"," +

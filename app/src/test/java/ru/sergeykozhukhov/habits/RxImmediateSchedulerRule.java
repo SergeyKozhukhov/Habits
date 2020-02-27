@@ -9,11 +9,6 @@ import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
 
-
-// https://www.infoq.com/articles/Testing-RxJava2/
-// https://medium.com/@boonkeat/android-test-driven-design-using-mvvm-rxjava-and-livedata-d7a38dc25913
-// https://github.com/SPHTech/TestDrivenMVVM/blob/master/app/src/test/java/sg/com/sph/testdrivenmvvm/RxImmediateSchedulerRule.kt
-// https://www.aanandshekharroy.com/articles/2018-01/rxjava-schedulers
 public class RxImmediateSchedulerRule implements TestRule {
 
     @Override
