@@ -95,8 +95,8 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
         private TextView titleHabitTextView;
         private TextView startDateHabitTextView;
-        private TextView durationHabitTextView;
         private TextView descriptionHabitTextView;
+        private TextView idHabitTextView;
 
         SimpleDateFormat dateFormat;
         GregorianCalendar calendar;
@@ -108,7 +108,7 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
 
             dateFormat = new SimpleDateFormat(
-                    "EEEE, d MMMM yyyy", // шаблон форматирования
+                    "dd.MM.yyyy", // шаблон форматирования
                     Locale.getDefault() // язык отображения (получение языка по-умолчанию)
             );
 
@@ -118,8 +118,8 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
             titleHabitTextView = itemView.findViewById(R.id.title_habit_text_view);
             startDateHabitTextView = itemView.findViewById(R.id.start_date_habit_text_view);
-            durationHabitTextView = itemView.findViewById(R.id.duration_habit_text_view);
             descriptionHabitTextView = itemView.findViewById(R.id.description_habit_text_view);
+            idHabitTextView = itemView.findViewById(R.id.id_habit_text_view);
             this.habitClickListener = habitClickListener;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -135,9 +135,10 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
             calendar.setTime(habit.getStartDate());
 
             titleHabitTextView.setText(habit.getTitle());
-            startDateHabitTextView.setText("Начало: " + dateFormat.format(calendar.getTime()));
-            durationHabitTextView.setText("Продолжительность: " + String.valueOf(habit.getDuration()));
+            startDateHabitTextView.setText("Начало: "+dateFormat.format(habit.getStartDate())+"\nДни: " + habit.getDuration());
             descriptionHabitTextView.setText(habit.getDescription());
+            int id = getAdapterPosition() + 1;
+            idHabitTextView.setText("№ "+id);
 
         }
     }

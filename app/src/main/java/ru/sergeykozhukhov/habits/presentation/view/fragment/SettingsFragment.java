@@ -1,5 +1,6 @@
 package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
@@ -27,7 +29,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.prefs, null);
+        setPreferencesFromResource(R.xml.settings, null);
         initListeners();
     }
 
@@ -51,7 +53,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         Preference deleteAllPreference = findPreference(getString(R.string.pref_delete_all_key));
         if (deleteAllPreference != null) {
             deleteAllPreference.setOnPreferenceClickListener(preference -> {
-                settingsViewModel.deleteAllHabits();
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Выполнить удаление всех записей?")
+                        .setMessage("Данная операция приведет к удалению всех привычек на телефоне, вы действительно хотите продолжить?")
+                        .setPositiveButton("Да", (dialog, which) -> settingsViewModel.deleteAllHabits())
+                        .setNegativeButton("Нет", null)
+                        .create().show();
                 return true;
             });
         }

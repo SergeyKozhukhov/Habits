@@ -14,7 +14,18 @@
         <item name="android:layout_marginEnd">16dp</item>
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/account_edit_text_fill</item>
+
+    </style>
+
+    <style name="style_text_view_id">
+
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:padding">16dp</item>
         <item name="android:background">@drawable/account_edit_text_fill</item>
 
     </style>
@@ -24,8 +35,9 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_marginStart">32dp</item>
         <item name="android:layout_marginEnd">32dp</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:paddingStart">16dp</item>
         <item name="android:padding">16dp</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
         <item name="android:background">@drawable/account_button_fill</item>
@@ -43,5 +55,21 @@
         <item name="android:background">@drawable/account_edit_text_fill</item>
 
     </style>
+
+    <style name="style_button_3">
+
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+        <item name="android:background">@drawable/account_button_fill</item>
+
+    </style>
+
+
 
 </resources>

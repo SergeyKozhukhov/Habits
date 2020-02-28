@@ -16,10 +16,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.savvi.rangedatepicker.CalendarPickerView;
 import com.savvi.rangedatepicker.SubTitle;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
@@ -68,7 +70,6 @@ public class ProgressFragment extends Fragment {
 
         titleHabitTextView = view.findViewById(R.id.title_habit_text_view);
         startDateHabitTextView = view.findViewById(R.id.start_date_habit_text_view);
-        durationHabitTextView = view.findViewById(R.id.duration_habit_text_view);
         descriptionHabitTextView = view.findViewById(R.id.description_habit_text_view);
 
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
@@ -98,9 +99,13 @@ public class ProgressFragment extends Fragment {
 
         Habit habit = getHabitFromArgs();
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "dd.MM.yyyy", // шаблон форматирования
+                Locale.getDefault() // язык отображения (получение языка по-умолчанию)
+        );
+
         titleHabitTextView.setText(habit.getTitle());
-        startDateHabitTextView.setText(habit.getStartDate().toString());
-        durationHabitTextView.setText("Продолжительность: " + String.valueOf(habit.getDuration()));
+        startDateHabitTextView.setText("Начало: " + dateFormat.format(habit.getStartDate()) + ", дни: " + (habit.getDuration()));
         descriptionHabitTextView.setText(habit.getDescription());
     }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -20,7 +20,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/item_habit_box"
             android:layout_gravity="center">
 
             <TextView
@@ -28,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:padding="16dp"
+                android:padding="4dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 tools:text="title" />
 
@@ -36,28 +35,21 @@
                 android:id="@+id/start_date_habit_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:layout_below="@id/title_habit_text_view"
-                android:padding="16dp"
-                tools:text="start date" />
-
-            <TextView
-                android:id="@+id/duration_habit_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/start_date_habit_text_view"
+                android:drawableStart="@drawable/ic_contract"
+                android:drawableEnd="@drawable/ic_contract"
                 android:gravity="center_horizontal"
-                android:padding="16dp"
-                tools:text="duration" />
+                android:padding="4dp"
+                tools:text="start date" />
 
             <TextView
                 android:id="@+id/description_habit_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/duration_habit_text_view"
+                android:layout_below="@id/start_date_habit_text_view"
                 android:gravity="center_horizontal"
+                android:padding="4dp"
                 android:textAlignment="inherit"
-                android:padding="16dp"
                 tools:text="description" />
 
 
@@ -70,10 +62,10 @@
         android:id="@+id/calendar_piker_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarStyle="outsideOverlay"
+        android:layout_marginTop="4dp"
         android:clipToPadding="false"
-        app:tsquare_orientation_horizontal="false"
-        />
+        android:scrollbarStyle="outsideOverlay"
+        app:tsquare_orientation_horizontal="false" />
 
 
 </LinearLayout>

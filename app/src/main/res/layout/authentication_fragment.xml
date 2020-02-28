@@ -2,14 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorBackground">
 
     <ImageView
-        android:paddingTop="64dp"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/ic_magnifying_glass"/>
+        android:layout_marginTop="24dp"
+        android:background="@drawable/ic_magnifying_glass" />
 
     <FrameLayout
         android:id="@+id/authentication_loading_view_frame_layout"
@@ -27,32 +27,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="64dp">
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/login_auth_edit_text"
-        style="@style/style_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_mail_outline_black"
-        android:text="ivanov@gmail.com" />
+        <EditText
+            android:id="@+id/login_auth_edit_text"
+            style="@style/style_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_mail_outline_black"
+            android:text="ivanov@gmail.com" />
 
-    <EditText
-        android:id="@+id/password_auth_edit_text"
-        style="@style/style_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_lock_outline_black"
-        android:text="workharhplayhard" />
+        <EditText
+            android:id="@+id/password_auth_edit_text"
+            style="@style/style_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_lock_outline_black"
+            android:text="workharhplayhard" />
 
-    <Button
-        android:id="@+id/request_auth_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/style_button"
-        android:text="Авторизация" />
+        <Button
+            android:id="@+id/request_auth_button"
+            style="@style/style_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="АВТОРИЗАЦИЯ"
+            android:textSize="24sp" />
 
     </LinearLayout>
 

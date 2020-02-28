@@ -1,0 +1,19 @@
+<vector android:height="24dp" android:viewportHeight="512"
+    android:viewportWidth="512" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#9abadb" android:pathData="m451,45v46h-120v-46c0,-24.902 50.098,-45 75,-45 24.402,0 45,19.945 45,45zM451,45"/>
+    <path android:fillColor="#9abadb" android:pathData="m451,391v46c0,25.008 -20.559,45 -45,45 -24.902,0 -75,-20.102 -75,-45v-46zM451,391"/>
+    <path android:fillColor="#e0f4ff" android:pathData="m406,482h-270c-41.398,0 -75,-34.602 -75,-76v-330c0,-41.398 33.602,-76 75,-76h270c-24.902,0 -45,20.098 -45,45v392c0,24.898 20.098,45 45,45zM406,482"/>
+    <path android:fillColor="#bbdcff" android:pathData="m406,482h-210v-482h210c-24.902,0 -45,20.098 -45,45v392c0,24.898 20.098,45 45,45zM406,482"/>
+    <path android:fillColor="#ff9100" android:pathData="m241,391v91l-45,30 -45,-30v-91zM241,391"/>
+    <path android:fillColor="#ff641a" android:pathData="m241,391v91l-45,30v-121zM241,391"/>
+    <path android:fillColor="#bbdcff" android:pathData="m121,91h180v30h-180zM121,91"/>
+    <path android:fillColor="#bbdcff" android:pathData="m121,151h180v30h-180zM121,151"/>
+    <path android:fillColor="#bbdcff" android:pathData="m121,211h180v30h-180zM121,211"/>
+    <path android:fillColor="#9abadb" android:pathData="m196,91h105v30h-105zM196,91"/>
+    <path android:fillColor="#9abadb" android:pathData="m196,151h105v30h-105zM196,151"/>
+    <path android:fillColor="#9abadb" android:pathData="m196,211h105v30h-105zM196,211"/>
+    <path android:fillColor="#fdbf00" android:pathData="m196,271.031c-41.484,0 -74.969,33.484 -74.969,74.969s33.484,74.969 74.969,74.969 74.969,-33.484 74.969,-74.969 -33.484,-74.969 -74.969,-74.969zM196,271.031"/>
+    <path android:fillColor="#ff9100" android:pathData="m271,346c0,41.398 -33.602,75 -75,75v-150c41.398,0 75,33.602 75,75zM271,346"/>
+    <path android:fillColor="#ff9100" android:pathData="m181,331h30v30h-30zM181,331"/>
+    <path android:fillColor="#ff641a" android:pathData="m196,331h15v30h-15zM196,331"/>
+</vector>

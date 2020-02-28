@@ -3,36 +3,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorBackground">
 
     <ImageView
-        android:layout_marginTop="32dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/victory"/>
+        android:layout_marginTop="32dp"
+        android:background="@drawable/ic_goal_cloud" />
+
     <Button
         android:id="@+id/registration_account_button"
+        style="@style/style_button_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/authentication_account_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@android:color/holo_orange_light"
-        style="@style/style_button"
-        android:text="Регистрация" />
+        android:text="РЕГИСТРАЦИЯ"
+        android:textSize="22sp" />
 
     <!--android:background="@android:color/transparent"-->
 
     <Button
         android:id="@+id/authentication_account_button"
+        style="@style/style_button_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
-        style="@style/style_button"
-        android:backgroundTint="@android:color/holo_orange_light"
-        android:text="Авторизация" />
+        android:text="АВТОРИЗАЦИЯ"
+        android:textSize="22sp" />
 
 </RelativeLayout>

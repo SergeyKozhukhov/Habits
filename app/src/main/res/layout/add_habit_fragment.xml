@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorBackground"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
@@ -53,10 +53,13 @@
             android:id="@+id/date_start_habit_edit_text"
             style="@style/style_edit_text"
             android:layout_width="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/date_start_habit_image_button"
             android:layout_height="wrap_content"
             android:layout_below="@id/description_habit_edit_text"
-            android:hint="Дата начала"
-            android:inputType="date" />
+            android:hint="Дата начала (формат: 01-01-2000)"
+            android:inputType="date"
+            android:singleLine="false" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/date_start_habit_image_button"
@@ -64,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/date_start_habit_edit_text"
+            android:layout_alignBottom="@id/date_start_habit_edit_text"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_date_range" />
 
