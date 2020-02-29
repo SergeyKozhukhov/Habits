@@ -1,6 +1,5 @@
 package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -28,6 +25,16 @@ import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
  * Fragment для отображения общего графика выполнения привычек
  */
 public class StatisticsFragment extends Fragment {
+
+    private static final float Y_AXIS_MIN = 0f;
+    private static final float Y_AXIS_MAX = 100f;
+    private static final int Y_ANIMATION_DURATION = 1500;
+
+    private static final float X_AXIS_TEXT_SIZE = 15f;
+    private static final float X_VISIBLE_RANGE_MIN = 15f;
+    private static final float X_VISIBLE_RANGE_MAX = 15f;
+
+    private static final float EXTRA_RIGHT_OFFSET = 45f;
 
     private StatisticsViewModel statisticsViewModel;
 
@@ -60,90 +67,52 @@ public class StatisticsFragment extends Fragment {
 
         statisticsViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(StatisticsViewModel.class);
 
-        statisticsViewModel.getLoadValueFormatterSuccessMutableLiveData().observe(getViewLifecycleOwner(), new Observer<ValueFormatter>() {
-            @Override
-            public void onChanged(ValueFormatter valueFormatter) {
+        statisticsViewModel.getValueFormatterMutableLiveData().observe(getViewLifecycleOwner(), this::initBarChartView);
 
-                progressHorizontalBarChart.getDescription().setEnabled(false);
-                progressHorizontalBarChart.getLegend().setEnabled(false);
-                progressHorizontalBarChart.setPinchZoom(false);
-                progressHorizontalBarChart.setAutoScaleMinMaxEnabled(true);
-                progressHorizontalBarChart.setDrawValueAboveBar(false);
+        statisticsViewModel.getLabelCountMutableLiveData().observe(getViewLifecycleOwner(), this::setBarChartLabelCount);
 
-                /*progressHorizontalBarChart.setVisibleXRangeMinimum(25f);
-                progressHorizontalBarChart.setVisibleXRangeMaximum(50f);*/
+        statisticsViewModel.getBarDataMutableLiveData().observe(getViewLifecycleOwner(), this::setBarChartData);
 
-                progressHorizontalBarChart.setVisibleXRangeMinimum(15f);
-                progressHorizontalBarChart.setVisibleXRangeMaximum(15f);
-
-                progressHorizontalBarChart.setDrawValueAboveBar(true);
-
-                //Display the axis on the left (contains the labels 1*, 2* and so on)
-                XAxis xAxis = progressHorizontalBarChart.getXAxis();
-                //xAxis.setDrawGridLines(false);
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                xAxis.setEnabled(true);
-                xAxis.setDrawAxisLine(true);
-                xAxis.setDrawLabels(true);
-
-                YAxis yLeft = progressHorizontalBarChart.getAxisLeft();
-
-                //Set the minimum and maximum bar lengths as per the values that they represent
-                yLeft.setAxisMaximum(100f);
-                yLeft.setAxisMinimum(0f);
-                yLeft.setEnabled(false);
-                yLeft.setDrawLabels(true);
-                yLeft.setDrawGridLinesBehindData(true);
-
-                //Now add the labels to be added on the vertical axis
-                xAxis.setValueFormatter(valueFormatter);
-                xAxis.setTextSize(15f);
-
-
-                YAxis yRight = progressHorizontalBarChart.getAxisRight();
-                //yRight.setDrawAxisLine(true);
-                yRight.setDrawGridLines(false);
-                yRight.setEnabled(false);
-
-                Legend legend = progressHorizontalBarChart.getLegend();
-
-                //Add animation to the graph
-                progressHorizontalBarChart.animateY(1500);
-
-                legend.setTextSize(20f);
-                legend.setTextColor(Color.BLACK);
-                legend.setForm(Legend.LegendForm.CIRCLE);
-            }
-        });
-
-        statisticsViewModel.getLoadBarDataSuccessMutableLiveData().observe(getViewLifecycleOwner(), new Observer<BarData>() {
-            @Override
-            public void onChanged(BarData barData) {
-
-                XAxis xAxis = progressHorizontalBarChart.getXAxis();
-                if (barData.getEntryCount() < 15)
-                    xAxis.setLabelCount(barData.getEntryCount());
-                else
-                    xAxis.setLabelCount(15);
-
-
-                //progressHorizontalBarChart.setDrawBarShadow(true);
-                progressHorizontalBarChart.setData(barData);
-                progressHorizontalBarChart.setExtraRightOffset(45f);
-                //progressHorizontalBarChart.setExtraLeftOffset(20f);
-                //progressHorizontalBarChart.setExtraBottomOffset(30.0f);
-                progressHorizontalBarChart.invalidate();
-
-            }
-        });
-
-        statisticsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show();
-            }
-        });
+        statisticsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
+                idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
         statisticsViewModel.loadGraphData();
+    }
+
+    private void initBarChartView(@NonNull ValueFormatter valueFormatter) {
+        progressHorizontalBarChart.getDescription().setEnabled(false);
+        progressHorizontalBarChart.getLegend().setEnabled(false);
+        progressHorizontalBarChart.setPinchZoom(false);
+        progressHorizontalBarChart.setDrawValueAboveBar(true);
+        progressHorizontalBarChart.setAutoScaleMinMaxEnabled(true);
+        progressHorizontalBarChart.setVisibleXRangeMinimum(X_VISIBLE_RANGE_MIN);
+        progressHorizontalBarChart.setVisibleXRangeMaximum(X_VISIBLE_RANGE_MAX);
+        progressHorizontalBarChart.setExtraRightOffset(EXTRA_RIGHT_OFFSET);
+
+        XAxis xAxis = progressHorizontalBarChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setEnabled(true);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawLabels(true);
+        xAxis.setValueFormatter(valueFormatter);
+        xAxis.setTextSize(X_AXIS_TEXT_SIZE);
+
+        YAxis yLeft = progressHorizontalBarChart.getAxisLeft();
+        yLeft.setAxisMaximum(Y_AXIS_MAX);
+        yLeft.setAxisMinimum(Y_AXIS_MIN);
+        yLeft.setEnabled(false);
+        yLeft.setDrawLabels(true);
+
+        progressHorizontalBarChart.animateY(Y_ANIMATION_DURATION);
+    }
+
+    private void setBarChartLabelCount(int labelCount) {
+        XAxis xAxis = progressHorizontalBarChart.getXAxis();
+        xAxis.setLabelCount(labelCount);
+    }
+
+    private void setBarChartData(BarData barData) {
+        progressHorizontalBarChart.setData(barData);
+        progressHorizontalBarChart.invalidate();
     }
 }
