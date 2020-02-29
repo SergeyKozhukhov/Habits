@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import ru.sergeykozhukhov.habits.domain.SingleLiveEvent;
 import ru.sergeykozhukhov.habits.domain.usecaseimpl.LoadHabitListDbInteractor;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
@@ -51,7 +53,10 @@ public class HabitsListViewModel extends ViewModel {
         isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(loadHabitsInteractor.loadHabitList()
                 .doOnTerminate(() -> isLoadingMutableLiveData.postValue(false))
-                .subscribe(habitListLiveData::postValue, throwable -> {
+                .subscribe(value -> {
+                    Collections.reverse(value);
+                    habitListLiveData.postValue(value);
+                }, throwable -> {
                     if (throwable instanceof LoadDbException) {
                         errorSingleLiveEvent.postValue((((LoadDbException) throwable).getMessageRes()));
                     }

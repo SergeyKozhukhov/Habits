@@ -28,12 +28,6 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
     private List<Habit> habitList;
 
-    private static int NEXT_ELEM = 1;
-    private static int NEXT_NEXT_ELEM = 2;
-    private static int LAST_ELEM = -1;
-    private static int LAST_LAST_ELEM = -2;
-
-
     public HabitsListAdapter() {
 
         habitList = new ArrayList<>();
@@ -54,8 +48,7 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
         notifyDataSetChanged();
     }
 
-    public void setHabitClickListener(IHabitClickListener habitClickListener)
-    {
+    public void setHabitClickListener(IHabitClickListener habitClickListener) {
         this.habitClickListener = habitClickListener;
     }
 
@@ -81,7 +74,7 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if (position>=1  && position <= getItemCount()-1){
+        if (position >= 1 && position <= getItemCount() - 1) {
 
         }
         return super.getItemViewType(position);
@@ -104,7 +97,6 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
         public ViewHolder(@NonNull final View itemView, IHabitClickListener habitClickListener) {
             super(itemView);
-
 
 
             dateFormat = new SimpleDateFormat(
@@ -135,10 +127,10 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
             calendar.setTime(habit.getStartDate());
 
             titleHabitTextView.setText(habit.getTitle());
-            startDateHabitTextView.setText("Начало: "+dateFormat.format(habit.getStartDate())+"\nДни: " + habit.getDuration());
+            startDateHabitTextView.setText("Начало: " + dateFormat.format(habit.getStartDate()) + "\nДни: " + habit.getDuration());
             descriptionHabitTextView.setText(habit.getDescription());
-            int id = getAdapterPosition() + 1;
-            idHabitTextView.setText("№ "+id);
+            int id = habitList.size() - getAdapterPosition();
+            idHabitTextView.setText("№ " + id);
 
         }
     }

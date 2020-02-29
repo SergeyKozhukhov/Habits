@@ -6,15 +6,17 @@
     android:background="@color/colorBackground">
 
     <ImageView
+        android:id="@+id/enter_image_1"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:background="@drawable/ic_goal_cloud" />
 
+
     <Button
         android:id="@+id/registration_account_button"
-        style="@style/style_button_3"
+        style="@style/style_button_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/authentication_account_button"
@@ -26,7 +28,7 @@
 
     <Button
         android:id="@+id/authentication_account_button"
-        style="@style/style_button_3"
+        style="@style/style_button_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

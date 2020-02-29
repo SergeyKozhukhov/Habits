@@ -85,7 +85,7 @@
 
         <Button
             android:id="@+id/add_habit_button"
-            style="@style/style_button"
+            style="@style/style_button_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_habit_edit_text"
