@@ -1,5 +1,7 @@
 package ru.sergeykozhukhov.habits.data.repository;
 
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -26,12 +28,9 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
 
     @Override
     public void saveJwt(@NonNull Jwt jwt) {
-        habitsPreferences.getSharedPreferences().edit().
-                putString(HabitsPreferences.JWT_PREFERENCES, jwt.getJwt()).
-                apply();
-        /*SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
+        SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
         editor.putString(HabitsPreferences.JWT_PREFERENCES, jwt.getJwt());
-        editor.apply();*/
+        editor.apply();
     }
 
     @Nullable
@@ -46,12 +45,9 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
 
     @Override
     public void deleteJwt() {
-        habitsPreferences.getSharedPreferences().edit()
-                .remove(HabitsPreferences.JWT_PREFERENCES)
-                .apply();
-        /*SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
+        SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
         editor.remove(HabitsPreferences.JWT_PREFERENCES);
-        editor.apply();*/
+        editor.apply();
     }
 
 
