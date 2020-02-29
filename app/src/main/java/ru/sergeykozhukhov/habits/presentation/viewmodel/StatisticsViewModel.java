@@ -8,6 +8,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.model.GradientColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,19 @@ import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
  */
 public class StatisticsViewModel extends ViewModel {
 
-    private static final int COLOR_YELLOW = 0xFFFFFF00;
+    /*private static final int COLOR_YELLOW = 0xFFfde910;
+    private static final int COLOR_YANDEX = 0xFFffba00;
+    //private static final int COLOR_YELLOW = 0xFFE7E700;
+    private static final int COLOR_GOLD = 0xFFFFD700;
+    private static final int COLOR_ORANGE = 0xFFFFA500;*/
+
+    private static final int COLOR_YELLOW = 0xFFFDF41C;
     private static final int COLOR_GOLD = 0xFFFFD700;
     private static final int COLOR_ORANGE = 0xFFFFA500;
+
+
+
+    GradientColor gradientColor = new GradientColor(COLOR_ORANGE, COLOR_GOLD);
 
     /**
      * Интерактора получения списка минимальной информации о привычках с соответствующим количеством выполненных дней
@@ -54,9 +65,10 @@ public class StatisticsViewModel extends ViewModel {
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new Consumer<List<Statistic>>() {
                     @Override
-                    public void accept(List<Statistic> statisticList) throws Exception {
+                    public void accept(List<Statistic> statisticList) {
 
                         List<BarEntry> entries = new ArrayList<>();
+                        List<GradientColor> gradientColorList = new ArrayList<>(statisticList.size());
                         List<Integer> listColor = new ArrayList<>(statisticList.size());
                         String[] strings = new String[statisticList.size()];
                         List<String> stringList = new ArrayList<>(statisticList.size());
@@ -73,6 +85,7 @@ public class StatisticsViewModel extends ViewModel {
                                 color = COLOR_GOLD;
                             }
                             listColor.add(color);
+                            gradientColorList.add(gradientColor);
                             strings[(int) indexX] = String.valueOf(statistic.getTitle());
                             stringList.add(String.valueOf(statistic.getIdHabit()));
                             indexX = indexX + 1.0f;
@@ -81,7 +94,7 @@ public class StatisticsViewModel extends ViewModel {
                         BarDataSet barDataSet = new BarDataSet(entries, "Bar Data Set");
                         //barDataSet.setStackLabels(strings);
                         barDataSet.setColors(listColor);
-                        barDataSet.setValueTextSize(9f);
+                        barDataSet.setValueTextSize(15f);
 
                         //barDataSet.setBarShadowColor(Color.argb(40, 150, 150, 150));
                         BarData data = new BarData(barDataSet);
@@ -93,7 +106,7 @@ public class StatisticsViewModel extends ViewModel {
                         ValueFormatter valueFormatter = new ValueFormatter() {
                             @Override
                             public String getAxisLabel(float value, AxisBase axis) {
-                                return String.valueOf(statisticList.get((int) value).getTitle());
+                                return String.valueOf(statisticList.get((int) value).getIdHabit());
                             }
 
                             /*@Override

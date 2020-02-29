@@ -59,7 +59,6 @@ public class HabitsListFragment extends Fragment {
                         .setMinScale(0.4f)
                         .setMoveSpeed(0.3f)
                         .build()
-
         );
         new CenterSnapHelper().attachToRecyclerView(habitsListRecyclerView);
 

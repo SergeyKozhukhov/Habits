@@ -73,6 +73,11 @@ public class StatisticsFragment extends Fragment {
                 /*progressHorizontalBarChart.setVisibleXRangeMinimum(25f);
                 progressHorizontalBarChart.setVisibleXRangeMaximum(50f);*/
 
+                progressHorizontalBarChart.setVisibleXRangeMinimum(15f);
+                progressHorizontalBarChart.setVisibleXRangeMaximum(15f);
+
+                progressHorizontalBarChart.setDrawValueAboveBar(true);
+
                 //Display the axis on the left (contains the labels 1*, 2* and so on)
                 XAxis xAxis = progressHorizontalBarChart.getXAxis();
                 //xAxis.setDrawGridLines(false);
@@ -92,6 +97,7 @@ public class StatisticsFragment extends Fragment {
 
                 //Now add the labels to be added on the vertical axis
                 xAxis.setValueFormatter(valueFormatter);
+                xAxis.setTextSize(15f);
 
 
                 YAxis yRight = progressHorizontalBarChart.getAxisRight();
@@ -102,7 +108,7 @@ public class StatisticsFragment extends Fragment {
                 Legend legend = progressHorizontalBarChart.getLegend();
 
                 //Add animation to the graph
-                progressHorizontalBarChart.animateY(2000);
+                progressHorizontalBarChart.animateY(1500);
 
                 legend.setTextSize(20f);
                 legend.setTextColor(Color.BLACK);
@@ -115,13 +121,19 @@ public class StatisticsFragment extends Fragment {
             public void onChanged(BarData barData) {
 
                 XAxis xAxis = progressHorizontalBarChart.getXAxis();
-                xAxis.setLabelCount(barData.getEntryCount());
+                if (barData.getEntryCount() < 15)
+                    xAxis.setLabelCount(barData.getEntryCount());
+                else
+                    xAxis.setLabelCount(15);
+
 
                 //progressHorizontalBarChart.setDrawBarShadow(true);
                 progressHorizontalBarChart.setData(barData);
+                progressHorizontalBarChart.setExtraRightOffset(45f);
                 //progressHorizontalBarChart.setExtraLeftOffset(20f);
                 //progressHorizontalBarChart.setExtraBottomOffset(30.0f);
                 progressHorizontalBarChart.invalidate();
+
             }
         });
 

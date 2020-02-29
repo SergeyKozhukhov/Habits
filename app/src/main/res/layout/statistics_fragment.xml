@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:background="@drawable/statistic_title_fill"
+        android:drawableLeft="@drawable/ic_grath"
+        android:drawableRight="@drawable/ic_grath"
+        android:text="Процент выполнения привычек"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textSize="18sp" />
+
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:id="@+id/progress_horizontal_bar_chart"
         android:layout_width="match_parent"
