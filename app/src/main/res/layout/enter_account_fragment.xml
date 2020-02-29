@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="120dp"
         android:transitionName="shared_authentication_button"
         android:text="АВТОРИЗАЦИЯ"
         android:textSize="22sp" />

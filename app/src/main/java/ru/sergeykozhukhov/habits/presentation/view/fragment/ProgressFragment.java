@@ -1,5 +1,7 @@
 package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +53,8 @@ public class ProgressFragment extends Fragment {
     private TextView durationHabitTextView;
     private TextView descriptionHabitTextView;
 
+    private ObjectAnimator objectAnimator1;
+
     public static ProgressFragment newInstance() {
         return new ProgressFragment();
     }
@@ -88,6 +92,15 @@ public class ProgressFragment extends Fragment {
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
         cardView = view.findViewById(R.id.progress_card_view);
 
+
+        float translationY = 300f;
+        PropertyValuesHolder alphaHolder = PropertyValuesHolder.ofFloat(View.SCALE_X, translationY, 1);
+
+        int DURATION = 750;
+        objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(calendarProgressPickerView, alphaHolder);
+        objectAnimator1.setDuration(DURATION);
+
+
         cardView.setTransitionName(getTransitionName());
     }
 
@@ -98,11 +111,14 @@ public class ProgressFragment extends Fragment {
         initData();
         setupMvvm();
         initListeners();
+
+        objectAnimator1.start();
     }
 
     @Override
     public void onStop() {
         progressViewModel.saveProgressList();
+        objectAnimator1.end();
         super.onStop();
     }
 
