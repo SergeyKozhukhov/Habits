@@ -31,7 +31,7 @@
             android:gravity="center_horizontal"
             android:padding="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textSize="36sp"
+            android:textSize="28sp"
             tools:text="title" />
 
         <TextView
@@ -57,25 +57,26 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/start_date_habit_text_view"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="16dp"
             android:drawableLeft="@drawable/ic_title"
             android:gravity="center_horizontal"
             android:padding="16dp"
             android:textAlignment="inherit"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textSize="24sp"
+            android:textSize="22sp"
             tools:text="description" />
 
         <TextView
             android:id="@+id/id_habit_text_view"
-            style="@style/style_text_view_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/description_habit_text_view"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/item_habit_id"
             android:text="№"
-            android:textSize="12sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             tools:text="1" />
 
     </RelativeLayout>
