@@ -25,6 +25,8 @@ public class EnterAccountFragment extends Fragment {
         return new EnterAccountFragment();
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,12 +50,12 @@ public class EnterAccountFragment extends Fragment {
         openRegistrationButton.setOnClickListener(v -> {
             FragmentActivity activity = getActivity();
             if (activity instanceof OnViewsClickListener)
-                ((OnViewsClickListener) activity).onRegistrationClick();
+                ((OnViewsClickListener) activity).onRegistrationClick(v);
         });
         openAuthenticationButton.setOnClickListener(v -> {
             FragmentActivity activity = getActivity();
             if (activity instanceof OnViewsClickListener)
-                ((OnViewsClickListener) activity).onAuthenticationClick();
+                ((OnViewsClickListener) activity).onAuthenticationClick(v);
         });
     }
 
@@ -65,12 +67,12 @@ public class EnterAccountFragment extends Fragment {
         /**
          * Обработка нажатия на кнопку регистрации
          */
-        void onRegistrationClick();
+        void onRegistrationClick(View view);
 
         /**
          * Обработка нажатия на кнопку авторизации
          */
-        void onAuthenticationClick();
+        void onAuthenticationClick(View view);
     }
 
 

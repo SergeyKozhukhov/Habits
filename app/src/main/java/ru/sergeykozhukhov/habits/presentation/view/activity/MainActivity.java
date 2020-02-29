@@ -2,6 +2,7 @@ package ru.sergeykozhukhov.habits.presentation.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -9,14 +10,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.AddHabitFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.HabitsListFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.ProgressFragment;
+import ru.sergeykozhukhov.habits.presentation.view.fragment.RegistrationFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.SettingsFragment;
 import ru.sergeykozhukhov.habits.presentation.view.fragment.StatisticsFragment;
 
@@ -84,8 +89,13 @@ public class MainActivity extends AppCompatActivity implements
      * Обработчик нажатия на кнопку перехода к добавлению новой привычки
      */
     @Override
-    public void onAddHabitClick() {
-        replaceFragment(AddHabitFragment.newInstance(), true);
+    public void onAddHabitClick(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addSharedElement(view, Objects.requireNonNull(ViewCompat.getTransitionName(view)))
+                .replace(R.id.host_fragment_frame_layout, AddHabitFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
@@ -94,8 +104,15 @@ public class MainActivity extends AppCompatActivity implements
      * @param habit привычка
      */
     @Override
-    public void onItemHabitListClick(@NonNull Habit habit) {
-        replaceFragment(ProgressFragment.newInstance(habit), true);
+    public void onItemHabitListClick(@NonNull Habit habit, @NonNull View view) {
+        String string = ViewCompat.getTransitionName(view);
+        /*replaceFragment(ProgressFragment.newInstance(habit), true);*/
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addSharedElement(view, Objects.requireNonNull(ViewCompat.getTransitionName(view)))
+                .replace(R.id.host_fragment_frame_layout, ProgressFragment.newInstance(habit, string))
+                .addToBackStack(null)
+                .commit();
     }
 
     /**

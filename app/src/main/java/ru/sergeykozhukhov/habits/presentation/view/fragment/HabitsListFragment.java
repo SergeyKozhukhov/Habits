@@ -80,17 +80,17 @@ public class HabitsListFragment extends Fragment {
 
     private void initListeners() {
 
-        habitClickListener = habit -> {
-            FragmentActivity activity = getActivity();
+        habitClickListener = (habit, view) -> {
+            FragmentActivity activity = HabitsListFragment.this.getActivity();
             if (activity instanceof OnViewsClickListener)
-                ((OnViewsClickListener) activity).onItemHabitListClick(habit);
+                ((OnViewsClickListener) activity).onItemHabitListClick(habit, view);
         };
         habitsListAdapter.setHabitClickListener(habitClickListener);
 
         openAddFragmentFloatingActionButton.setOnClickListener(v -> {
             FragmentActivity activity = getActivity();
             if (activity instanceof OnViewsClickListener)
-                ((OnViewsClickListener) activity).onAddHabitClick();
+                ((OnViewsClickListener) activity).onAddHabitClick(v);
         });
     }
 
@@ -121,14 +121,14 @@ public class HabitsListFragment extends Fragment {
         /**
          * Обработчик нажатия на кнопку добавления новой привычки
          */
-        void onAddHabitClick();
+        void onAddHabitClick(View view);
 
         /**
          * Обработчик нажатия на элемент из списка привычек
          *
          * @param habit привычка
          */
-        void onItemHabitListClick(@NonNull Habit habit);
+        void onItemHabitListClick(@NonNull Habit habit, View view);
     }
 
 }

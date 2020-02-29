@@ -27,10 +27,10 @@
         <ImageView
             android:layout_width="200dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:background="@drawable/ic_growth"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_growth" />
 
 
         <EditText
@@ -86,8 +86,9 @@
             style="@style/style_button_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="РЕГИСТРАЦИЯ"
             android:textSize="24sp"
-            android:text="РЕГИСТРАЦИЯ" />
+            android:transitionName="shared_registration_button" />
 
     </LinearLayout>
 

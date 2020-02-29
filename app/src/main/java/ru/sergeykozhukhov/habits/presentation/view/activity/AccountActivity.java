@@ -2,10 +2,15 @@ package ru.sergeykozhukhov.habits.presentation.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.view.View;
+
+
+import java.util.Objects;
 
 import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.AccountManagerViewModel;
@@ -50,16 +55,27 @@ public class AccountActivity extends AppCompatActivity implements
      * Обработчик нажатия на кнопку открытия регистрации
      */
     @Override
-    public void onRegistrationClick() {
-        replaceFragment(RegistrationFragment.newInstance(), true);
+    public void onRegistrationClick(View view) {
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addSharedElement(view, Objects.requireNonNull(ViewCompat.getTransitionName(view)))
+                .replace(R.id.account_host, RegistrationFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
     }
 
     /**
      * Обработчик нажатия на кнопку входа в существующий аккаунт
      */
     @Override
-    public void onAuthenticationClick() {
-        replaceFragment(AuthenticationFragment.newInstance(), true);
+    public void onAuthenticationClick(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addSharedElement(view, Objects.requireNonNull(ViewCompat.getTransitionName(view)))
+                .replace(R.id.account_host, AuthenticationFragment.newInstance())
+                .addToBackStack(null)
+                .commit();
     }
 
     /**

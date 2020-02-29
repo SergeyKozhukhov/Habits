@@ -5,11 +5,13 @@
     android:background="@color/colorBackground">
 
     <ImageView
+        android:id="@+id/icon_auth_image_view"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="36dp"
-        android:background="@drawable/ic_magnifying_glass" />
+        android:background="@drawable/ic_magnifying_glass"
+        android:transitionName="shared_icon_auth_image_view"/>
 
     <FrameLayout
         android:id="@+id/authentication_loading_view_frame_layout"
@@ -57,7 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="АВТОРИЗАЦИЯ"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:transitionName="shared_authentication_button" />
 
     </LinearLayout>
 

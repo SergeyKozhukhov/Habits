@@ -107,7 +107,6 @@ public class AccountViewModel extends ViewModel {
                         errorSingleLiveEvent.postValue(((BackupException) throwable).getMessageRes());
                     }
                 }));
-
     }
 
     /**

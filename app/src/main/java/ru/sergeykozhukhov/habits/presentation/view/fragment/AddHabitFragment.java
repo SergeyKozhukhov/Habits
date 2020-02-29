@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.transition.TransitionInflater;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,6 +45,12 @@ public class AddHabitFragment extends Fragment {
 
     public static Fragment newInstance() {
         return new AddHabitFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
     }
 
     @Nullable

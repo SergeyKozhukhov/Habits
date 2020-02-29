@@ -31,7 +31,8 @@
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/ic_user"
-            android:paddingBottom="32dp" />
+            android:paddingBottom="32dp"
+            android:transitionName="shared_icon_auth_image_view" />
     </FrameLayout>
 
 

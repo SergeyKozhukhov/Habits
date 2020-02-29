@@ -9,6 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.leochuan.CarouselLayoutManager;
@@ -84,7 +86,7 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
         private IHabitClickListener habitClickListener;
 
-        private RelativeLayout relativeLayout;
+        private CardView cardView;
 
         private TextView titleHabitTextView;
         private TextView startDateHabitTextView;
@@ -106,23 +108,28 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
             calendar = new GregorianCalendar();
 
-            relativeLayout = itemView.findViewById(R.id.habit_item_relative_layout);
+            cardView = itemView.findViewById(R.id.host_habit_card_view);
 
             titleHabitTextView = itemView.findViewById(R.id.title_habit_text_view);
             startDateHabitTextView = itemView.findViewById(R.id.start_date_habit_text_view);
             descriptionHabitTextView = itemView.findViewById(R.id.description_habit_text_view);
             idHabitTextView = itemView.findViewById(R.id.id_habit_text_view);
+
+
+
             this.habitClickListener = habitClickListener;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    habitClickListener.onItemClick(habitList.get(getAdapterPosition()));
+                    habitClickListener.onItemClick(habitList.get(getAdapterPosition()), cardView);
                 }
             });
 
         }
 
         void bindView(final Habit habit) {
+
+            ViewCompat.setTransitionName(cardView, "transitionName"+(habitList.get(getAdapterPosition()).getIdHabit()));
 
             calendar.setTime(habit.getStartDate());
 
@@ -132,11 +139,13 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
             int id = habitList.size() - getAdapterPosition();
             idHabitTextView.setText("№ " + id);
 
+
+
         }
     }
 
     public interface IHabitClickListener {
-        void onItemClick(Habit habit);
+        void onItemClick(Habit habit, View view);
     }
 }
 

@@ -4,14 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.transition.TransitionInflater;
 
 import com.savvi.rangedatepicker.CalendarPickerView;
 import com.savvi.rangedatepicker.SubTitle;
@@ -34,10 +37,14 @@ import ru.sergeykozhukhov.habits.presentation.viewmodel.ProgressViewModel;
 public class ProgressFragment extends Fragment {
 
     private static final String ARG_HABIT = "ARG_HABIT";
+    private static final String EXTRA_TRANSITION_NAME = "transition_name";
 
     private ProgressViewModel progressViewModel;
 
     private CalendarPickerView calendarProgressPickerView;
+
+    private CardView cardView;
+    private RelativeLayout relativeLayout;
 
     private TextView titleHabitTextView;
     private TextView startDateHabitTextView;
@@ -48,15 +55,21 @@ public class ProgressFragment extends Fragment {
         return new ProgressFragment();
     }
 
-    public static ProgressFragment newInstance(@NonNull Habit habit) {
+    public static ProgressFragment newInstance(@NonNull Habit habit, String transitionName) {
 
         ProgressFragment progressFragment = new ProgressFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_HABIT, habit);
+        args.putString(EXTRA_TRANSITION_NAME, transitionName);
         progressFragment.setArguments(args);
         return progressFragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
+    }
 
     @Nullable
     @Override
@@ -73,6 +86,9 @@ public class ProgressFragment extends Fragment {
         descriptionHabitTextView = view.findViewById(R.id.description_habit_text_view);
 
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
+        cardView = view.findViewById(R.id.progress_card_view);
+
+        cardView.setTransitionName(getTransitionName());
     }
 
     @Override
@@ -166,5 +182,15 @@ public class ProgressFragment extends Fragment {
         if (habit == null)
             throw new IllegalStateException("Habits must be set");
         return habit;
+    }
+
+    private String getTransitionName() {
+        Bundle arguments = getArguments();
+        if (arguments == null)
+            throw new IllegalStateException("Arguments must be set");
+        String transitionNmae = arguments.getString(EXTRA_TRANSITION_NAME);
+        if (transitionNmae == null)
+            throw new IllegalStateException("Habits must be set");
+        return transitionNmae;
     }
 }

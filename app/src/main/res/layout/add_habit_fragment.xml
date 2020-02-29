@@ -89,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_habit_edit_text"
+            android:transitionName="shared_add_habit_floating_action_button"
             android:text="Добавить" />
 
 

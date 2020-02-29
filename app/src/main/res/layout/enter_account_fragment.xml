@@ -14,17 +14,18 @@
         android:background="@drawable/ic_goal_cloud" />
 
 
+    <!--android:background="@android:color/transparent"-->
+
     <Button
         android:id="@+id/registration_account_button"
         style="@style/style_button_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/authentication_account_button"
-        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="19dp"
         android:text="РЕГИСТРАЦИЯ"
-        android:textSize="22sp" />
-
-    <!--android:background="@android:color/transparent"-->
+        android:textSize="22sp"
+        android:transitionName="shared_registration_button" />
 
     <Button
         android:id="@+id/authentication_account_button"
@@ -34,6 +35,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"
+        android:transitionName="shared_authentication_button"
         android:text="АВТОРИЗАЦИЯ"
         android:textSize="22sp" />
 
