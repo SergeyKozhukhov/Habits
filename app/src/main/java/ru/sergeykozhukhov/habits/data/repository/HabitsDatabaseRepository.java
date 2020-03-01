@@ -138,7 +138,7 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     /**
      * Получение записей всех привычек
      *
-     * @return
+     * @return flowable со списком привычек
      */
     @NonNull
     @Override

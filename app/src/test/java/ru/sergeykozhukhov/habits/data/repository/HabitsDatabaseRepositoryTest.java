@@ -244,11 +244,7 @@ public class HabitsDatabaseRepositoryTest {
         Exception exception = new Exception();
 
         when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(0))).thenReturn(habitWithProgressesDataList.get(0));
-        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(1))).thenReturn(habitWithProgressesDataList.get(1));
         when(habitDao.insertHabit(habitWithProgressesDataList.get(0).getHabitData())).thenReturn(Single.error(exception));
-        when(habitDao.insertHabit(habitWithProgressesDataList.get(1).getHabitData())).thenReturn(Single.just(2L));
-        when(habitDao.insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList())).thenReturn(Completable.complete());
-        when(habitDao.insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList())).thenReturn(Completable.complete());
 
         habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgressesList)
                 .test()
@@ -278,11 +274,8 @@ public class HabitsDatabaseRepositoryTest {
         Exception exception = new Exception();
 
         when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(0))).thenReturn(habitWithProgressesDataList.get(0));
-        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(1))).thenReturn(habitWithProgressesDataList.get(1));
         when(habitDao.insertHabit(habitWithProgressesDataList.get(0).getHabitData())).thenReturn(Single.just(1L));
-        when(habitDao.insertHabit(habitWithProgressesDataList.get(1).getHabitData())).thenReturn(Single.just(2L));
         when(habitDao.insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList())).thenReturn(Completable.error(exception));
-        when(habitDao.insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList())).thenReturn(Completable.complete());
 
         habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgressesList)
                 .test()
