@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
+
     <ImageView
         android:id="@+id/icon_auth_image_view"
         android:layout_width="300dp"
@@ -11,20 +12,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="36dp"
         android:background="@drawable/ic_magnifying_glass"
-        android:transitionName="shared_icon_auth_image_view"/>
-
-    <FrameLayout
-        android:id="@+id/authentication_loading_view_frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
-
+        android:scaleType="centerInside"
+        android:transitionName="shared_icon_auth_image_view" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,8 +29,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_mail_outline_black"
             android:hint="Email"
-            android:inputType="textWebEmailAddress|textEmailAddress"
-            android:text="ivanov@gmail.com" />
+            android:inputType="textWebEmailAddress|textEmailAddress" />
 
         <EditText
             android:id="@+id/password_auth_edit_text"
@@ -50,8 +38,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_lock_outline_black"
             android:hint="Пароль"
-            android:inputType="textPassword"
-            android:text="workharhplayhard" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/request_auth_button"
@@ -63,6 +50,18 @@
             android:transitionName="shared_authentication_button" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/authentication_loading_view_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 
 </FrameLayout>

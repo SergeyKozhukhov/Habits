@@ -12,8 +12,6 @@
         android:paddingTop="32dp"
         android:background="@android:color/white">
 
-
-
     </FrameLayout>
 
     <ImageView
@@ -55,7 +53,7 @@
             style="@style/style_edit_text"
             android:layout_width="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@id/date_start_habit_image_button"
+            android:layout_toStartOf="@id/date_start_habit_image_button"
             android:layout_height="wrap_content"
             android:layout_below="@id/description_habit_edit_text"
             android:hint="Дата начала"

@@ -60,14 +60,20 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.savvi.rangedatepicker.CalendarPickerView
-        android:id="@+id/calendar_piker_view"
+    <FrameLayout
+        android:id="@+id/calendar_piker_view_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
-        android:clipToPadding="false"
-        android:scrollbarStyle="outsideOverlay"
-        app:tsquare_orientation_horizontal="false" />
+        android:layout_height="match_parent">
+
+        <com.savvi.rangedatepicker.CalendarPickerView
+            android:id="@+id/calendar_piker_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
+            app:tsquare_orientation_horizontal="false" />
+    </FrameLayout>
 
 
 </LinearLayout>

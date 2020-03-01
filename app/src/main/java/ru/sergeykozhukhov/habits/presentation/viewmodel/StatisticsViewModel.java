@@ -91,9 +91,11 @@ public class StatisticsViewModel extends ViewModel {
                         }
                     };
 
-                    barDataMutableLiveData.postValue(barData);
-                    labelCountMutableLiveData.postValue(barData.getEntryCount() < LABEL_COUNT_MAX ? barData.getEntryCount() : LABEL_COUNT_MAX);
-                    valueFormatterMutableLiveData.postValue(valueFormatter);
+                    if (barDataSet.getEntryCount() > 1) {
+                        barDataMutableLiveData.postValue(barData);
+                        labelCountMutableLiveData.postValue(barData.getEntryCount() < LABEL_COUNT_MAX ? barData.getEntryCount() : LABEL_COUNT_MAX);
+                        valueFormatterMutableLiveData.postValue(valueFormatter);
+                    }
 
                 }, throwable -> {
                     if (throwable instanceof LoadDbException) {

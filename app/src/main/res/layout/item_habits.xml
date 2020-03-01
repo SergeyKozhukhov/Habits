@@ -15,7 +15,7 @@
     <RelativeLayout
         android:id="@+id/habit_item_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:alpha="1.0">
 
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/description_habit_text_view"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/item_habit_id"
             android:text="№"
             android:textSize="20sp"

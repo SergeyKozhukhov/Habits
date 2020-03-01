@@ -51,6 +51,7 @@ public class AddHabitFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
+        setSharedElementReturnTransition(null);
     }
 
     @Nullable

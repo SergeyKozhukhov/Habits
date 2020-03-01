@@ -1,5 +1,6 @@
 package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +77,7 @@ public class StatisticsFragment extends Fragment {
         statisticsViewModel.getErrorSingleLiveEvent().observe(getViewLifecycleOwner(),
                 idRes -> Toast.makeText(requireContext(), getString(idRes), Toast.LENGTH_SHORT).show());
 
+        setNoDataChartView();
         statisticsViewModel.loadGraphData();
     }
 
@@ -88,6 +90,7 @@ public class StatisticsFragment extends Fragment {
         progressHorizontalBarChart.setVisibleXRangeMinimum(X_VISIBLE_RANGE_MIN);
         progressHorizontalBarChart.setVisibleXRangeMaximum(X_VISIBLE_RANGE_MAX);
         progressHorizontalBarChart.setExtraRightOffset(EXTRA_RIGHT_OFFSET);
+
 
         XAxis xAxis = progressHorizontalBarChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -104,6 +107,11 @@ public class StatisticsFragment extends Fragment {
         yLeft.setDrawLabels(true);
 
         progressHorizontalBarChart.animateY(Y_ANIMATION_DURATION);
+    }
+
+    private void setNoDataChartView() {
+        progressHorizontalBarChart.setNoDataTextColor(R.color.green);
+        progressHorizontalBarChart.setNoDataText("Слишком мало данных для построения графика");
     }
 
     private void setBarChartLabelCount(int labelCount) {

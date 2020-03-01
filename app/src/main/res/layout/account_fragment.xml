@@ -6,20 +6,6 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/account_loading_frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:outlineSpotShadowColor="@color/yellow" />
-    </FrameLayout>
-
-    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
@@ -48,15 +34,15 @@
             style="@style/style_button_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_upload"
-            android:text="Резеравное копирование" />
+            android:drawableStart="@drawable/ic_upload"
+            android:text="Резервное копирование" />
 
         <Button
             android:id="@+id/replication_button"
             style="@style/style_button_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_download"
+            android:drawableStart="@drawable/ic_download"
             android:text="Восстановление данных" />
 
         <Button
@@ -64,10 +50,23 @@
             style="@style/style_button_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_exit"
+            android:drawableStart="@drawable/ic_exit"
             android:text="Выход из аккаунта" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/account_loading_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 
 </FrameLayout>

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -35,15 +36,19 @@ public class AccountActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        setupMvvm();
+        setupMvvm(savedInstanceState);
     }
 
-    private void setupMvvm() {
+    private void setupMvvm(Bundle bundle) {
         accountManagerViewModel = new ViewModelProvider(this, new ViewModelFactory(this))
                 .get(AccountManagerViewModel.class);
 
-        accountManagerViewModel.getSuccessSingleLiveEvent().observe(this, idRes ->
-                replaceFragment(AccountFragment.newInstance(), false));
+        accountManagerViewModel.getSuccessSingleLiveEvent().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer idRes) {
+                AccountActivity.this.replaceFragment(AccountFragment.newInstance(), false);
+            }
+        });
 
         accountManagerViewModel.getErrorSingleLiveEvent().observe(this, idRes ->
                 replaceFragment(EnterAccountFragment.newInstance(), false));

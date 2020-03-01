@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ru.sergeykozhukhov.habits.presentation.view.activity.AccountActivity"></activity>
-        <activity android:name="ru.sergeykozhukhov.habits.presentation.view.activity.MainActivity">
+        <activity android:name="ru.sergeykozhukhov.habits.presentation.view.activity.AccountActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name="ru.sergeykozhukhov.habits.presentation.view.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

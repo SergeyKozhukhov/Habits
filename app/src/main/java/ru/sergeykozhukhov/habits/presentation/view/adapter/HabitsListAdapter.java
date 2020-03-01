@@ -116,7 +116,6 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
             idHabitTextView = itemView.findViewById(R.id.id_habit_text_view);
 
 
-
             this.habitClickListener = habitClickListener;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,17 +128,18 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
         void bindView(final Habit habit) {
 
-            ViewCompat.setTransitionName(cardView, "transitionName"+(habitList.get(getAdapterPosition()).getIdHabit()));
+            ViewCompat.setTransitionName(cardView, "transitionName" + (habitList.get(getAdapterPosition()).getIdHabit()));
 
             calendar.setTime(habit.getStartDate());
 
             titleHabitTextView.setText(habit.getTitle());
             startDateHabitTextView.setText("Начало: " + dateFormat.format(habit.getStartDate()) + "\nДни: " + habit.getDuration());
-            descriptionHabitTextView.setText(habit.getDescription());
+            String string = habit.getDescription();
+            if (string.length() > 35)
+                string = habit.getDescription().substring(0, 32) + "...";
+            descriptionHabitTextView.setText(string);
             int id = habitList.size() - getAdapterPosition();
             idHabitTextView.setText("№ " + id);
-
-
 
         }
     }

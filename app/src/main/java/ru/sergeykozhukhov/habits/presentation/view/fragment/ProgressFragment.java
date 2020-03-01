@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class ProgressFragment extends Fragment {
 
     private CardView cardView;
     private RelativeLayout relativeLayout;
+    private FrameLayout frameLayout;
 
     private TextView titleHabitTextView;
     private TextView startDateHabitTextView;
@@ -72,7 +74,7 @@ public class ProgressFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
+        //setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
     }
 
     @Nullable
@@ -91,13 +93,13 @@ public class ProgressFragment extends Fragment {
 
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
         cardView = view.findViewById(R.id.progress_card_view);
+        frameLayout = view.findViewById(R.id.calendar_piker_view_frame_layout);
 
+        //float translationY = 300f;
+        PropertyValuesHolder alphaHolder = PropertyValuesHolder.ofFloat(View.ALPHA, 0, 1);
 
-        float translationY = 300f;
-        PropertyValuesHolder alphaHolder = PropertyValuesHolder.ofFloat(View.SCALE_X, translationY, 1);
-
-        int DURATION = 750;
-        objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(calendarProgressPickerView, alphaHolder);
+        int DURATION = 1500;
+        objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(frameLayout, alphaHolder);
         objectAnimator1.setDuration(DURATION);
 
 
