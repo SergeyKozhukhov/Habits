@@ -10,7 +10,9 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
+import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.GeneratorData;
 import ru.sergeykozhukhov.habits.data.converter.HabitConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitListConverter;
@@ -22,10 +24,14 @@ import ru.sergeykozhukhov.habits.data.database.HabitDao;
 import ru.sergeykozhukhov.habits.model.data.HabitData;
 import ru.sergeykozhukhov.habits.model.data.HabitWithProgressesData;
 import ru.sergeykozhukhov.habits.model.data.ProgressData;
+import ru.sergeykozhukhov.habits.model.data.StatisticData;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.model.domain.HabitWithProgresses;
 import ru.sergeykozhukhov.habits.model.domain.Progress;
+import ru.sergeykozhukhov.habits.model.domain.Statistic;
+import ru.sergeykozhukhov.habits.model.domain.exception.InsertDbException;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -201,11 +207,96 @@ public class HabitsDatabaseRepositoryTest {
     /**
      * Тестирование успешного добавления списка привычек с соответствующими датами выполнения
      */
-    // test
     @Test
     public void insertHabitWithProgressesListSuccess() {
         List<HabitWithProgresses> habitWithProgressesList = generatorData.createHabitWithProgressesList();
         List<HabitWithProgressesData> habitWithProgressesDataList = generatorData.createHabitWithProgressesDataList();
+
+        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(0))).thenReturn(habitWithProgressesDataList.get(0));
+        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(1))).thenReturn(habitWithProgressesDataList.get(1));
+        when(habitDao.insertHabit(habitWithProgressesDataList.get(0).getHabitData())).thenReturn(Single.just(1L));
+        when(habitDao.insertHabit(habitWithProgressesDataList.get(1).getHabitData())).thenReturn(Single.just(2L));
+        when(habitDao.insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList())).thenReturn(Completable.complete());
+        when(habitDao.insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList())).thenReturn(Completable.complete());
+
+        habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgressesList)
+                .test()
+                .assertComplete();
+
+        verify(habitWithProgressesConverter).convertFrom(habitWithProgressesList.get(0));
+        verify(habitDao).insertHabit(habitWithProgressesDataList.get(0).getHabitData());
+        verify(habitDao).insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList());
+        verify(habitWithProgressesConverter).convertFrom(habitWithProgressesList.get(1));
+        verify(habitDao).insertHabit(habitWithProgressesDataList.get(1).getHabitData());
+        verify(habitDao).insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList());
+        verifyNoMoreInteractions(habitDao);
+    }
+
+    /**
+     * Тестирование на получение ошибки вставки в базу данных при добавлении привычки
+     * в рамках добавления списка привычек с соответствующими датами выполнения
+     */
+    @Test
+    public void insertHabitWithProgressesListErrorInsertHabit() {
+        List<HabitWithProgresses> habitWithProgressesList = generatorData.createHabitWithProgressesList();
+        List<HabitWithProgressesData> habitWithProgressesDataList = generatorData.createHabitWithProgressesDataList();
+
+        Exception exception = new Exception();
+
+        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(0))).thenReturn(habitWithProgressesDataList.get(0));
+        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(1))).thenReturn(habitWithProgressesDataList.get(1));
+        when(habitDao.insertHabit(habitWithProgressesDataList.get(0).getHabitData())).thenReturn(Single.error(exception));
+        when(habitDao.insertHabit(habitWithProgressesDataList.get(1).getHabitData())).thenReturn(Single.just(2L));
+        when(habitDao.insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList())).thenReturn(Completable.complete());
+        when(habitDao.insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList())).thenReturn(Completable.complete());
+
+        habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgressesList)
+                .test()
+                .assertError(exception);
+
+        verify(habitWithProgressesConverter).convertFrom(habitWithProgressesList.get(0));
+
+        verify(habitDao).insertHabit(habitWithProgressesDataList.get(0).getHabitData());
+
+        verify(habitDao, never()).insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList());
+        verify(habitWithProgressesConverter, never()).convertFrom(habitWithProgressesList.get(1));
+        verify(habitDao, never()).insertHabit(habitWithProgressesDataList.get(1).getHabitData());
+        verify(habitDao, never()).insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList());
+
+        verifyNoMoreInteractions(habitDao);
+    }
+
+    /**
+     * Тестирование на получение ошибки вставки в базу данных при добавлении списка привычек
+     * в рамках добавления списка привычек с соответствующими датами выполнения
+     */
+    @Test
+    public void insertHabitWithProgressesListErrorInsertProgressList() {
+        List<HabitWithProgresses> habitWithProgressesList = generatorData.createHabitWithProgressesList();
+        List<HabitWithProgressesData> habitWithProgressesDataList = generatorData.createHabitWithProgressesDataList();
+
+        Exception exception = new Exception();
+
+        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(0))).thenReturn(habitWithProgressesDataList.get(0));
+        when(habitWithProgressesConverter.convertFrom(habitWithProgressesList.get(1))).thenReturn(habitWithProgressesDataList.get(1));
+        when(habitDao.insertHabit(habitWithProgressesDataList.get(0).getHabitData())).thenReturn(Single.just(1L));
+        when(habitDao.insertHabit(habitWithProgressesDataList.get(1).getHabitData())).thenReturn(Single.just(2L));
+        when(habitDao.insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList())).thenReturn(Completable.error(exception));
+        when(habitDao.insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList())).thenReturn(Completable.complete());
+
+        habitsDatabaseRepository.insertHabitWithProgressesList(habitWithProgressesList)
+                .test()
+                .assertError(exception);
+
+        verify(habitWithProgressesConverter).convertFrom(habitWithProgressesList.get(0));
+        verify(habitDao).insertHabit(habitWithProgressesDataList.get(0).getHabitData());
+        verify(habitDao).insertProgressList(habitWithProgressesDataList.get(0).getProgressDataList());
+
+        verify(habitWithProgressesConverter, never()).convertFrom(habitWithProgressesList.get(1));
+        verify(habitDao, never()).insertHabit(habitWithProgressesDataList.get(1).getHabitData());
+        verify(habitDao, never()).insertProgressList(habitWithProgressesDataList.get(1).getProgressDataList());
+
+        verifyNoMoreInteractions(habitDao);
     }
 
     /**
@@ -352,9 +443,42 @@ public class HabitsDatabaseRepositoryTest {
     /**
      * Тестирование успешного получения списка данных по привычкам с указанием количества выполненных дней
      */
-    // test
     @Test
     public void loadStatisticListSuccess() {
+
+        List<StatisticData> statisticDataList = generatorData.createStatisticDataList();
+        List<Statistic> statisticList = generatorData.createStatisticList();
+
+        when(habitDao.getStatisticList()).thenReturn(Single.just(statisticDataList));
+        when(statisticListConverter.convertTo(statisticDataList)).thenReturn(statisticList);
+
+        habitsDatabaseRepository.loadStatisticList()
+                .test()
+                .assertNoErrors()
+                .assertValue(statisticList);
+
+        verify(statisticListConverter).convertTo(statisticDataList);
+        verify(habitDao).getStatisticList();
+        verifyNoMoreInteractions(habitDao);
+    }
+
+    /**
+     * Тестирование на получение ошибки при получении списка данных по привычкам с указанием количества выполненных дней
+     */
+    @Test
+    public void loadStatisticListError() {
+
+        Exception exception = new Exception();
+        Single<List<StatisticData>> single = Single.error(exception);
+
+        when(habitDao.getStatisticList()).thenReturn(single);
+
+        habitsDatabaseRepository.loadStatisticList()
+                .test()
+                .assertError(exception);
+
+        verify(habitDao).getStatisticList();
+        verifyNoMoreInteractions(habitDao);
     }
 
     /**

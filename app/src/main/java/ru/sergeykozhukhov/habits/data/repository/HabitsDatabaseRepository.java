@@ -121,7 +121,7 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     @NonNull
     @Override
     public Completable insertHabitWithProgressesList(@NonNull List<HabitWithProgresses> habitWithProgressesList) {
-        /*return Observable.fromIterable(habitWithProgressesList)
+        return Observable.fromIterable(habitWithProgressesList)
                 .flatMapCompletable(habitWithProgresses -> {
                     HabitWithProgressesData habitWithProgressesData = habitWithProgressesConverter.convertFrom(habitWithProgresses);
                     return habitDao.insertHabit(habitWithProgressesData.getHabitData())
@@ -132,20 +132,7 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
                                 }
                                 return habitDao.insertProgressList(habitWithProgressesData.getProgressDataList());
                             });
-                });*/
-
-        return Completable.fromAction(() -> {
-            HabitWithProgressesData habitWithProgressesData;
-            for (HabitWithProgresses habitWithProgresses : habitWithProgressesList) {
-                habitWithProgressesData = habitWithProgressesConverter.convertFrom(habitWithProgresses);
-                long idHabit = habitDao.insertHabit(habitWithProgressesData.getHabitData()).blockingGet();
-                for (ProgressData progressData : habitWithProgressesData.getProgressDataList()) {
-                    progressData.setIdHabit(idHabit);
-                    Log.d(TAG, progressData.toString());
-                }
-                habitDao.insertProgressList(habitWithProgressesData.getProgressDataList()).subscribe();
-            }
-        });
+                });
     }
 
     /**
