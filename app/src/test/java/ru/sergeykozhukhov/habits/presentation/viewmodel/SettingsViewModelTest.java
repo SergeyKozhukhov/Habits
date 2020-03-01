@@ -60,27 +60,4 @@ public class SettingsViewModelTest {
         assertThat(settingsViewModel.getErrorSingleLiveEvent().getValue(), is(R.string.delete_from_db_exception));
         verify(deleteAllHabitsInteractor).deleteAllHabits();
     }
-
-    //TestObserver testObserver = new TestObserver();
-
-        /*deleteAllHabitsInteractor.deleteAllHabits()
-                .subscribeOn(Schedulers.newThread())
-                .subscribe();
-*/
-
-    //testObserver.assertComplete();
-
-        /*when(deleteAllHabitsInteractor.deleteAllHabits()
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(testObserver)).thenReturn(completable);*/
-
-    //testObserver.assertError(Exception.class);
-
-    //settingsViewModel.deleteAllHabits();
-
-    //Log.d("gg", ""+successSingleLiveEvent.getValue());
-
-    //Assert.assertEquals(successSingleLiveEvent.getValue(), java.util.Optional.of(R.string.delete_from_db_success_message));
-
-    //Assert.assertEquals((long)successSingleLiveEvent.getValue(), (long)R.string.delete_from_db_exception);
 }

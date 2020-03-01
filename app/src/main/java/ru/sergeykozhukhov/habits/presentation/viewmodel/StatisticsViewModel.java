@@ -30,6 +30,8 @@ public class StatisticsViewModel extends ViewModel {
 
     private static final float VALUE_TEXT_SIZE = 15f;
     private static final int LABEL_COUNT_MAX = 15;
+    private static final float END_LEFT_GAP = 33.3f;
+    private static final float START_RIGHT_GAP = 66.6f;
 
     /**
      * Интерактора получения списка минимальной информации о привычках с соответствующим количеством выполненных дней
@@ -64,9 +66,9 @@ public class StatisticsViewModel extends ViewModel {
                     for (Statistic statistic : statisticList) {
                         float percent = 100f * (float) statistic.getCurrentQuantity() / (float) (statistic.getDuration());
                         int color;
-                        if (percent < 33.3f) {
+                        if (percent < END_LEFT_GAP) {
                             color = COLOR_ORANGE;
-                        } else if (percent > 66.6f) {
+                        } else if (percent > START_RIGHT_GAP) {
                             color = COLOR_YELLOW;
                         } else {
                             color = COLOR_GOLD;
