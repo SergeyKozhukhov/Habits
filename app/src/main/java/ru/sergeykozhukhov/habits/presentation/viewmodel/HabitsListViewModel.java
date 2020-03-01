@@ -52,6 +52,7 @@ public class HabitsListViewModel extends ViewModel {
     public void loadHabitList() {
         isLoadingMutableLiveData.setValue(true);
         compositeDisposable.add(loadHabitsInteractor.loadHabitList()
+                .onBackpressureLatest()
                 .doOnTerminate(() -> isLoadingMutableLiveData.postValue(false))
                 .subscribe(value -> {
                     Collections.reverse(value);
