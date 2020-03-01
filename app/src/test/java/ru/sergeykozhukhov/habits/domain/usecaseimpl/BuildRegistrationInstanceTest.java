@@ -15,7 +15,7 @@ public class BuildRegistrationInstanceTest {
     private BuildRegistrationInteractor buildRegistrationInstance;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         buildRegistrationInstance = new BuildRegistrationInteractor();
     }
 

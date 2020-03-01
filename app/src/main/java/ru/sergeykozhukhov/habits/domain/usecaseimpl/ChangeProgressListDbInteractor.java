@@ -33,7 +33,6 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
      */
     private final IHabitsDatabaseRepository habitsDatabaseRepository;
     private long idHabit;
-    private List<Progress> progressLoadedList;
     private List<Date> progressAddedList;
     private List<Date> progressDeletedList;
 
@@ -44,13 +43,10 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
     @NonNull
     @Override
     public Single<List<Date>> getProgressList(long idHabit) {
+        this.idHabit = idHabit;
+        progressAddedList = new LinkedList<>();
+        progressDeletedList = new LinkedList<>();
         return habitsDatabaseRepository.loadProgressListByIdHabit(idHabit)
-                .doOnSuccess(progressList -> {
-                    this.idHabit = idHabit;
-                    progressLoadedList = progressList;
-                    progressAddedList = new LinkedList<>();
-                    progressDeletedList = new LinkedList<>();
-                })
                 .map(progressList -> {
                     List<Date> dateList = new ArrayList<>(progressList.size());
                     for (Progress progress : progressList) {
@@ -84,21 +80,27 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
         Completable deleteCompletable = null;
 
         if (!progressDeletedList.isEmpty()) {
-            List<Progress> deleteProgresses;
             Log.d(TAG, "deletedProgress:" + "\n");
-            deleteProgresses = new ArrayList<>(progressDeletedList.size());
-            for (Date date : progressDeletedList) {
-                Log.d(TAG, date.toString() + "\n");
-                for (Progress progress : progressLoadedList) {
-                    if (date.equals(progress.getDate())) {
-                        deleteProgresses.add(progress);
+            List<Progress> deleteProgresses = new ArrayList<>(progressDeletedList.size());
+            List<Progress> progressList;
+            try {
+                progressList = habitsDatabaseRepository.getSavedProgressList();
+                for (Date date : progressDeletedList) {
+                    Log.d(TAG, date.toString() + "\n");
+                    for (Progress progress : progressList) {
+                        if (date.equals(progress.getDate())) {
+                            deleteProgresses.add(progress);
+                        }
                     }
                 }
-            }
+                deleteCompletable = habitsDatabaseRepository.deleteProgressList(deleteProgresses)
+                        .onErrorResumeNext(throwable ->
+                                Completable.error(new DeleteFromDbException(R.string.delete_from_db_exception, throwable)));
 
-            deleteCompletable = habitsDatabaseRepository.deleteProgressList(deleteProgresses)
-                    .onErrorResumeNext(throwable ->
-                            Completable.error(new DeleteFromDbException(R.string.delete_from_db_exception, throwable)));
+                habitsDatabaseRepository.resetSavedProgressList();
+            } catch (NullPointerException e) {
+                return Completable.error(new DeleteFromDbException(R.string.delete_from_db_exception, new Exception()));
+            }
         }
 
         Completable insertCompletable = null;

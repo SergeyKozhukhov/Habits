@@ -89,5 +89,10 @@ public interface IHabitsDatabaseRepository {
     @NonNull
     Completable deleteProgressList(@NonNull List<Progress> progressList);
 
+    @NonNull
+    List<Progress> getSavedProgressList() throws NullPointerException;
+
+    void resetSavedProgressList();
+
 }
 

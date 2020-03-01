@@ -7,15 +7,9 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.internal.operators.flowable.FlowableOnBackpressureDrop;
 import ru.sergeykozhukhov.habits.data.converter.HabitConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitListConverter;
 import ru.sergeykozhukhov.habits.data.converter.HabitWithProgressesConverter;
@@ -72,6 +66,8 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
      * Конвертер списка Statistic моделей между data и domain слоями
      */
     private StatisticListConverter statisticListConverter;
+
+    private List<ProgressData> savedProgressDataList;
 
     public HabitsDatabaseRepository(@NonNull HabitDao habitDao,
                                     @NonNull HabitConverter habitConverter,
@@ -159,6 +155,7 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
     @Override
     public Single<List<Progress>> loadProgressListByIdHabit(long idHabit) {
         return habitDao.getProgressByHabit(idHabit)
+                .doOnSuccess(progressData -> savedProgressDataList = progressData)
                 .map(progressDataList -> progressListConverter.convertTo(progressDataList));
     }
 
@@ -209,5 +206,17 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         return habitDao.deleteProgressList(progressListConverter.convertFrom(progressList));
     }
 
+    @NonNull
+    @Override
+    public List<Progress> getSavedProgressList() throws NullPointerException {
+        if (savedProgressDataList == null)
+            throw new NullPointerException();
+        return progressListConverter.convertTo(savedProgressDataList);
+    }
+
+    @Override
+    public void resetSavedProgressList() {
+        savedProgressDataList = null;
+    }
 
 }
