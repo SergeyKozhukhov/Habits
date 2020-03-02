@@ -54,10 +54,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (deleteAllPreference != null) {
             deleteAllPreference.setOnPreferenceClickListener(preference -> {
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Выполнить удаление всех записей?")
-                        .setMessage("Данная операция приведет к удалению всех привычек на телефоне, вы действительно хотите продолжить?")
-                        .setPositiveButton("Да", (dialog, which) -> settingsViewModel.deleteAllHabits())
-                        .setNegativeButton("Нет", null)
+                        .setTitle(getString(R.string.title_delete_all_alert_dialog))
+                        .setMessage(getString(R.string.message_delete_all_alert_dialog))
+                        .setPositiveButton(getString(R.string.positive_delete_all_alert_dialog), (dialog, which) -> settingsViewModel.deleteAllHabits())
+                        .setNegativeButton(getString(R.string.negetive_delete_all_alert_dialog), null)
                         .create().show();
                 return true;
             });

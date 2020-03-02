@@ -25,6 +25,11 @@ public class LoadHabitListDbInteractor implements ILoadHabitListDbInteractor {
         this.habitsRepository = habitsRepository;
     }
 
+    /**
+     * Получение списка привычек
+     *
+     * @return flowable со списком привычек
+     */
     @NonNull
     @Override
     public Flowable<List<Habit>> loadHabitList() {

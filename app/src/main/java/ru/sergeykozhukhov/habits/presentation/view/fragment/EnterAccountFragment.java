@@ -25,8 +25,6 @@ public class EnterAccountFragment extends Fragment {
         return new EnterAccountFragment();
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

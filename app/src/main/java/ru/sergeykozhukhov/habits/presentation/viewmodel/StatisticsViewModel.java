@@ -24,13 +24,39 @@ import ru.sergeykozhukhov.habits.model.domain.exception.LoadDbException;
  */
 public class StatisticsViewModel extends ViewModel {
 
+    /**
+     * Желтый цвет
+     */
     private static final int COLOR_YELLOW = 0xFFFDF41C;
+
+    /**
+     * Цвет между желтым и оранжевым
+     */
     private static final int COLOR_GOLD = 0xFFFFD700;
+
+    /**
+     * Оранжевый цвет
+     */
     private static final int COLOR_ORANGE = 0xFFFFA500;
 
+    /**
+     * Размер подписей
+     */
     private static final float VALUE_TEXT_SIZE = 15f;
+
+    /**
+     * Максимальное число подписей на на оси в графике
+     */
     private static final int LABEL_COUNT_MAX = 15;
+
+    /**
+     * Конец первого интервала для цвета
+     */
     private static final float END_LEFT_GAP = 33.3f;
+
+    /**
+     * Начало третьего интервала для цвета
+     */
     private static final float START_RIGHT_GAP = 66.6f;
 
     /**
@@ -38,8 +64,19 @@ public class StatisticsViewModel extends ViewModel {
      */
     private final LoadStatisticListInteractor loadStatisticsListInteractor;
 
+    /**
+     * LiveData с данными для построения графика
+     */
     private final MutableLiveData<BarData> barDataMutableLiveData = new MutableLiveData<>();
+
+    /**
+     * LiveData с определителем подписи для горизонтального столбца
+     */
     private final MutableLiveData<ValueFormatter> valueFormatterMutableLiveData = new MutableLiveData<>();
+
+    /**
+     * LiveData с кол-во подписей на оси
+     */
     private final MutableLiveData<Integer> labelCountMutableLiveData = new MutableLiveData<>();
 
     /**

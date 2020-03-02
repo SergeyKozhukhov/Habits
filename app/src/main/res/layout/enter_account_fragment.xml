@@ -13,9 +13,6 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/ic_goal_cloud" />
 
-
-    <!--android:background="@android:color/transparent"-->
-
     <Button
         android:id="@+id/registration_account_button"
         style="@style/style_button_4"

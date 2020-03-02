@@ -105,13 +105,18 @@ public class StatisticsFragment extends Fragment {
         yLeft.setAxisMinimum(Y_AXIS_MIN);
         yLeft.setEnabled(false);
         yLeft.setDrawLabels(true);
+        yLeft.setDrawGridLinesBehindData(false);
+
+        YAxis yRight = progressHorizontalBarChart.getAxisRight();
+        yRight.setDrawGridLines(false);
 
         progressHorizontalBarChart.animateY(Y_ANIMATION_DURATION);
     }
 
     private void setNoDataChartView() {
         progressHorizontalBarChart.setNoDataTextColor(R.color.green);
-        progressHorizontalBarChart.setNoDataText("Слишком мало данных для построения графика");
+        progressHorizontalBarChart.setNoDataText(getString(R.string.no_data_text_bar_chart));
+
     }
 
     private void setBarChartLabelCount(int labelCount) {

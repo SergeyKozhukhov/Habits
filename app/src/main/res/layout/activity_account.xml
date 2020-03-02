@@ -5,6 +5,6 @@
     android:id="@+id/account_host"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.sergeykozhukhov.habits.presentation.view.activity.AccountActivity">
+    tools:applicationContext="ru.sergeykozhukhov.habits.presentation.view.activity.AccountActivity">
 
 </FrameLayout>

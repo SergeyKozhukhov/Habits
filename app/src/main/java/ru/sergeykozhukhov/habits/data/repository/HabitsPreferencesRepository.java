@@ -16,7 +16,14 @@ import ru.sergeykozhukhov.habits.model.domain.Jwt;
  */
 public class HabitsPreferencesRepository implements IHabitsPreferencesRepository {
 
+    /**
+     * Класс, подготавливающий и настраивающий работу с preferences
+     */
     private HabitsPreferences habitsPreferences;
+
+    /**
+     * Конвертер Jwt модели между data и domain слоями
+     */
     private JwtConverter jwtConverter;
 
     public HabitsPreferencesRepository(
@@ -26,6 +33,11 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
         this.jwtConverter = jwtConverter;
     }
 
+    /**
+     * Сохранение token (jwt) в preferences
+     *
+     * @param jwt token (jwt)
+     */
     @Override
     public void saveJwt(@NonNull Jwt jwt) {
         SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();
@@ -33,6 +45,11 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
         editor.apply();
     }
 
+    /**
+     * Получение сохраненного token (jwt)
+     *
+     * @return сохраненный token (jwt)
+     */
     @Nullable
     @Override
     public Jwt loadJwt() {
@@ -43,6 +60,9 @@ public class HabitsPreferencesRepository implements IHabitsPreferencesRepository
         return jwtConverter.convertTo(jwtData);
     }
 
+    /**
+     * Удаление token (jwt)
+     */
     @Override
     public void deleteJwt() {
         SharedPreferences.Editor editor = habitsPreferences.getSharedPreferences().edit();

@@ -13,7 +13,9 @@ import ru.sergeykozhukhov.habits.model.domain.Habit;
 public interface ILoadHabitListDbInteractor {
 
     /**
-     * @return
+     * Получение списка привычек
+     *
+     * @return flowable со списком привычек
      */
     @NonNull
     Flowable<List<Habit>> loadHabitList();

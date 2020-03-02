@@ -1,7 +1,6 @@
 package ru.sergeykozhukhov.habits.presentation.view.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,25 +60,25 @@ public class AccountFragment extends Fragment {
 
     private void initListeners() {
         backupButton.setOnClickListener(v -> new AlertDialog.Builder(requireContext())
-                .setTitle("Создать резервную копию данных?")
-                .setMessage("Создание резервной копии данных на сервере приведет к замене предыдущей резервной копии, вы действительно хотите продолжить?")
-                .setPositiveButton("Да", (dialog, which) -> accountViewModel.backup())
-                .setNegativeButton("Нет", null)
+                .setTitle(getString(R.string.title_backup_alert_dialog))
+                .setMessage(getString(R.string.message_backup_alert_dialog))
+                .setPositiveButton(getString(R.string.positive_backup_alert_dialog), (dialog, which) -> accountViewModel.backup())
+                .setNegativeButton(getString(R.string.negetive_backup_alert_dialog), null)
                 .create().show());
 
 
         replicationButton.setOnClickListener(v -> new AlertDialog.Builder(requireContext())
-                .setTitle("Выполнить восстановление данных?")
-                .setMessage("Восстановление данных приведет к замене всех существующих данных, вы действительно хотите продолжить?")
-                .setPositiveButton("Да", (dialog, which) -> accountViewModel.replication())
-                .setNegativeButton("Нет", null)
+                .setTitle(getString(R.string.title_replication_alert_dialog))
+                .setMessage(getString(R.string.message_replication_alert_dialog))
+                .setPositiveButton(getString(R.string.positive_replication_alert_dialog), (dialog, which) -> accountViewModel.replication())
+                .setNegativeButton(getString(R.string.negative_replication_alert_dialog), null)
                 .create().show());
 
         logoutButton.setOnClickListener(v -> new AlertDialog.Builder(requireContext())
-                .setTitle("Выполнить выход из аккаунта?")
-                .setMessage("Для повторного входа в аккаунт потребуется снова ввести email и пароль, вы действительно хотите продолжить?")
-                .setPositiveButton("Да", (dialog, which) -> accountViewModel.logout())
-                .setNegativeButton("Нет", null)
+                .setTitle(getString(R.string.title_logout_alert_dialog))
+                .setMessage(getString(R.string.message_logout_alert_dialog))
+                .setPositiveButton(getString(R.string.positive_logout_alert_dialog), (dialog, which) -> accountViewModel.logout())
+                .setNegativeButton(getString(R.string.negative_logout_alert_dialog), null)
                 .create().show());
     }
 

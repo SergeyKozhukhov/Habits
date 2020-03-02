@@ -28,13 +28,13 @@ public class HabitsPreferences {
     }
 
     public static HabitsPreferences getInstance(Context context) {
-        if (habitsPreferences == null ){
+        if (habitsPreferences == null) {
             habitsPreferences = buildInstance(context);
         }
         return habitsPreferences;
     }
 
-    private static HabitsPreferences buildInstance(Context context){
+    private static HabitsPreferences buildInstance(Context context) {
 
         habitsPreferences = new HabitsPreferences(context);
         return habitsPreferences;

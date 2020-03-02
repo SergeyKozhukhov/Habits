@@ -32,14 +32,32 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
      * Репозиторий (база данных)
      */
     private final IHabitsDatabaseRepository habitsDatabaseRepository;
+
+    /**
+     * id привычки, даты выполнения которой подвергаются изменению
+     */
     private long idHabit;
+
+    /**
+     * Список дат выполнения привычки для добавления в базу данных
+     */
     private List<Date> progressAddedList;
+
+    /**
+     * Список дат выполнения привычки для удаления из базы данных
+     */
     private List<Date> progressDeletedList;
 
     public ChangeProgressListDbInteractor(@NonNull IHabitsDatabaseRepository habitsDatabaseRepository) {
         this.habitsDatabaseRepository = habitsDatabaseRepository;
     }
 
+    /**
+     * Получение списка дат выполнения привычки
+     *
+     * @param idHabit id привычки
+     * @return single со списком дат выполнения привычки (в виде Date)
+     */
     @NonNull
     @Override
     public Single<List<Date>> getProgressList(long idHabit) {
@@ -58,6 +76,12 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
                         Single.error(new LoadDbException(R.string.load_db_exception, throwable)));
     }
 
+    /**
+     * Добавление даты в список "добавляемых" либо удаление ее из списка "удаляемых" дат выполнения привычки
+     *
+     * @param date дата
+     * @throws ChangeProgressException - исключение при Date = null
+     */
     @Override
     public void addNewDate(@Nullable Date date) throws ChangeProgressException {
         if (date == null)
@@ -66,6 +90,12 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
             progressAddedList.add(date);
     }
 
+    /**
+     * Добавление даты в список "удяляемых" либо удаление ее из списка "добавленных" дат выполнения привычки
+     *
+     * @param date дата
+     * @throws ChangeProgressException - исключение при Date = null
+     */
     @Override
     public void deleteDate(@Nullable Date date) throws ChangeProgressException {
         if (date == null)
@@ -74,6 +104,9 @@ public class ChangeProgressListDbInteractor implements IChangeProgressListDbInte
             progressDeletedList.add(date);
     }
 
+    /**
+     * Сохранение изменений по датам выполнения привычек
+     */
     @Nullable
     @Override
     public Completable saveProgressList() {

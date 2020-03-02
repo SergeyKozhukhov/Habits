@@ -24,8 +24,6 @@ import ru.sergeykozhukhov.habits.model.domain.Registration;
  */
 public class HabitsWebRepository implements IHabitsWebRepository {
 
-    public static final String TAG = "HabitsWebRepository";
-
     /**
      * Класс, подготавливающий и настраивающий работу с сервером
      */

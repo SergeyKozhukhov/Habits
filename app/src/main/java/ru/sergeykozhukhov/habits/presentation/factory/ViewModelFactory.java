@@ -38,10 +38,10 @@ import ru.sergeykozhukhov.habits.presentation.viewmodel.StatisticsViewModel;
  */
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private Context context;
+    private Context applicationContext;
 
     public ViewModelFactory(Context context) {
-        this.context = context;
+        this.applicationContext = context.getApplicationContext();
     }
 
     @NonNull
@@ -49,7 +49,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
 
         if (HabitsListViewModel.class.equals(modelClass)) {
-            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
+            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(applicationContext);
 
             LoadHabitListDbInteractor loadHabitsInteractor = new LoadHabitListDbInteractor(habitsDatabaseRepository);
             // noinspection unchecked
@@ -63,7 +63,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new RegistrationViewModel(registerWebInteractor);
         } else if (AuthenticationViewModel.class.equals(modelClass)) {
             IHabitsWebRepository habitsWebRepository = Repositories.newWebRepository();
-            IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(context);
+            IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(applicationContext);
 
             BuildConfidentialityInteractor buildConfidentialityInstance = new BuildConfidentialityInteractor();
             AuthenticateWebInteractor authenticateClientInteractor = new AuthenticateWebInteractor(
@@ -73,7 +73,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             // noinspection unchecked
             return (T) new AuthenticationViewModel(authenticateClientInteractor);
         } else if (AddHabitViewModel.class.equals(modelClass)) {
-            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
+            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(applicationContext);
 
             BuildHabitInteractor buildHabitInstance = new BuildHabitInteractor();
 
@@ -81,9 +81,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             // noinspection unchecked
             return (T) new AddHabitViewModel(insertHabitInteractor);
         } else if (AccountViewModel.class.equals(modelClass)) {
-            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
+            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(applicationContext);
             IHabitsWebRepository habitsWebRepository = Repositories.newWebRepository();
-            IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(context);
+            IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(applicationContext);
 
             GetJwtValueInteractor getJwtValue = new GetJwtValueInteractor(habitsWebRepository, habitsPreferencesRepository);
             DeleteJwtInteractor deleteJwtInteractor = new DeleteJwtInteractor(habitsWebRepository, habitsPreferencesRepository);
@@ -101,26 +101,26 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
                     replicationListHabitsWebInteractor,
                     deleteJwtInteractor);
         } else if (ProgressViewModel.class.equals(modelClass)) {
-            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
+            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(applicationContext);
 
             ChangeProgressListDbInteractor changeProgressListDbInteractor = new ChangeProgressListDbInteractor(habitsDatabaseRepository);
             // noinspection unchecked
             return (T) new ProgressViewModel(changeProgressListDbInteractor);
         } else if (StatisticsViewModel.class.equals(modelClass)) {
-            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
+            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(applicationContext);
 
             LoadStatisticListInteractor loadStatisticsListInteractor = new LoadStatisticListInteractor(habitsDatabaseRepository);
             // noinspection unchecked
             return (T) new StatisticsViewModel(loadStatisticsListInteractor);
         } else if (AccountManagerViewModel.class.equals(modelClass)) {
             IHabitsWebRepository habitsWebRepository = Repositories.newWebRepository();
-            IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(context);
+            IHabitsPreferencesRepository habitsPreferencesRepository = Repositories.newPreferencesRepository(applicationContext);
 
             GetJwtValueInteractor getJwtValueInteractor = new GetJwtValueInteractor(habitsWebRepository, habitsPreferencesRepository);
             // noinspection unchecked
             return (T) new AccountManagerViewModel(getJwtValueInteractor);
         } else if (SettingsViewModel.class.equals(modelClass)) {
-            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(context);
+            IHabitsDatabaseRepository habitsDatabaseRepository = Repositories.newDatabaseRepository(applicationContext);
 
             DeleteAllHabitsDbInteractor deleteAllHabitsDbInteractor = new DeleteAllHabitsDbInteractor(habitsDatabaseRepository);
             // noinspection unchecked

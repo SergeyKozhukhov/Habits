@@ -43,7 +43,7 @@ public interface HabitDao {
     /**
      * Получение записей всех привычек
      *
-     * @return
+     * @return flowable со списком привычек
      */
     @Query("SELECT * FROM habits")
     Flowable<List<HabitData>> getHabitList();

@@ -52,6 +52,11 @@ public class ProgressViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
+    /**
+     * Получение списка дат выполнения конкретной привычки
+     *
+     * @param idHabit id привычки
+     */
     public void initChangeProgressList(long idHabit) {
         compositeDisposable.add(
                 changeProgressListDbInteractor.getProgressList(idHabit)
@@ -64,6 +69,11 @@ public class ProgressViewModel extends ViewModel {
                         }));
     }
 
+    /**
+     * Подготовка предоставленной даты для сохранения
+     *
+     * @param date дата
+     */
     public void addProgress(Date date) {
         try {
             changeProgressListDbInteractor.addNewDate(date);
@@ -72,6 +82,11 @@ public class ProgressViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Подготовка предоставленной даты для удаления
+     *
+     * @param date дата
+     */
     public void deleteProgress(Date date) {
         try {
             changeProgressListDbInteractor.deleteDate(date);
@@ -80,6 +95,9 @@ public class ProgressViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Сохранение изменнной информации по датам выполнения привычки
+     */
     public void saveProgressList() {
         Completable completable = changeProgressListDbInteractor.saveProgressList();
         if (completable != null) {

@@ -89,9 +89,18 @@ public interface IHabitsDatabaseRepository {
     @NonNull
     Completable deleteProgressList(@NonNull List<Progress> progressList);
 
+    /**
+     * Получение сохранненого списка дат выполнения конкретной привычки
+     *
+     * @return список дат выполнения конкретной привычки
+     * @throws NullPointerException - данный список не сохранен
+     */
     @NonNull
     List<Progress> getSavedProgressList() throws NullPointerException;
 
+    /**
+     * Сбрасывания сохранненного списка дат выполнения конкретной привычки
+     */
     void resetSavedProgressList();
 
 }

@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.transition.TransitionInflater;
 
@@ -26,7 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import ru.sergeykozhukhov.habitData.R;
@@ -47,12 +45,10 @@ public class ProgressFragment extends Fragment {
     private CalendarPickerView calendarProgressPickerView;
 
     private CardView cardView;
-    private RelativeLayout relativeLayout;
     private FrameLayout frameLayout;
 
     private TextView titleHabitTextView;
-    private TextView startDateHabitTextView;
-    private TextView durationHabitTextView;
+    private TextView datesHabitTextView;
     private TextView descriptionHabitTextView;
 
     private ObjectAnimator objectAnimator1;
@@ -74,7 +70,6 @@ public class ProgressFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setSharedElementEnterTransition(TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move));
     }
 
     @Nullable
@@ -88,19 +83,17 @@ public class ProgressFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         titleHabitTextView = view.findViewById(R.id.title_habit_text_view);
-        startDateHabitTextView = view.findViewById(R.id.start_date_habit_text_view);
+        datesHabitTextView = view.findViewById(R.id.start_date_habit_text_view);
         descriptionHabitTextView = view.findViewById(R.id.description_habit_text_view);
 
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
         cardView = view.findViewById(R.id.progress_card_view);
         frameLayout = view.findViewById(R.id.calendar_piker_view_frame_layout);
 
-        //float translationY = 300f;
         PropertyValuesHolder alphaHolder = PropertyValuesHolder.ofFloat(View.ALPHA, 0, 1);
 
-        int DURATION = 1500;
         objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(frameLayout, alphaHolder);
-        objectAnimator1.setDuration(DURATION);
+        objectAnimator1.setDuration(1500);
 
 
         cardView.setTransitionName(getTransitionName());
@@ -134,12 +127,13 @@ public class ProgressFragment extends Fragment {
         Habit habit = getHabitFromArgs();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "dd.MM.yyyy", // шаблон форматирования
-                Locale.getDefault() // язык отображения (получение языка по-умолчанию)
+                "dd.MM.yyyy",
+                Locale.getDefault()
         );
 
         titleHabitTextView.setText(habit.getTitle());
-        startDateHabitTextView.setText("Начало: " + dateFormat.format(habit.getStartDate()) + ", дни: " + (habit.getDuration()));
+        datesHabitTextView.setText(String.format(getString(R.string.dates_progress_fragment_text_view),
+                dateFormat.format(habit.getStartDate()), habit.getDuration()));
         descriptionHabitTextView.setText(habit.getDescription());
     }
 
@@ -155,8 +149,8 @@ public class ProgressFragment extends Fragment {
             Calendar max = habit.getEndDateCalendar();
             max.add(Calendar.DATE, -1);
 
-            SubTitle startDateSubTitle = new SubTitle(min.getTime(), "Старт");
-            SubTitle endDateSubTitle = new SubTitle(max.getTime(), "Финиш");
+            SubTitle startDateSubTitle = new SubTitle(min.getTime(), getString(R.string.start_subtitle_calendar));
+            SubTitle endDateSubTitle = new SubTitle(max.getTime(), getString(R.string.finish_subtitle_calendar));
 
             ArrayList<SubTitle> subTitleArrayList = new ArrayList<>(2);
             subTitleArrayList.add(startDateSubTitle);
@@ -195,20 +189,20 @@ public class ProgressFragment extends Fragment {
     private Habit getHabitFromArgs() {
         Bundle arguments = getArguments();
         if (arguments == null)
-            throw new IllegalStateException("Arguments must be set");
+            throw new IllegalStateException();
         Habit habit = arguments.getParcelable(ARG_HABIT);
         if (habit == null)
-            throw new IllegalStateException("Habits must be set");
+            throw new IllegalStateException();
         return habit;
     }
 
     private String getTransitionName() {
         Bundle arguments = getArguments();
         if (arguments == null)
-            throw new IllegalStateException("Arguments must be set");
-        String transitionNmae = arguments.getString(EXTRA_TRANSITION_NAME);
-        if (transitionNmae == null)
-            throw new IllegalStateException("Habits must be set");
-        return transitionNmae;
+            throw new IllegalStateException();
+        String transitionName = arguments.getString(EXTRA_TRANSITION_NAME);
+        if (transitionName == null)
+            throw new IllegalStateException();
+        return transitionName;
     }
 }

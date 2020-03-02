@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onItemHabitListClick(@NonNull Habit habit, @NonNull View view) {
         String string = ViewCompat.getTransitionName(view);
-        /*replaceFragment(ProgressFragment.newInstance(habit), true);*/
         getSupportFragmentManager()
                 .beginTransaction()
                 .addSharedElement(view, Objects.requireNonNull(ViewCompat.getTransitionName(view)))

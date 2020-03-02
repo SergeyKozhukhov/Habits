@@ -29,7 +29,7 @@ public class Repositories {
     /**
      * Создание экземпляра репозитория (база данных)
      */
-    public static IHabitsDatabaseRepository newDatabaseRepository(Context context){
+    public static IHabitsDatabaseRepository newDatabaseRepository(Context context) {
         return new HabitsDatabaseRepository(
                 HabitsDatabase.getInstance(context).getHabitDao(),
                 new HabitConverter(),
@@ -43,7 +43,7 @@ public class Repositories {
     /**
      * Создание экземпляра репозитория (сервер)
      */
-    public static IHabitsWebRepository newWebRepository(){
+    public static IHabitsWebRepository newWebRepository() {
         return new HabitsWebRepository(
                 HabitsRetrofitClient.getInstance(),
                 HabitsRetrofitClient.getInstance().getApiService(),
@@ -57,7 +57,7 @@ public class Repositories {
     /**
      * Создание экземпляра репозитория (preferences)
      */
-    public static IHabitsPreferencesRepository newPreferencesRepository(Context context){
+    public static IHabitsPreferencesRepository newPreferencesRepository(Context context) {
         return new HabitsPreferencesRepository(
                 HabitsPreferences.getInstance(context),
                 new JwtConverter()

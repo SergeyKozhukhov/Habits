@@ -17,6 +17,28 @@
     <string name="pref_account_summary">Резервное копирование и восстановление данных</string>
     <string name="pref_delete_all_title">Удаление всех привычек</string>
     <string name="pref_delete_all_summary">Удаление всей информации о привычках из базы данных</string>
+    <string name="title_backup_alert_dialog">Создать резервную копию данных?</string>
+    <string name="message_backup_alert_dialog">Создание резервной копии данных на сервере приведет к замене предыдущей резервной копии, вы действительно хотите продолжить?</string>
+    <string name="positive_backup_alert_dialog">Да</string>
+    <string name="negetive_backup_alert_dialog">Нет</string>
+    <string name="title_replication_alert_dialog">Выполнить восстановление данных?</string>
+    <string name="message_replication_alert_dialog">Восстановление данных приведет к замене всех существующих данных, вы действительно хотите продолжить?</string>
+    <string name="positive_replication_alert_dialog">Да</string>
+    <string name="negative_replication_alert_dialog">Нет</string>
+    <string name="title_logout_alert_dialog">Выполнить выход из аккаунта?</string>
+    <string name="message_logout_alert_dialog">Для повторного входа в аккаунт потребуется снова ввести email и пароль, вы действительно хотите продолжить?</string>
+    <string name="positive_logout_alert_dialog">Да</string>
+    <string name="negative_logout_alert_dialog">Нет</string>
+    <string name="start_subtitle_calendar">Старт</string>
+    <string name="finish_subtitle_calendar">Финиш</string>
+    <string name="dates_progress_fragment_text_view">"Начало: %s, дни: %d"</string>
+    <string name="title_delete_all_alert_dialog">Выполнить удаление всех записей?</string>
+    <string name="message_delete_all_alert_dialog">Данная операция приведет к удалению всех привычек на телефоне, вы действительно хотите продолжить?</string>
+    <string name="positive_delete_all_alert_dialog">Да</string>
+    <string name="negetive_delete_all_alert_dialog">Нет</string>
+    <string name="no_data_text_bar_chart">Слишком мало данных для построения графика</string>
+    <string name="dates_habit_item_text_view">"Начало: %s \n Дни: %d"</string>
+    <string name="id_habit_item_text_view">№ %d</string>
 
 
 </resources>

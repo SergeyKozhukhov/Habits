@@ -39,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title_habit_text_view"
                 android:drawableStart="@drawable/ic_contract"
-                android:drawableEnd="@drawable/ic_contract"
                 android:gravity="center_horizontal"
                 android:padding="4dp"
                 tools:text="start date" />

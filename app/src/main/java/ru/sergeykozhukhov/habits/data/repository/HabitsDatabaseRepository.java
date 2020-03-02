@@ -67,6 +67,9 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
      */
     private StatisticListConverter statisticListConverter;
 
+    /**
+     * Список дат выполнения конкретной привычки
+     */
     private List<ProgressData> savedProgressDataList;
 
     public HabitsDatabaseRepository(@NonNull HabitDao habitDao,
@@ -206,6 +209,12 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         return habitDao.deleteProgressList(progressListConverter.convertFrom(progressList));
     }
 
+    /**
+     * Получение сохранненого списка дат выполнения конкретной привычки
+     *
+     * @return список дат выполнения конкретной привычки
+     * @throws NullPointerException - данный список не сохранен
+     */
     @NonNull
     @Override
     public List<Progress> getSavedProgressList() throws NullPointerException {
@@ -214,6 +223,9 @@ public class HabitsDatabaseRepository implements IHabitsDatabaseRepository {
         return progressListConverter.convertTo(savedProgressDataList);
     }
 
+    /**
+     * Сбрасывания сохранненного списка дат выполнения конкретной привычки
+     */
     @Override
     public void resetSavedProgressList() {
         savedProgressDataList = null;

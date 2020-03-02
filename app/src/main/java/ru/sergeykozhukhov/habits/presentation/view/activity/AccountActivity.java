@@ -43,11 +43,9 @@ public class AccountActivity extends AppCompatActivity implements
         accountManagerViewModel = new ViewModelProvider(this, new ViewModelFactory(this))
                 .get(AccountManagerViewModel.class);
 
-        accountManagerViewModel.getSuccessSingleLiveEvent().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer idRes) {
-                AccountActivity.this.replaceFragment(AccountFragment.newInstance(), false);
-            }
+        accountManagerViewModel.getSuccessSingleLiveEvent().observe(this, idRes -> {
+            getSupportFragmentManager().popBackStack();
+            AccountActivity.this.replaceFragment(AccountFragment.newInstance(), false);
         });
 
         accountManagerViewModel.getErrorSingleLiveEvent().observe(this, idRes ->
@@ -104,7 +102,7 @@ public class AccountActivity extends AppCompatActivity implements
      */
     @Override
     public void onRegistrationSuccess() {
-        replaceFragment(AuthenticationFragment.newInstance(), true);
+        replaceFragment(AuthenticationFragment.newInstance(), false);
     }
 
     private void replaceFragment(@NonNull Fragment newFragment, boolean addToBackStack) {

@@ -11,16 +11,19 @@ import ru.sergeykozhukhov.habits.model.domain.Jwt;
 public interface IHabitsPreferencesRepository {
 
     /**
-     * Сохранение токена
-     * @param jwt
+     * Сохранение token (jwt) в preferences
+     *
+     * @param jwt token (jwt)
      */
     void saveJwt(@NonNull Jwt jwt);
 
     /**
-     * Загрузка токека
-     * @return
+     * Получение сохраненного token (jwt)
+     *
+     * @return сохраненный token (jwt)
      */
-    @Nullable Jwt loadJwt();
+    @Nullable
+    Jwt loadJwt();
 
     /**
      * Удаление токена

@@ -3,17 +3,12 @@ package ru.sergeykozhukhov.habits.presentation.view.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.leochuan.CarouselLayoutManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,14 +29,6 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
         habitList = new ArrayList<>();
         habitClickListener = null;
-    }
-
-    public HabitsListAdapter(List<Habit> habits) {
-        this.habitList = habits;
-    }
-
-    public List<Habit> getHabitList() {
-        return habitList;
     }
 
     public void setHabitList(List<Habit> habitList) {
@@ -76,15 +63,10 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if (position >= 1 && position <= getItemCount() - 1) {
-
-        }
         return super.getItemViewType(position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
-        private IHabitClickListener habitClickListener;
 
         private CardView cardView;
 
@@ -93,18 +75,15 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
         private TextView descriptionHabitTextView;
         private TextView idHabitTextView;
 
-        SimpleDateFormat dateFormat;
-        GregorianCalendar calendar;
+        private SimpleDateFormat dateFormat;
+        private GregorianCalendar calendar;
 
 
         public ViewHolder(@NonNull final View itemView, IHabitClickListener habitClickListener) {
             super(itemView);
 
 
-            dateFormat = new SimpleDateFormat(
-                    "dd.MM.yyyy", // шаблон форматирования
-                    Locale.getDefault() // язык отображения (получение языка по-умолчанию)
-            );
+            dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
             calendar = new GregorianCalendar();
 
@@ -116,13 +95,7 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
             idHabitTextView = itemView.findViewById(R.id.id_habit_text_view);
 
 
-            this.habitClickListener = habitClickListener;
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    habitClickListener.onItemClick(habitList.get(getAdapterPosition()), cardView);
-                }
-            });
+            itemView.setOnClickListener(v -> habitClickListener.onItemClick(habitList.get(getAdapterPosition()), cardView));
 
         }
 
@@ -133,13 +106,21 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
             calendar.setTime(habit.getStartDate());
 
             titleHabitTextView.setText(habit.getTitle());
-            startDateHabitTextView.setText("Начало: " + dateFormat.format(habit.getStartDate()) + "\nДни: " + habit.getDuration());
+            startDateHabitTextView.setText(String.format(itemView.getResources()
+                    .getString(R.string.dates_habit_item_text_view), dateFormat.format(habit.getStartDate()), habit.getDuration()));
             String string = habit.getDescription();
-            if (string.length() > 35)
-                string = habit.getDescription().substring(0, 32) + "...";
-            descriptionHabitTextView.setText(string);
+            if (string.length() > 35) {
+                String shortDescription = string.substring(0, 32);
+                int index = shortDescription.lastIndexOf(" ");
+                if (index < 0)
+                    descriptionHabitTextView.setText(String.format("%s...", shortDescription));
+                else
+                    descriptionHabitTextView.setText(String.format("%s...", shortDescription.substring(0, index)));
+            } else
+                descriptionHabitTextView.setText(habit.getDescription());
+
             int id = habitList.size() - getAdapterPosition();
-            idHabitTextView.setText("№ " + id);
+            idHabitTextView.setText(String.format(itemView.getResources().getString(R.string.id_habit_item_text_view), id));
 
         }
     }
