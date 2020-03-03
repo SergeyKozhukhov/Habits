@@ -6,11 +6,11 @@
     android:background="@color/colorBackground">
 
     <ImageView
-        android:id="@+id/enter_image_1"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:id="@+id/enter_image_view"
+        android:layout_width="@dimen/enter_size_image_view"
+        android:layout_height="@dimen/enter_size_image_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="@dimen/enter_margin_image_view"
         android:background="@drawable/ic_goal_cloud" />
 
     <Button
@@ -19,9 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/authentication_account_button"
-        android:layout_marginBottom="19dp"
-        android:text="РЕГИСТРАЦИЯ"
-        android:textSize="22sp"
+        android:layout_marginBottom="@dimen/registration_account_margin_button"
+        android:text="@string/registration_account_text_button"
+        android:textSize="@dimen/registration_account_text_size_button"
         android:transitionName="shared_registration_button" />
 
     <Button
@@ -31,9 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="120dp"
-        android:transitionName="shared_authentication_button"
-        android:text="АВТОРИЗАЦИЯ"
-        android:textSize="22sp" />
+        android:layout_marginBottom="@dimen/authentication_account_margin_button"
+        android:text="@string/authentication_account_text_button"
+        android:textSize="22sp"
+        android:transitionName="shared_authentication_button" />
 
 </RelativeLayout>

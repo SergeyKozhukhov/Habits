@@ -5,19 +5,19 @@
     <item
         android:id="@+id/open_habit_list_item_menu"
         android:icon="@drawable/ic_format_list"
-        android:title="Привычки"
-        app:showAsAction="always" />
+        android:title="@string/open_habit_title_list_item_menu"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/open_statistics_item_menu"
         android:icon="@drawable/ic_insert_chart"
-        android:title="График"
+        android:title="@string/open_statistics_title_item_menu"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/open_settings_item_menu"
         android:icon="@drawable/ic_settings_applications"
-        android:title="Настройки"
+        android:title="@string/open_settings_title_item_menu"
         app:showAsAction="always" />
 
 </menu>

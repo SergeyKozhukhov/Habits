@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,21 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/title_margin_text_view_statistics"
         android:background="@drawable/statistic_title_fill"
-        android:drawableLeft="@drawable/ic_grath"
-        android:drawableRight="@drawable/ic_grath"
-        android:layout_marginTop="4dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:text="Процент выполнения привычек"
+        android:drawableStart="@drawable/ic_chart"
+        android:drawableEnd="@drawable/ic_chart"
+        android:paddingLeft="@dimen/title_padding_text_view_statistics"
+        android:paddingRight="@dimen/title_padding_text_view_statistics"
+        android:text="@string/title_text_text_view_statistics"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textSize="18sp" />
+        android:textSize="@dimen/title_text_size_text_view_statistics" />
 
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:id="@+id/progress_horizontal_bar_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </LinearLayout>

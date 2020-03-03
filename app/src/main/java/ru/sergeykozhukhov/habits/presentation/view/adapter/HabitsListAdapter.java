@@ -89,10 +89,10 @@ public class HabitsListAdapter extends RecyclerView.Adapter<HabitsListAdapter.Vi
 
             cardView = itemView.findViewById(R.id.host_habit_card_view);
 
-            titleHabitTextView = itemView.findViewById(R.id.title_habit_text_view);
-            startDateHabitTextView = itemView.findViewById(R.id.start_date_habit_text_view);
-            descriptionHabitTextView = itemView.findViewById(R.id.description_habit_text_view);
-            idHabitTextView = itemView.findViewById(R.id.id_habit_text_view);
+            titleHabitTextView = itemView.findViewById(R.id.title_habit_text_view_item_habits);
+            startDateHabitTextView = itemView.findViewById(R.id.start_date_habit_text_view_item_habits);
+            descriptionHabitTextView = itemView.findViewById(R.id.description_habit_text_view_item_habits);
+            idHabitTextView = itemView.findViewById(R.id.id_habit_text_view_item_habits);
 
 
             itemView.setOnClickListener(v -> habitClickListener.onItemClick(habitList.get(getAdapterPosition()), cardView));

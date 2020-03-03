@@ -40,5 +40,30 @@
     <string name="dates_habit_item_text_view">"Начало: %s \n Дни: %d"</string>
     <string name="id_habit_item_text_view">№ %d</string>
 
+    <string name="backup_text_button_account">Резервное копирование</string>
+    <string name="replication_text_button_account">Восстановление данных</string>
+    <string name="logout_text_button_account">Выход из аккаунта</string>
+    <string name="title_hint_habit_edit_text">Название</string>
+    <string name="description_hint_habit_edit_text">Описание</string>
+    <string name="date_start_hint_habit_edit_text">Дата начала</string>
+    <string name="duration_hint_habit_edit_text">Продолжительность</string>
+    <string name="add_habit_hint_button">Добавить</string>
+    <string name="request_auth_text_button">АВТОРИЗАЦИЯ</string>
+    <string name="password_auth_hint_edit_text">Пароль</string>
+    <string name="login_auth_hint_edit_text">Email</string>
+    <string name="authentication_account_text_button">АВТОРИЗАЦИЯ</string>
+    <string name="registration_account_text_button">РЕГИСТРАЦИЯ</string>
+    <string name="title_text_text_view_statistics">Процент выполнения привычек</string>
+    <string name="request_registration_text_button">РЕГИСТРАЦИЯ</string>
+    <string name="password_confirmation_hint_edit_text">Подтверждение пароля</string>
+    <string name="password_registration_hint_edit_text">Пароль</string>
+    <string name="login_registration_hint_edit_text">Email</string>
+    <string name="lastname_registration_hint_edit_text">Фамилия</string>
+    <string name="firstname_registration_hint_edit_text">Имя</string>
+    <string name="open_habit_title_list_item_menu">Привычки</string>
+    <string name="open_statistics_title_item_menu">График</string>
+    <string name="open_settings_title_item_menu">Настройки</string>
+    <string name="open_account_title">Аккаунт</string>
+
 
 </resources>

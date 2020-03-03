@@ -5,18 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/progress_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-
-        android:padding="16dp"
-        app:cardCornerRadius="16dp"
-        app:elevation="8dp">
+        android:layout_margin="@dimen/habit_margin_card_view_progress"
+        android:padding="@dimen/habit_padding_card_view_progress"
+        app:cardCornerRadius="@dimen/habit_radius_card_view_progress"
+        app:elevation="@dimen/habit_elevation_card_view_progress">
 
         <RelativeLayout
             android:id="@+id/progress_relative_layout"
@@ -25,37 +21,35 @@
             android:layout_gravity="center">
 
             <TextView
-                android:id="@+id/title_habit_text_view"
+                android:id="@+id/title_habit_text_view_item_habits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:padding="4dp"
+                android:padding="@dimen/title_habit_padding_text_view"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 tools:text="title" />
 
             <TextView
-                android:id="@+id/start_date_habit_text_view"
+                android:id="@+id/start_date_habit_text_view_item_habits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/title_habit_text_view"
+                android:layout_below="@id/title_habit_text_view_item_habits"
                 android:drawableStart="@drawable/ic_contract"
                 android:gravity="center_horizontal"
-                android:padding="4dp"
+                android:padding="@dimen/start_date_habit_padding_text_view"
                 tools:text="start date" />
 
             <TextView
-                android:id="@+id/description_habit_text_view"
+                android:id="@+id/description_habit_text_view_item_habits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/start_date_habit_text_view"
+                android:layout_below="@id/start_date_habit_text_view_item_habits"
                 android:gravity="center_horizontal"
-                android:padding="4dp"
+                android:padding="@dimen/description_habit_padding_text_view"
                 android:textAlignment="inherit"
                 tools:text="description" />
 
-
         </RelativeLayout>
-
 
     </androidx.cardview.widget.CardView>
 
@@ -68,11 +62,10 @@
             android:id="@+id/calendar_piker_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/calendar_margin_piker_view"
             android:clipToPadding="false"
             android:scrollbarStyle="outsideOverlay"
             app:tsquare_orientation_horizontal="false" />
     </FrameLayout>
-
 
 </LinearLayout>

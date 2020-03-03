@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:paddingTop="64dp"
-        android:paddingBottom="64dp">
+        android:paddingTop="@dimen/icon_background_padding_frame_layout_account"
+        android:paddingBottom="@dimen/icon_background_padding_frame_layout_account">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/icon_size_image_view_account"
+            android:layout_height="@dimen/icon_size_image_view_account"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/ic_user"
-            android:paddingBottom="32dp"
+            android:paddingBottom="@dimen/icon_padding_image_view_account"
             android:transitionName="shared_icon_auth_image_view" />
     </FrameLayout>
 
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="@dimen/actions_background_margin_linear_layout_account"
         android:orientation="vertical">
 
         <Button
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_upload"
-            android:text="Резервное копирование" />
+            android:text="@string/backup_text_button_account" />
 
         <Button
             android:id="@+id/replication_button"
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_download"
-            android:text="Восстановление данных" />
+            android:text="@string/replication_text_button_account" />
 
         <Button
             android:id="@+id/logout_button"
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_exit"
-            android:text="Выход из аккаунта" />
+            android:text="@string/logout_text_button_account" />
 
     </LinearLayout>
 
@@ -63,8 +63,8 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="@dimen/loading_size_progress_bar_account"
+            android:layout_height="@dimen/loading_size_progress_bar_account"
             android:layout_gravity="center" />
     </FrameLayout>
 

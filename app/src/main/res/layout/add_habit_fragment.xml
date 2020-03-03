@@ -2,43 +2,42 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#99ffffff"
+    android:background="@android:color/white"
     android:clickable="true"
     android:focusable="true">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/colorBackground"
-        android:paddingBottom="16dp">
+        android:paddingBottom="@dimen/padding_relative_layout_add_habit">
 
         <FrameLayout
             android:id="@+id/add_habit_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:padding="@dimen/icon_background_padding_frame_layout_add_habit">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/icon_size_image_view_add_habit"
+                android:layout_height="@dimen/icon_size_image_view_add_habit"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/ic_goal"/>
+                android:background="@drawable/ic_goal" />
 
         </FrameLayout>
 
-
         <EditText
-            android:layout_below="@id/add_habit_frame_layout"
             android:id="@+id/title_habit_edit_text"
-            android:layout_marginTop="16dp"
             style="@style/style_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_text_fields_black"
-            android:hint="Название"
+            android:layout_below="@id/add_habit_frame_layout"
+            android:layout_marginTop="@dimen/title_margin_habit_edit_text"
+            android:drawableEnd="@drawable/ic_text_fields_black"
+            android:hint="@string/title_hint_habit_edit_text"
+            android:importantForAutofill="no"
             android:inputType="text" />
 
         <EditText
@@ -47,19 +46,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/title_habit_edit_text"
-            android:drawableRight="@drawable/ic_description_black"
-            android:hint="Описание"
+            android:drawableEnd="@drawable/ic_description_black"
+            android:hint="@string/description_hint_habit_edit_text"
+            android:importantForAutofill="no"
             android:inputType="text" />
 
         <EditText
             android:id="@+id/date_start_habit_edit_text"
             style="@style/style_edit_text"
             android:layout_width="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/date_start_habit_image_button"
             android:layout_height="wrap_content"
             android:layout_below="@id/description_habit_edit_text"
-            android:hint="Дата начала"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/date_start_habit_image_button"
+            android:hint="@string/date_start_hint_habit_edit_text"
+            android:importantForAutofill="no"
             android:inputType="date"
             android:singleLine="false" />
 
@@ -73,15 +74,15 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_date_range" />
 
-
         <EditText
             android:id="@+id/duration_habit_edit_text"
             style="@style/style_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/date_start_habit_edit_text"
-            android:drawableRight="@drawable/ic_hourglass_empty_black"
-            android:hint="Продолжительность"
+            android:drawableEnd="@drawable/ic_hourglass_empty_black"
+            android:hint="@string/duration_hint_habit_edit_text"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal" />
 
         <Button
@@ -90,9 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/duration_habit_edit_text"
-            android:transitionName="shared_add_habit_floating_action_button"
-            android:text="Добавить" />
-
-
+            android:text="@string/add_habit_hint_button"
+            android:transitionName="shared_add_habit_floating_action_button" />
     </RelativeLayout>
+
 </FrameLayout>

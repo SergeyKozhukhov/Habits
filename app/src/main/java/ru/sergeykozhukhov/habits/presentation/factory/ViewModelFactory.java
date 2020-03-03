@@ -31,6 +31,7 @@ import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.ProgressViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.RegistrationViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.SettingsViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.SharedViewModel;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.StatisticsViewModel;
 
 /**
@@ -125,6 +126,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             DeleteAllHabitsDbInteractor deleteAllHabitsDbInteractor = new DeleteAllHabitsDbInteractor(habitsDatabaseRepository);
             // noinspection unchecked
             return (T) new SettingsViewModel(deleteAllHabitsDbInteractor);
+        } else if (SharedViewModel.class.equals(modelClass)) {
+            // noinspection unchecked
+            return (T) new SharedViewModel();
         } else {
             return super.create(modelClass);
         }

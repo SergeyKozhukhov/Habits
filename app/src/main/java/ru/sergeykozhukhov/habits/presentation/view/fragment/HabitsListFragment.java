@@ -22,6 +22,7 @@ import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.HabitsListViewModel;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.view.adapter.HabitsListAdapter;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.SharedViewModel;
 
 /**
  * Fragment для получения списка всех привычек из базы данных
@@ -29,6 +30,7 @@ import ru.sergeykozhukhov.habits.presentation.view.adapter.HabitsListAdapter;
 public class HabitsListFragment extends Fragment {
 
     private HabitsListViewModel habitsListViewModel;
+    private SharedViewModel sharedViewModel;
 
     private HabitsListAdapter.IHabitClickListener habitClickListener;
 
@@ -82,6 +84,7 @@ public class HabitsListFragment extends Fragment {
 
         habitClickListener = (habit, view) -> {
             FragmentActivity activity = HabitsListFragment.this.getActivity();
+            sharedViewModel.sendHabit(habit);
             if (activity instanceof OnViewsClickListener)
                 ((OnViewsClickListener) activity).onItemHabitListClick(habit, view);
         };
@@ -101,6 +104,7 @@ public class HabitsListFragment extends Fragment {
 
     private void setupMvvm() {
         habitsListViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(HabitsListViewModel.class);
+        sharedViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(SharedViewModel.class);
 
         habitsListViewModel.getHabitListLiveData().observe(getViewLifecycleOwner(), habitList -> {
             if (habitsListRecyclerView.getAdapter() != null)

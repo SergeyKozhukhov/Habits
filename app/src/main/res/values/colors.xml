@@ -5,17 +5,14 @@
     <color name="colorPrimaryDark">#1A87FF</color>
     <color name="colorAccent">#FF9C00</color>
 
-
     <color name="green">#00E609</color>
     <color name="yellow">#FFCB40</color>
     <color name="orange">#FF9C00</color>
 
-   <color name="colorBackground">#4CB6FF</color>
-   <color name="colorYandex">#ffcc00</color>
-   <color name="colorForGradient">#F8FF03</color>
+    <color name="colorBackground">#4CB6FF</color>
+    <color name="colorYandex">#ffcc00</color>
+    <color name="colorForGradient">#F8FF03</color>
 
-    <color name="abst">#FFBEEAFF</color>
-
-
+    <color name="abstraction">#FFBEEAFF</color>
 
 </resources>

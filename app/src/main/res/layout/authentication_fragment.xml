@@ -4,13 +4,12 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-
     <ImageView
         android:id="@+id/icon_auth_image_view"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="@dimen/icon_auth_size_image_view"
+        android:layout_height="@dimen/icon_auth_size_image_view"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="@dimen/icon_auth_margin_image_view"
         android:background="@drawable/ic_magnifying_glass"
         android:scaleType="centerInside"
         android:transitionName="shared_icon_auth_image_view" />
@@ -19,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="@dimen/margin_linear_layout_authentication"
         android:orientation="vertical">
 
         <EditText
@@ -28,7 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_mail_outline_black"
-            android:hint="Email"
+            android:hint="@string/login_auth_hint_edit_text"
+            android:importantForAutofill="no"
             android:inputType="textWebEmailAddress|textEmailAddress" />
 
         <EditText
@@ -37,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_lock_outline_black"
-            android:hint="Пароль"
+            android:hint="@string/password_auth_hint_edit_text"
+            android:importantForAutofill="no"
             android:inputType="textPassword" />
 
         <Button
@@ -45,8 +46,8 @@
             style="@style/style_button_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="АВТОРИЗАЦИЯ"
-            android:textSize="24sp"
+            android:text="@string/request_auth_text_button"
+            android:textSize="@dimen/request_auth_text_size_button"
             android:transitionName="shared_authentication_button" />
 
     </LinearLayout>
@@ -58,10 +59,9 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="@dimen/loading_size_progress_bar_authentication"
+            android:layout_height="@dimen/loading_size_progress_bar_authentication"
             android:layout_gravity="center" />
     </FrameLayout>
-
 
 </FrameLayout>

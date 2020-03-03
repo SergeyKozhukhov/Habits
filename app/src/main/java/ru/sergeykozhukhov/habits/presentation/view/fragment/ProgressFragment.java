@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.transition.TransitionInflater;
 
 import com.savvi.rangedatepicker.CalendarPickerView;
 import com.savvi.rangedatepicker.SubTitle;
@@ -31,6 +30,7 @@ import ru.sergeykozhukhov.habitData.R;
 import ru.sergeykozhukhov.habits.model.domain.Habit;
 import ru.sergeykozhukhov.habits.presentation.factory.ViewModelFactory;
 import ru.sergeykozhukhov.habits.presentation.viewmodel.ProgressViewModel;
+import ru.sergeykozhukhov.habits.presentation.viewmodel.SharedViewModel;
 
 /**
  * Fragment для изменения списка дат выполнения конкретной привычки
@@ -41,6 +41,7 @@ public class ProgressFragment extends Fragment {
     private static final String EXTRA_TRANSITION_NAME = "transition_name";
 
     private ProgressViewModel progressViewModel;
+    private SharedViewModel sharedViewModel;
 
     private CalendarPickerView calendarProgressPickerView;
 
@@ -82,9 +83,9 @@ public class ProgressFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        titleHabitTextView = view.findViewById(R.id.title_habit_text_view);
-        datesHabitTextView = view.findViewById(R.id.start_date_habit_text_view);
-        descriptionHabitTextView = view.findViewById(R.id.description_habit_text_view);
+        titleHabitTextView = view.findViewById(R.id.title_habit_text_view_item_habits);
+        datesHabitTextView = view.findViewById(R.id.start_date_habit_text_view_item_habits);
+        descriptionHabitTextView = view.findViewById(R.id.description_habit_text_view_item_habits);
 
         calendarProgressPickerView = view.findViewById(R.id.calendar_piker_view);
         cardView = view.findViewById(R.id.progress_card_view);
@@ -94,7 +95,6 @@ public class ProgressFragment extends Fragment {
 
         objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(frameLayout, alphaHolder);
         objectAnimator1.setDuration(1500);
-
 
         cardView.setTransitionName(getTransitionName());
     }
@@ -140,6 +140,13 @@ public class ProgressFragment extends Fragment {
     private void setupMvvm() {
 
         progressViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(ProgressViewModel.class);
+        sharedViewModel = new ViewModelProvider(this, new ViewModelFactory(requireContext())).get(SharedViewModel.class);
+        sharedViewModel.getHabitMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Habit>() {
+            @Override
+            public void onChanged(Habit habit) {
+
+            }
+        });
 
         progressViewModel.getDateListLoadedSingleLiveEvent().observe(getViewLifecycleOwner(), dateList -> {
 

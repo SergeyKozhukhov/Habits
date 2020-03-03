@@ -5,6 +5,6 @@
     <item
         android:id="@+id/open_account"
         android:icon="@drawable/ic_account"
-        android:title="Аккаунт"
+        android:title="@string/open_account_title"
         app:showAsAction="always" />
 </menu>
